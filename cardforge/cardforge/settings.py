@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
+    'rest_framework',
     'designer'
 ]
 
@@ -128,7 +129,18 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'http://cardforge.net/home.html'
+LOGIN_REDIRECT_URL = 'login_success'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '797097580775-gv2gp8qkvmjg81q48d9b9k8lgq2sn6cg.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'sMIY3jZOcuG8KaI-NeeIovwQ'
+
+# Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    ),
+}
