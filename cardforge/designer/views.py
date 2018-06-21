@@ -1,3 +1,4 @@
+from django.contrib.auth import logout as auth_logout
 from django.shortcuts import redirect
 from rest_framework import generics
 from rest_framework.response import Response
@@ -15,9 +16,16 @@ def login_success(request):
     if request.user.is_authenticated:
         payload = jwt_payload_handler(request.user)
         token = jwt_encode_handler(payload)
+        print(request.user.email)
+        logout(request)
         return redirect("http://cardforge.xyz/home.html?token={}".format(token))
     else:
         return redirect("http://cardforge.xyz")
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect("http://cardforge.xyz")
 
 
 class GameList(generics.ListCreateAPIView):

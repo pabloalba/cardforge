@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
@@ -7,7 +7,7 @@ import designer.views as designer_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^logout/$', designer_views.logout, name='logout'),
     url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^login/success$', designer_views.login_success, name='login_success'),
 
