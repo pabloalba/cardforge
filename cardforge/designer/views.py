@@ -15,9 +15,9 @@ def login_success(request):
     if request.user.is_authenticated:
         payload = jwt_payload_handler(request.user)
         token = jwt_encode_handler(payload)
-        return redirect("http://cardforge.net/home.html?token={}".format(token))
+        return redirect("http://cardforge.xyz/home.html?token={}".format(token))
     else:
-        return redirect("http://cardforge.net")
+        return redirect("http://cardforge.xyz")
 
 
 class GameList(generics.ListCreateAPIView):

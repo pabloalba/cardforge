@@ -25,7 +25,7 @@ SECRET_KEY = '2yfetm9!g*$7d^b9cup0p94ktpvp_6l7bldc_3^37w=3smzj1_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cardforge.net']
+ALLOWED_HOSTS = ['cardforge.xyz']
 
 # Application definition
 
