@@ -13,4 +13,5 @@ urlpatterns = [
 
     url(r'^api/games/$', designer_views.GameList.as_view()),
     url(r'^api/games/(?P<pk>[0-9]+)$', designer_views.GameDetail.as_view()),
+    url(r'^api/games/(?P<pk>[0-9]+)/owners/$', designer_views.GameOwners.as_view()),
 ]

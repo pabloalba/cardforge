@@ -1,12 +1,14 @@
 from django.contrib.auth import logout as auth_logout
-from django.shortcuts import redirect
+from django.contrib.auth.models import User
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 
 from designer.models import Game
 from designer.permissions import IsOwner
-from designer.serializers import GameSerializer
+from designer.serializers import GameSerializer, UserSerializer
 
 
 def login_success(request):
@@ -39,7 +41,30 @@ class GameList(generics.ListCreateAPIView):
         return Response(serializer.data)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        game = serializer.save()
+        game.owners.add(self.request.user)
+
+
+class GameOwners(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def list(self, request, pk):
+        queryset = User.objects.filter(games__id=pk)
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        pk = self.kwargs.get('pk', None)
+        if pk:
+            game = get_object_or_404(Game, pk=pk)
+            user = User.objects.filter(email=serializer.data['email']).first()
+            if user:
+                game.owners.add(user)
+                return Response(serializer.data)
+            else:
+                raise Http404("No User with this email")
+        raise Http404("Game doesn't exists")
 
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
