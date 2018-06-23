@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^login/success$', designer_views.login_success, name='login_success'),
 
+    url(r'^api/me/$', designer_views.MeDetail.as_view(), name='me'),
     url(r'^api/games/$', designer_views.GameList.as_view()),
     url(r'^api/games/(?P<pk>[0-9]+)$', designer_views.GameDetail.as_view()),
     url(r'^api/games/(?P<pk>[0-9]+)/owners/$', designer_views.GameOwners.as_view()),

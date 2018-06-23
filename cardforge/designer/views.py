@@ -1,4 +1,5 @@
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
@@ -25,6 +26,7 @@ def login_success(request):
         return redirect("http://cardforge.xyz")
 
 
+@login_required
 def logout(request):
     auth_logout(request)
     return redirect("http://cardforge.xyz")
@@ -36,7 +38,7 @@ class GameList(generics.ListCreateAPIView):
 
     def list(self, request):
         # Note the use of `get_queryset()` instead of `self.queryset`
-        queryset = Game.objects.filter(owner=request.user)
+        queryset = Game.objects.filter(owners__id=request.user.id)
         serializer = GameSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -71,3 +73,9 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsOwner,)
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+
+
+class MeDetail(generics.RetrieveAPIView):
+    def retrieve(selfself, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)

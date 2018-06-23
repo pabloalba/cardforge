@@ -23,7 +23,7 @@ class Deck(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=100, blank=False, null=False)
     icon = models.CharField(max_length=255, blank=True)
-    game = models.ForeignKey(Game, related_name='decks')
+    game = models.ForeignKey(Game, related_name='decks', on_delete=models.CASCADE)
     size = models.CharField(max_length=1, choices=DECK_SIZES)
     same_reverse = models.BooleanField(null=False, default=True)
     front_border_color = models.CharField(max_length=7, blank=False, null=False, default="#000000")
