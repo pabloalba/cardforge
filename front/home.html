@@ -1,6 +1,26 @@
 <html>
-<body>
-<h1>home</h1>
+    <head>
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>         
+              
+    </head>
+    <body>
+        <h1>home</h1>
+        <div id="app">
+            <img :src="me.avatar" />
+            {{ me.email }}
+            <ol>
+                <game-item
+                v-for="item in gamesList"
+                v-bind:game="item"
+                v-bind:key="item.id">
+                </game-item>
+            </ol>
+        </div>
+
+
+        
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+        <script src="js/home.js"></script>
 </body>
 </html>
 
