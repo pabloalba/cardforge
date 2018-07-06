@@ -11,8 +11,8 @@ size_troquel_mini = {
     'GAP_X': 106,
     'GAP_Y': 25,
     'CARDS_PER_ROW': 7,
-    'CUT_MARK_X': 35,
-    'CUT_MARK_Y': 23,
+    'CUT_MARK_DISPLACEMENT': 35,
+    'CUT_MARK_OVERLAP': 23,
     'CUT_MARK_SIZE': 37,
     'CUT_MARKS': True,
     'ROTATE': True
@@ -29,6 +29,9 @@ size_troquel_standard = {
     'GAP_X': 170,
     'GAP_Y': 17,
     'CARDS_PER_ROW': 5,
+    'CUT_MARK_DISPLACEMENT': 33,
+    'CUT_MARK_OVERLAP': 9,
+    'CUT_MARK_SIZE': 62,
     'CUT_MARKS': True,
     'ROTATE': True
 }
@@ -86,43 +89,7 @@ def create_image(size):
         "../images/pulpo.png",
         "../images/pulpo.png",
         "../images/pulpo.png",
-        "../images/tridente.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png",
-        "../images/reverso-naufragio.png"
+        "../images/tridente.png"
     ])
     im.save("copy.png")
 
@@ -162,47 +129,38 @@ def paste_card(size, im, card, x, y):
 def draw_cut_marks(size, im, x, y):
     draw = ImageDraw.Draw(im)
 
-    # Horizontal
-
-    pos_x = x + size['CUT_MARK_X']
-    pos_y = y + size['CUT_MARK_Y']
-
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
-    pos_x = x + size['CUT_MARK_X']
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_Y'] + size['CUT_MARK_SIZE'] - 1
-
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_X'] - 2
-    pos_y = y + size['CUT_MARK_Y']
-
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_X'] - 2
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_Y'] + size['CUT_MARK_SIZE'] - 1
-
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
     # Vertical
-    pos_x = x + size['CUT_MARK_Y']
-    pos_y = y + size['CUT_MARK_X']
+    pos_x = x + size['CUT_MARK_DISPLACEMENT']
+    pos_y = y + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
+    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
 
+    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_DISPLACEMENT'] - 1
+    pos_y = y + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
+    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
+
+    pos_x = x + size['CUT_MARK_DISPLACEMENT']
+    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_OVERLAP'] - 1
+    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
+
+    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_DISPLACEMENT'] - 1
+    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_OVERLAP'] - 1
+    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
+
+    # Horizontal
+    pos_x = x + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
+    pos_y = y + size['CUT_MARK_DISPLACEMENT']
     draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
 
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_Y'] + size['CUT_MARK_SIZE'] - 1
-    pos_y = y + size['CUT_MARK_X']
-
+    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_OVERLAP'] + 1
+    pos_y = y + size['CUT_MARK_DISPLACEMENT']
     draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
 
-    pos_x = x + size['CUT_MARK_Y']
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_X'] - 2
-
+    pos_x = x + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
+    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_DISPLACEMENT'] - 1
     draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
 
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_Y'] + size['CUT_MARK_SIZE'] - 1
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_X'] - 2
-
+    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_OVERLAP'] + 1
+    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_DISPLACEMENT'] - 1
     draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
 
     del draw
@@ -210,12 +168,12 @@ def draw_cut_marks(size, im, x, y):
 
 def draw_cut_mark(draw, size, pos_x, pos_y, vertical=True):
     if vertical:
-        draw.line((pos_x, pos_y, pos_x, pos_y - size['CUT_MARK_SIZE']), fill=(0, 255, 0, 255))
-        draw.line((pos_x + 1, pos_y, pos_x + 1, pos_y - size['CUT_MARK_SIZE']), fill=(0, 255, 0, 255))
+        draw.line((pos_x, pos_y, pos_x, pos_y + size['CUT_MARK_SIZE'] - 1), fill=(0, 255, 0, 255))
+        # draw.line((pos_x + 1, pos_y, pos_x + 1, pos_y + size['CUT_MARK_SIZE'] - 1), fill=(0, 255, 0, 255))
     else:
-        draw.line((pos_x, pos_y, pos_x - size['CUT_MARK_SIZE'], pos_y), fill=(0, 255, 0, 255))
-        draw.line((pos_x, pos_y + 1, pos_x - size['CUT_MARK_SIZE'], pos_y + 1), fill=(0, 255, 0, 255))
+        draw.line((pos_x, pos_y, pos_x + size['CUT_MARK_SIZE'] - 1, pos_y), fill=(0, 255, 0, 255))
+        # draw.line((pos_x, pos_y + 1, pos_x + size['CUT_MARK_SIZE'] - 1, pos_y + 1), fill=(0, 255, 0, 255))
 
 
 if __name__ == "__main__":
-    create_image(size_tabletop_mini)
+    create_image(size_troquel_mini)
