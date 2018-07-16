@@ -1,0 +1,38 @@
+.breadcrumb {
+    background-color: $white;
+    display: flex;
+    padding: 1rem 2rem 1rem 1rem;
+    width: 100%;
+
+    ul.bread-nav {
+        align-items: center;
+        display: flex;
+        li {
+            align-items: center;
+            background-image: url("/images/hr.svg");
+            background-repeat: no-repeat;
+            background-position: right center;
+            display: flex;
+            margin-left: 1rem;
+            padding-right: 2rem;
+            span {
+                font-size: 2rem;
+                font-weight: 400;
+                margin-left: .5rem;
+            }
+            svg {
+                height: 60px;
+                width: 60px;
+            }
+            &:last-child {
+                background-image: none;
+            }
+        }
+    }
+
+    .buttonzone {
+        align-items: center;
+        display: flex;
+        margin-left: auto;
+    }
+}

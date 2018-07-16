@@ -1,5 +1,5 @@
-/*	BASE
-------------------------*/
+//	BASE
+
 * {
   box-sizing: border-box;
 }
@@ -34,8 +34,6 @@ img {
   max-width: 100%;
 }
 
-/* ------ Row system -------*/
-
 h1 {
   font-size: 2.5rem;
   font-weight: 500;
@@ -55,39 +53,40 @@ h3 {
   margin: .8rem 0 1rem 0;
 }
 
-.btn-pink {
-  background-color: $pink;
+.btn-primary {
+  align-items: center;
+  background: linear-gradient(180deg, #27243E 8.84%, #4EA797 81.77%, #3FD1B7 100%);
+  box-shadow: inset 0px 0px 4px $black;
+  border: 2px solid $green-dark;
   color: $white;
   display: flex;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 1.5em;
+  font-family: 'Alegreya', serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  height: 47px;
   justify-content: center;
-  padding: .7em 1em;
-  text-shadow: 0 4px 4px darken($pink, 12%);
+  overflow: visible;
+  padding: 0 1em;
+  position: relative;
+  text-shadow: 0 -2px 2px darken($black, 20%);
   transition: all .3s ease;
-  &:hover {
-    background-color: lighten($pink, 12%);
-    transform: translateY(3px);
+  text-transform: uppercase;
+  &::before ,
+  &::after {
+    background-image: url("/images/buttonpath.svg");
+    background-repeat: no-repeat;
+    content: "";
+    height: 130%;
+    position: absolute;
+    width: 40px;
   }
-}
-
-.btn-line {
-  background-color: transparent;
-  border: 2px solid $white;
-  color: $white;
-  display: flex;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 1.5em;
-  justify-content: center;
-  padding: .7em 1em;
-  transition: all .3s ease;
-  &:hover {
-    background-color: $white;
-    color: $pink;
-    transform: translateY(3px);
+  &::after {
+    right: -18px;
+    top: -7px;
+    transform: rotate(180deg);
+  }
+  &::before {
+    left: -18px;
+    top: -6px;
   }
 }
