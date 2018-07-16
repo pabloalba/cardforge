@@ -24,9 +24,9 @@ class Deck(models.Model):
     size = models.CharField(max_length=2, choices=DECK_SIZES)
     front_cut_marks_color = models.CharField(max_length=7, blank=False, null=False, default="#FF0000")
     back_cut_marks_color = models.CharField(max_length=7, blank=False, null=False, default="#FF0000")
-    cards = models.TextField()  # json data
-    front_layers = models.TextField()  # json data
-    back_layers = models.TextField()  # json data
+    cards = models.TextField(default="{}")  # json data
+    front_layers = models.TextField(default="{}")  # json data
+    back_layers = models.TextField(default="{}")  # json data
 
     class Meta:
         ordering = ('name',)

@@ -1,12 +1,15 @@
+import os
+
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
 from rest_framework.response import Response
 
-from .models import Game
+from .forge import forge_deck
+from .models import Deck, Game
 from .permissions import IsOwner
 from .serializers import GameSerializer, UserSerializer
 
@@ -29,6 +32,19 @@ def login_success(request):
 def home(request):
     context = {}
     return render(request, 'home.html', context)
+
+
+def generate_pdf(request):
+    # TODO For test only
+    decks = Deck.objects.all()
+    file_path = forge_deck(decks[0])
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            # response = HttpResponse(fh.read(), content_type="image/png")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
 
 
 @login_required

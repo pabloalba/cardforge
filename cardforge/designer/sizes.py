@@ -9,6 +9,7 @@ size_troquel_mini = {
     'GAP_X': 106,
     'GAP_Y': 25,
     'CARDS_PER_ROW': 7,
+    'ROWS': 4,
     'CUT_MARK_DISPLACEMENT': 35,
     'CUT_MARK_OVERLAP': 23,
     'CUT_MARK_SIZE': 37,

@@ -1,68 +1,102 @@
+import uuid
+
 from PIL import Image, ImageDraw
 
-from designer.sizes import size_tabletop_mini, size_troquel_mini, size_troquel_standard
+from .sizes import size_troquel_mini
 
 
-def create_image(size):
-    im = Image.new("RGBA", (size['WIDTH'], size['HEIGHT']))
+def forge_deck(deck):
+    forged_cards = forge_cards(deck)
+    size = size_troquel_mini
 
-    paste_cards(size, im, [
-        "../images/barracuda.png",
-        "../images/barracuda.png",
-        "../images/espada.png",
-        "../images/espada.png",
-        "../images/medusa.png",
-        "../images/medusa.png",
-        "../images/salazon.png",
-        "../images/salazon.png",
-        "../images/salazon.png",
-        "../images/vendas.png",
-        "../images/vendas.png",
-        "../images/barril-agua.png",
-        "../images/barril-agua.png",
-        "../images/barril-agua.png",
-        "../images/farol.png",
-        "../images/farol.png",
-        "../images/morena.png",
-        "../images/morena.png",
-        "../images/tesoro.png",
-        "../images/tesoro.png",
-        "../images/barril-rum.png",
-        "../images/barril-rum.png",
-        "../images/barril-rum.png",
-        "../images/herramientas.png",
-        "../images/pistola.png",
-        "../images/tiburon.png",
-        "../images/cana-pescar.png",
-        "../images/cana-pescar.png",
-        "../images/machete.png",
-        "../images/machete.png",
-        "../images/pulpo.png",
-        "../images/pulpo.png",
-        "../images/pulpo.png",
-        "../images/tridente.png"
-    ])
-    im.save("copy.png")
+    images = weld_cards(size, forged_cards)
+
+    file_path_pdf = "/tmp/{}.pdf".format(uuid.uuid4())
+
+    # Convert images to
+    images[0].save(file_path_pdf, save_all=True, append_images=images[1:], resoultion=300.0)
+
+    return file_path_pdf
 
 
-def paste_cards(size, im, cards):
+def forge_cards(deck):
+    return [
+        "/tmp/naufragio/barracuda.png",
+        "/tmp/naufragio/barracuda.png",
+        "/tmp/naufragio/espada.png",
+        "/tmp/naufragio/espada.png",
+        "/tmp/naufragio/medusa.png",
+        "/tmp/naufragio/medusa.png",
+        "/tmp/naufragio/salazon.png",
+        "/tmp/naufragio/salazon.png",
+        "/tmp/naufragio/salazon.png",
+        "/tmp/naufragio/vendas.png",
+        "/tmp/naufragio/vendas.png",
+        "/tmp/naufragio/barril-agua.png",
+        "/tmp/naufragio/barril-agua.png",
+        "/tmp/naufragio/barril-agua.png",
+        "/tmp/naufragio/farol.png",
+        "/tmp/naufragio/farol.png",
+        "/tmp/naufragio/morena.png",
+        "/tmp/naufragio/morena.png",
+        "/tmp/naufragio/tesoro.png",
+        "/tmp/naufragio/tesoro.png",
+        "/tmp/naufragio/barril-rum.png",
+        "/tmp/naufragio/barril-rum.png",
+        "/tmp/naufragio/barril-rum.png",
+        "/tmp/naufragio/herramientas.png",
+        "/tmp/naufragio/pistola.png",
+        "/tmp/naufragio/tiburon.png",
+        "/tmp/naufragio/cana-pescar.png",
+        "/tmp/naufragio/cana-pescar.png",
+        "/tmp/naufragio/machete.png",
+        "/tmp/naufragio/machete.png",
+        "/tmp/naufragio/pulpo.png",
+        "/tmp/naufragio/pulpo.png",
+        "/tmp/naufragio/pulpo.png",
+        "/tmp/naufragio/tridente.png"
+    ]
+
+
+def weld_cards(size, cards):
+    images = []
     x = size['MARGIN_X']
     y = size['MARGIN_Y']
     num = 0
+    rows = 0
+    im = Image.new("RGBA", (size['WIDTH'], size['HEIGHT']))
     for card_file in cards:
         card = Image.open(card_file)
         if size['ROTATE']:
             card = card.transpose(Image.ROTATE_270)
-        paste_card(size, im, card, x, y)
+        weld_card(size, im, card, x, y)
         x += size['GAP_X'] + size['BOX_WIDTH']
         num += 1
         if num == size['CARDS_PER_ROW']:
             x = size['MARGIN_X']
             y += size['GAP_Y'] + size['BOX_HEIGHT']
             num = 0
+            rows += 1
+            if rows == size['ROWS']:
+                _add_image_to_image_list(im, images)
+                im = Image.new("RGBA", (size['WIDTH'], size['HEIGHT']))
+                rows = 0
+                x = size['MARGIN_X']
+                y = size['MARGIN_Y']
+
+    if images == [] or images[-1] != im:
+        _add_image_to_image_list(im, images)
+
+    return images
 
 
-def paste_card(size, im, card, x, y):
+def _add_image_to_image_list(image, image_list):
+    rgb = Image.new('RGB', image.size, (255, 255, 255))  # white background
+    rgb.paste(image, mask=image.split()[3])  # paste using alpha channel as mask
+    image_list.append(rgb)
+
+
+def weld_card(size, im, card, x, y):
     # draw margin
     box = (x, y, x + size['BOX_WIDTH'], y + size['BOX_HEIGHT'])
     im.paste("black", box=box)
@@ -124,9 +158,3 @@ def draw_cut_mark(draw, size, pos_x, pos_y, vertical=True):
     else:
         draw.line((pos_x, pos_y, pos_x + size['CUT_MARK_SIZE'] - 1, pos_y), fill=(0, 255, 0, 255))
         # draw.line((pos_x, pos_y + 1, pos_x + size['CUT_MARK_SIZE'] - 1, pos_y + 1), fill=(0, 255, 0, 255))
-
-
-if __name__ == "__main__":
-    create_image(size_tabletop_mini)
-    create_image(size_troquel_mini)
-    create_image(size_troquel_standard)
