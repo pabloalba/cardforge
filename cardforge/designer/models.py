@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -21,7 +22,7 @@ class Deck(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=100, blank=False, null=False)
     game = models.ForeignKey(Game, related_name='decks', on_delete=models.CASCADE)
-    size = models.CharField(max_length=1, choices=DECK_SIZES)
+    size = models.CharField(max_length=2, choices=DECK_SIZES)
     front_cut_marks_color = models.CharField(max_length=7, blank=False, null=False, default="#FF0000")
     back_cut_marks_color = models.CharField(max_length=7, blank=False, null=False, default="#FF0000")
     cards = models.TextField()  # json data
@@ -30,3 +31,7 @@ class Deck(models.Model):
 
     class Meta:
         ordering = ('name',)
+
+
+admin.site.register(Game)
+admin.site.register(Deck)
