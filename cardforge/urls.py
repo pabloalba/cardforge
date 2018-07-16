@@ -1,12 +1,14 @@
-from django.urls import include, path
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.urls import path
 
 from .designer import views as designer_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include("social_django.urls", namespace="social")),
+    path('admin/', admin.site.urls),
+
+    path('forge_card', designer_views.forge_card),
 
     path("login", auth_views.login, name="login"),
     path("logout", designer_views.logout, name="logout"),

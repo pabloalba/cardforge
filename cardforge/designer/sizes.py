@@ -1,4 +1,4 @@
-size_troquel_mini = {
+export_troquel_mini = {
     'NAME': 'mini',
     'WIDTH': 4960,
     'HEIGHT': 3507,
@@ -17,7 +17,7 @@ size_troquel_mini = {
     'ROTATE': True
 }
 
-size_troquel_standard = {
+export_troquel_standard = {
     'NAME': 'standard',
     'WIDTH': 4960,
     'HEIGHT': 3507,
@@ -35,7 +35,7 @@ size_troquel_standard = {
     'ROTATE': True
 }
 
-size_tabletop_mini = {
+export_tabletop_mini = {
     'NAME': 'standard',
     'WIDTH': 5080,
     'HEIGHT': 5124,
@@ -50,3 +50,65 @@ size_tabletop_mini = {
     'ROTATE': True
 }
 
+sizes = {
+    'PO': {
+        'WIDTH_MM': 63,
+        'HEIGHT_MM': 88,
+        'WIDTH_PX': 744,
+        'HEIGHT_PX': 1039
+    },
+    'B1': {
+        'WIDTH_MM': 56,
+        'HEIGHT_MM': 88,
+        'WIDTH_PX': 661,
+        'HEIGHT_PX': 1039
+    },
+    'B2': {
+        'WIDTH_MM': 57,
+        'HEIGHT_MM': 89,
+        'WIDTH_PX': 673,
+        'HEIGHT_PX': 1051
+    },
+    'M1': {
+        'WIDTH_MM': 41,
+        'HEIGHT_MM': 68,
+        'WIDTH_PX': 484,
+        'HEIGHT_PX': 803
+    },
+    'M2': {
+        'WIDTH_MM': 45,
+        'HEIGHT_MM': 68,
+        'WIDTH_PX': 531,
+        'HEIGHT_PX': 803
+    },
+    'M3': {
+        'WIDTH_MM': 44,
+        'HEIGHT_MM': 63,
+        'WIDTH_PX': 520,
+        'HEIGHT_PX': 744
+    },
+    'C1': {
+        'WIDTH_MM': 68,
+        'HEIGHT_MM': 68,
+        'WIDTH_PX': 803,
+        'HEIGHT_PX': 803
+    },
+    'C2': {
+        'WIDTH_MM': 70,
+        'HEIGHT_MM': 70,
+        'WIDTH_PX': 827,
+        'HEIGHT_PX': 827
+    },
+    'TA': {
+        'WIDTH_MM': 70,
+        'HEIGHT_MM': 110,
+        'WIDTH_PX': 827,
+        'HEIGHT_PX': 1299
+    },
+    'GR': {
+        'WIDTH_MM': 70,
+        'HEIGHT_MM': 120,
+        'WIDTH_PX': 827,
+        'HEIGHT_PX': 1417
+    }
+}

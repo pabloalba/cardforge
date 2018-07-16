@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
 from rest_framework.response import Response
 
-from .forge import forge_deck
+from .forge import forge_card_to_png, forge_deck
 from .models import Deck, Game
 from .permissions import IsOwner
 from .serializers import GameSerializer, UserSerializer
@@ -40,8 +40,21 @@ def generate_pdf(request):
     file_path = forge_deck(decks[0])
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/pdf")
-            # response = HttpResponse(fh.read(), content_type="image/png")
+            # response = HttpResponse(fh.read(), content_type="application/pdf")
+            response = HttpResponse(fh.read(), content_type="image/png")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+
+
+def forge_card(request):
+    # TODO Choose Deck
+    decks = Deck.objects.all()
+    num = int(request.GET.get('num', 0))
+    file_path = forge_card_to_png(decks[0], num)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="image/png")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404

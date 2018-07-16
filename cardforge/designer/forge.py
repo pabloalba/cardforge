@@ -1,88 +1,190 @@
+import json
 import uuid
+from io import BytesIO
 
+import requests
 from PIL import Image, ImageDraw
 
-from .sizes import size_troquel_mini
+from .sizes import export_troquel_mini, sizes
+
+BLEED = 35
+MM_TO_PX = 11.811
+
+
+#
+# class Layer:
+#     def __init__(self, type, enabled=True, x=0, y=0, file=None, font=None, font_size=None, text_align=None,
+#                  font_weight=None, color=None, text=""):
+#         self.type = type
+#         self.enabled = enabled
+#         self.x = x
+#         self.y = y
+#         self.file = file
+#         self.font = font
+#         self.font_size = font_size
+#         self.text_align = text_align
+#         self.font_weight = font_weight
+#         self.color = color
+#         self.text = text
+
+
+def _mm_to_px(mm):
+    return int(round(mm * MM_TO_PX))
 
 
 def forge_deck(deck):
-    forged_cards = forge_cards(deck)
-    size = size_troquel_mini
+    # Read json
+    cards = json.loads(deck.cards)
+    front_layers = json.loads(deck.front_layers)
+    back_layers = json.loads(deck.front_layers)
+    size = deck.size
 
-    images = weld_cards(size, forged_cards)
+    forged_cards_fronts, forged_cards_backs = forge_cards(cards, front_layers, back_layers, size, deck.portrait)
 
-    file_path_pdf = "/tmp/{}.pdf".format(uuid.uuid4())
+    # TODO: Choose export format
+    images = weld_cards(export_troquel_mini, forged_cards_fronts, forged_cards_backs)
 
-    # Convert images to
-    images[0].save(file_path_pdf, save_all=True, append_images=images[1:], resoultion=300.0)
+    file_path = "/tmp/{}.pdf".format(uuid.uuid4())
+    # file_path = "/tmp/{}.png".format(uuid.uuid4())
 
-    return file_path_pdf
+    # Convert images to pdf
+    images[0].save(file_path, save_all=True, append_images=images[1:])
+    # images[0].save(file_path)
 
-
-def forge_cards(deck):
-    return [
-        "/tmp/naufragio/barracuda.png",
-        "/tmp/naufragio/barracuda.png",
-        "/tmp/naufragio/espada.png",
-        "/tmp/naufragio/espada.png",
-        "/tmp/naufragio/medusa.png",
-        "/tmp/naufragio/medusa.png",
-        "/tmp/naufragio/salazon.png",
-        "/tmp/naufragio/salazon.png",
-        "/tmp/naufragio/salazon.png",
-        "/tmp/naufragio/vendas.png",
-        "/tmp/naufragio/vendas.png",
-        "/tmp/naufragio/barril-agua.png",
-        "/tmp/naufragio/barril-agua.png",
-        "/tmp/naufragio/barril-agua.png",
-        "/tmp/naufragio/farol.png",
-        "/tmp/naufragio/farol.png",
-        "/tmp/naufragio/morena.png",
-        "/tmp/naufragio/morena.png",
-        "/tmp/naufragio/tesoro.png",
-        "/tmp/naufragio/tesoro.png",
-        "/tmp/naufragio/barril-rum.png",
-        "/tmp/naufragio/barril-rum.png",
-        "/tmp/naufragio/barril-rum.png",
-        "/tmp/naufragio/herramientas.png",
-        "/tmp/naufragio/pistola.png",
-        "/tmp/naufragio/tiburon.png",
-        "/tmp/naufragio/cana-pescar.png",
-        "/tmp/naufragio/cana-pescar.png",
-        "/tmp/naufragio/machete.png",
-        "/tmp/naufragio/machete.png",
-        "/tmp/naufragio/pulpo.png",
-        "/tmp/naufragio/pulpo.png",
-        "/tmp/naufragio/pulpo.png",
-        "/tmp/naufragio/tridente.png"
-    ]
+    return file_path
 
 
-def weld_cards(size, cards):
+def forge_card_to_png(deck, num_card, front=True):
+    # Read json
+    cards = json.loads(deck.cards)
+    if num_card < len(cards):
+        front_layers = json.loads(deck.front_layers)
+        back_layers = json.loads(deck.front_layers)
+        size = deck.size
+        if front:
+            im = forge_card(size, front_layers, cards[num_card], deck.portrait)
+        else:
+            im = forge_card(size, back_layers, cards[num_card], deck.portrait)
+
+        file_path_png = "/tmp/{}.png".format(uuid.uuid4())
+        im.save(file_path_png, resoultion=300.0)
+        return file_path_png
+    return None
+
+
+def forge_cards(cards, front_layers, back_layers, size, portrait):
+    cards_fronts = []
+    cards_backs = []
+
+    for card in cards:
+        cards_fronts.append(
+            forge_card(size, front_layers, card, portrait)
+        )
+        cards_backs.append(
+            forge_card(size, back_layers, card, portrait)
+        )
+
+    return cards_fronts, cards_backs
+
+    #
+    # return [
+    #     "/tmp/naufragio/barracuda.png",
+    #     "/tmp/naufragio/barracuda.png",
+    #     "/tmp/naufragio/espada.png",
+    #     "/tmp/naufragio/espada.png",
+    #     "/tmp/naufragio/medusa.png",
+    #     "/tmp/naufragio/medusa.png",
+    #     "/tmp/naufragio/salazon.png",
+    #     "/tmp/naufragio/salazon.png",
+    #     "/tmp/naufragio/salazon.png",
+    #     "/tmp/naufragio/vendas.png",
+    #     "/tmp/naufragio/vendas.png",
+    #     "/tmp/naufragio/barril-agua.png",
+    #     "/tmp/naufragio/barril-agua.png",
+    #     "/tmp/naufragio/barril-agua.png",
+    #     "/tmp/naufragio/farol.png",
+    #     "/tmp/naufragio/farol.png",
+    #     "/tmp/naufragio/morena.png",
+    #     "/tmp/naufragio/morena.png",
+    #     "/tmp/naufragio/tesoro.png",
+    #     "/tmp/naufragio/tesoro.png",
+    #     "/tmp/naufragio/barril-rum.png",
+    #     "/tmp/naufragio/barril-rum.png",
+    #     "/tmp/naufragio/barril-rum.png",
+    #     "/tmp/naufragio/herramientas.png",
+    #     "/tmp/naufragio/pistola.png",
+    #     "/tmp/naufragio/tiburon.png",
+    #     "/tmp/naufragio/cana-pescar.png",
+    #     "/tmp/naufragio/cana-pescar.png",
+    #     "/tmp/naufragio/machete.png",
+    #     "/tmp/naufragio/machete.png",
+    #     "/tmp/naufragio/pulpo.png",
+    #     "/tmp/naufragio/pulpo.png",
+    #     "/tmp/naufragio/pulpo.png",
+    #     "/tmp/naufragio/tridente.png"
+    # ]
+
+
+def forge_card(size_name, layers, card, portrait):
+    size = sizes.get(size_name)
+    if portrait:
+        im = Image.new("RGBA", (size['HEIGHT_PX'] + 2 * BLEED, size['WIDTH_PX'] + 2 * BLEED))
+    else:
+        im = Image.new("RGBA", (size['WIDTH_PX'] + 2 * BLEED, size['HEIGHT_PX'] + 2 * BLEED))
+
+    draw = ImageDraw.Draw(im)
+    for layer in reversed(layers):
+        # mm to pixels
+        x = _mm_to_px(layer["x"]) + BLEED
+        y = _mm_to_px(layer["y"]) + BLEED
+
+        if layer["type"] == "image":
+
+            file = layer["file"]
+            if not file:
+                # Read values from cards
+                file = card.get("_{}".format(layer["name"]), "")
+
+            if file:
+                file = file.replace("www.dropbox.com", "dl.dropboxusercontent.com")
+                # TODO: Add cache
+                response = requests.get(file)
+                image = Image.open(BytesIO(response.content))
+
+                im.paste(image, (x, y), image)
+        elif layer["type"] == "text":
+            # font = ImageFont.truetype("sans-serif.ttf", 16)
+            draw.text((x, y), layer.text, layer.color)
+
+    return im
+
+
+def weld_cards(export, forged_cards_fronts, forged_cards_backs):
     images = []
-    x = size['MARGIN_X']
-    y = size['MARGIN_Y']
+    x = export['MARGIN_X']
+    y = export['MARGIN_Y']
     num = 0
     rows = 0
-    im = Image.new("RGBA", (size['WIDTH'], size['HEIGHT']))
-    for card_file in cards:
-        card = Image.open(card_file)
-        if size['ROTATE']:
+    im = Image.new("RGBA", (export['WIDTH'], export['HEIGHT']))
+
+    # TODO: Card backs
+    for card in forged_cards_fronts:
+        if export['ROTATE']:
             card = card.transpose(Image.ROTATE_270)
-        weld_card(size, im, card, x, y)
-        x += size['GAP_X'] + size['BOX_WIDTH']
+        weld_card(export, im, card, x, y)
+        x += export['GAP_X'] + export['BOX_WIDTH']
         num += 1
-        if num == size['CARDS_PER_ROW']:
-            x = size['MARGIN_X']
-            y += size['GAP_Y'] + size['BOX_HEIGHT']
+        if num == export['CARDS_PER_ROW']:
+            x = export['MARGIN_X']
+            y += export['GAP_Y'] + export['BOX_HEIGHT']
             num = 0
             rows += 1
-            if rows == size['ROWS']:
+            if rows == export['ROWS']:
                 _add_image_to_image_list(im, images)
-                im = Image.new("RGBA", (size['WIDTH'], size['HEIGHT']))
+                im = Image.new("RGBA", (export['WIDTH'], export['HEIGHT']))
                 rows = 0
-                x = size['MARGIN_X']
-                y = size['MARGIN_Y']
+                x = export['MARGIN_X']
+                y = export['MARGIN_Y']
 
     if images == [] or images[-1] != im:
         _add_image_to_image_list(im, images)
@@ -98,8 +200,8 @@ def _add_image_to_image_list(image, image_list):
 
 def weld_card(size, im, card, x, y):
     # draw margin
-    box = (x, y, x + size['BOX_WIDTH'], y + size['BOX_HEIGHT'])
-    im.paste("black", box=box)
+    # box = (x, y, x + size['BOX_WIDTH'], y + size['BOX_HEIGHT'])
+    # im.paste("black", box=box)
 
     # draw card
     margin_x = int(round((size['BOX_WIDTH'] - card.width) / 2))

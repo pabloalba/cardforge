@@ -3,7 +3,7 @@ from io import BytesIO
 import requests
 from PIL import Image, ImageDraw
 
-from .sizes import size_troquel_mini
+from .sizes import export_troquel_mini
 
 
 class Layer:
@@ -50,4 +50,4 @@ if __name__ == "__main__":
         Layer(type="text", font="", font_size=48, color="#00FF00", text="Paca", x=100, y=50),
     ]
 
-    create_card(size_troquel_mini, layers)
+    create_card(export_troquel_mini, layers)
