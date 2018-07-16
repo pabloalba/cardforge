@@ -2,10 +2,9 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework_jwt.settings import api_settings
 
 from designer.models import Game
 from designer.permissions import IsOwner
@@ -13,17 +12,23 @@ from designer.serializers import GameSerializer, UserSerializer
 
 
 def login_success(request):
-    jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-    jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+    # jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+    # jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+    #
+    # if request.user.is_authenticated:
+    #     payload = jwt_payload_handler(request.user)
+    #     token = jwt_encode_handler(payload)
+    #     print(request.user.email)
+    #     logout(request)
+    #     return redirect("http://cardforge.xyz/home.html?token={}".format(token))
+    # else:
+    #     return redirect("http://cardforge.xyz")
+    return redirect("/")
 
-    if request.user.is_authenticated:
-        payload = jwt_payload_handler(request.user)
-        token = jwt_encode_handler(payload)
-        print(request.user.email)
-        logout(request)
-        return redirect("http://cardforge.xyz/home.html?token={}".format(token))
-    else:
-        return redirect("http://cardforge.xyz")
+
+def home(request):
+    context = {}
+    return render(request, 'home.html', context)
 
 
 @login_required

@@ -9,7 +9,9 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', designer_views.logout, name='logout'),
     url(r'^auth/', include('social_django.urls', namespace='social')),
+    # url(r'^login/success$', designer_views.login_success, name='login_success'),
     url(r'^login/success$', designer_views.login_success, name='login_success'),
+    url(r'', designer_views.home, name='home'),
 
     url(r'^api/me/$', designer_views.MeDetail.as_view(), name='me'),
     url(r'^api/games/$', designer_views.GameList.as_view()),
