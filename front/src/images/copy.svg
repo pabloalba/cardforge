@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="20"
+   height="20"
+   viewBox="0 0 20 20"
+   fill="none"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="copy.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1379"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="11.8"
+     inkscape:cx="10"
+     inkscape:cy="10"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <path
+     d="M 7 0 C 6.734784 0 6.4805057 0.10543275 6.2929688 0.29296875 C 6.1054327 0.48050575 6 0.734784 6 1 L 6 4 L 8 4 L 8 2 L 18 2 L 18 12 L 16 12 L 16 14 L 19 14 C 19.2652 14 19.519531 13.894531 19.707031 13.707031 C 19.894531 13.519531 20 13.2652 20 13 L 20 1 C 20 0.734784 19.894531 0.48050575 19.707031 0.29296875 C 19.519531 0.10543275 19.2652 -3.7007434e-17 19 0 L 7 0 z M 1 6 C 0.734784 6 0.48050575 6.1054327 0.29296875 6.2929688 C 0.10543275 6.4805057 -3.7007434e-17 6.734784 0 7 L 0 19 C 0 19.2652 0.10543275 19.519531 0.29296875 19.707031 C 0.48050575 19.894531 0.734784 20 1 20 L 13 20 C 13.2652 20 13.519531 19.894531 13.707031 19.707031 C 13.894531 19.519531 14 19.2652 14 19 L 14 7 C 14 6.734784 13.894531 6.4805057 13.707031 6.2929688 C 13.519531 6.1054327 13.2652 6 13 6 L 1 6 z M 2 8 L 12 8 L 12 18 L 2 18 L 2 8 z "
+     id="path2"
+     style="fill:#000000" />
+</svg>
