@@ -1,0 +1,47 @@
+.header {
+    background-color: $white;
+    display: flex;
+    margin-bottom: 1px;
+    padding: .5rem 1rem 0 1rem;
+    width: 100%;
+
+    a.main-logo {
+        h1 {
+            font-size: 1px;
+            visibility: hidden;
+        }
+    }
+
+    ul.main-nav {
+        align-items: center;
+        display: flex;
+        margin-left: 4vw;
+        li {
+            padding: .5rem 1.5rem 1rem 1.5rem;
+            a {
+                font-weight: bold;
+            }
+            &.current {
+                background-image: url('/images/marker.svg');
+                background-repeat: no-repeat;
+                background-position: center bottom;
+                a {
+                    color: $black;
+                }
+            }
+        }
+    }
+
+    .userzone {
+        align-items: center;
+        display: flex;
+        margin-left: auto;
+        span {
+            color: $green;
+            font-weight: bold;
+        }
+        svg {
+            margin-left: 1rem;
+        }
+    }
+}

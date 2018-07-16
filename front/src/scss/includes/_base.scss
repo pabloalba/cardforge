@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: $white;
+  background-color: $gray-light;
   color: $black;
   font-family: 'Oswald', sans-serif;
   font-size: 1em;
@@ -18,6 +18,9 @@ a {
   color: $green;
   font-family: 'Oswald', sans-serif;
   text-decoration: none;
+  &:hover {
+    color: $green-hover;
+  }
 }
 
 p {
