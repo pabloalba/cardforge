@@ -4,4 +4,4 @@ env/
 *.pyc
 __pycache__
 *.swp
-carddesigner.db
+db.sqlite3
