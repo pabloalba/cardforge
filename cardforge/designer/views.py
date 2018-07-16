@@ -50,7 +50,7 @@ def generate_pdf(request):
 @login_required
 def logout(request):
     auth_logout(request)
-    return redirect("http://cardforge.xyz")
+    return redirect("/")
 
 
 class GameList(generics.ListCreateAPIView):

@@ -27,7 +27,7 @@ const paths = {
 gulp.task("pug", () => {
   return gulp.src("./src/pug/*.pug")
     // .pipe(data((file) => require(`${paths.data}${path.basename(file.path)}.json`)))
-    .pipe(pug())
+    .pipe(pug({pretty:true}))
     .on("error", (err) => { console.log(err.message); })
     .pipe(gulp.dest(paths.dist));
 });
