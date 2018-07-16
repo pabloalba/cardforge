@@ -5,3 +5,5 @@ env/
 __pycache__
 *.swp
 db.sqlite3
+carddesigner.db
+.vscode/
