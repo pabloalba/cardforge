@@ -16,7 +16,7 @@ const paths = {
   css: "./dist/css/",
   images: "./dist/images/",
   jsfiles: "./dist/js/",
-  sass: "./src/sass/",
+  sass: "./src/scss/",
   data: "./src/_data/"
 };
 

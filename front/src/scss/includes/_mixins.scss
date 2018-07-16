@@ -123,3 +123,21 @@
     opacity: 0;
   }
 }
+
+@keyframes loginLeft {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 50%;
+  }
+}
+
+@keyframes loginRight {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 50%;
+  }
+}

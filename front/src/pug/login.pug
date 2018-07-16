@@ -1,0 +1,36 @@
+extends layouts/login
+
+block head_end
+  link(rel="stylesheet" href="css/style.css")
+  link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya:400,400i,500,500i,700,700i,800,800i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese")
+  link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700&amp;subset=cyrillic,latin-ext,vietnamese")
+
+
+block content
+  div.login
+
+    div.col.left
+      h1.login-logo
+        include ../images/logo-cf.svg
+
+      div.modal
+        div.art
+          include ../images/icon-dwarf.svg
+        h3 Enter the forge
+        p Login with your Google account
+        a(href="#") Sign up with Google 
+        div.corner.top-left
+          include ../images/corner.svg
+        div.corner.top-right
+          include ../images/corner.svg
+        div.corner.bottom-left
+          include ../images/corner.svg
+        div.corner.bottom-right
+          include ../images/corner.svg
+        div.corner.bottom
+          include ../images/marker.svg
+
+    div.col.right
+      img(src="../images/card.png", alt="CARD FROGE")
+
+block scripts
