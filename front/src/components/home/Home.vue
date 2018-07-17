@@ -1,12 +1,14 @@
 <template lang="pug" src="./Home.pug"></template>
 
 <script>
+import MainHeader from '@/components/shared/MainHeader'
+import Breadcrumbs from '@/components/shared/Breadcrumbs'
+
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  name: 'home',
+  components: {
+    MainHeader,
+    Breadcrumbs
   }
 }
 </script>
