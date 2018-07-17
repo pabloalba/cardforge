@@ -1,18 +1,19 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, include
 
 from .designer import views as designer_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("auth/", include("social_django.urls", namespace="social")),
 
-    path('forge_card', designer_views.forge_card),
-    path('pdf', designer_views.generate_pdf),
+    path("auth/login", auth_views.login, name="login"),
+    path("auth/login/success", designer_views.login_success, name="login-success"),
+    path("auth/logout", designer_views.logout, name="logout"),
 
-    path("login", auth_views.login, name="login"),
-    path("logout", designer_views.logout, name="logout"),
-    path("login/success", designer_views.login_success, name="login_success"),
+    path("forge_card", designer_views.forge_card),
+    path("pdf", designer_views.generate_pdf),
 
     path("", designer_views.home, name="home"),
     path("api", designer_views.api_root, name="api-root"),

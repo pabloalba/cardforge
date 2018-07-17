@@ -1,0 +1,14 @@
+localhost:8000 {
+  gzip
+  proxy / localhost:8080 {
+    transparent
+  }
+
+  proxy /api localhost:8001 {
+    transparent
+  }
+
+  proxy /auth localhost:8001 {
+    transparent
+  }
+}

@@ -131,7 +131,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LOGIN_URL = "/"
-LOGIN_REDIRECT_URL = "login_success"
+LOGIN_REDIRECT_URL = "login-success"
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "797097580775-gv2gp8qkvmjg81q48d9b9k8lgq2sn6cg.apps.googleusercontent.com"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "sMIY3jZOcuG8KaI-NeeIovwQ"
