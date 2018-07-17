@@ -3,6 +3,22 @@ from rest_framework import serializers
 
 from .models import Deck, Game
 
+import json
+
+
+class JSONSerializerField(serializers.Field):
+    def to_representation(self, value):
+        json_data = {}
+        try:
+            json_data = json.loads(value)
+        except ValueError as e:
+            raise e
+        finally:
+            return json_data
+
+    def to_internal_value(self, data):
+        return json.dumps(data)
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -27,8 +43,12 @@ class DeckSimpleSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DeckSerializer(serializers.HyperlinkedModelSerializer):
+    cards = JSONSerializerField()
+    front_layers = JSONSerializerField()
+    back_layers = JSONSerializerField()
+
     class Meta:
         model = Deck
         fields = ('url', 'name', 'created', 'size', 'front_cut_marks_color',
-                  'back_cut_marks_color', 'portrait', 'cards', 'front_layers', 'back_layers')
+                  'back_cut_marks_color', 'portrait', 'cards', 'front_layers', 'back_layers', 'trunks')
 
