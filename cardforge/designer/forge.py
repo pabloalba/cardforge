@@ -3,29 +3,15 @@ import uuid
 from io import BytesIO
 
 import requests
+import requests_cache
 from PIL import Image, ImageDraw
 
 from .sizes import export_troquel_mini, sizes
 
+requests_cache.install_cache('cardforge_cache')
+
 BLEED = 35
 MM_TO_PX = 11.811
-
-
-#
-# class Layer:
-#     def __init__(self, type, enabled=True, x=0, y=0, file=None, font=None, font_size=None, text_align=None,
-#                  font_weight=None, color=None, text=""):
-#         self.type = type
-#         self.enabled = enabled
-#         self.x = x
-#         self.y = y
-#         self.file = file
-#         self.font = font
-#         self.font_size = font_size
-#         self.text_align = text_align
-#         self.font_weight = font_weight
-#         self.color = color
-#         self.text = text
 
 
 def _mm_to_px(mm):

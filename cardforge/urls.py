@@ -5,10 +5,10 @@ from django.urls import path
 from .designer import views as designer_views
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
     path('admin/', admin.site.urls),
 
     path('forge_card', designer_views.forge_card),
+    path('pdf', designer_views.generate_pdf),
 
     path("login", auth_views.login, name="login"),
     path("logout", designer_views.logout, name="logout"),
