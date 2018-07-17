@@ -31,7 +31,7 @@ def forge_deck(deck, export_type, export_format='pdf', export_target='standard')
     forged_cards_fronts, forged_cards_backs = forge_cards(cards, front_layers, back_layers, size, deck.portrait)
 
     if export_target == 'tabletop':
-        images = weld_cards_tabletop(forged_cards_fronts, forged_cards_fronts, deck.portrait)
+        images = weld_cards_tabletop(forged_cards_fronts, forged_cards_backs, deck.portrait)
     elif export_target == 'print_and_play':
         images = weld_cards_print_and_play(exports[export_type], forged_cards_fronts, forged_cards_backs,
                                            deck.portrait)
