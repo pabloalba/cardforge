@@ -95,6 +95,52 @@ h3 {
     color: $green-dark;
     text-shadow: none;
   }
+
+  &.btn-line {
+    background: $white;
+    box-shadow: none;
+    border-color: $black;
+    color: $black;
+    text-shadow: none;
+
+    &::before,
+    &::after {
+      background-image: url("../images/button-ribbon.svg");
+    }
+
+    &:hover {
+      color: $green;
+    }
+  }
+  &.current {
+    opacity: .4;
+    &:hover {
+      color: $black;
+    }
+  }
+  svg {
+    margin-right: .6rem;
+  }
+}
+
+.icon-link {
+  align-items: center;
+  display: flex;
+  span {
+    color: $green;
+    margin-left: .5rem;
+  }
+  svg {
+    fill: $green;
+  }
+  &:hover {
+    span {
+      color: $green-hover;
+    }
+    svg {
+      fill: $green-hover;
+    }
+  }
 }
 
 .cancel-link {
