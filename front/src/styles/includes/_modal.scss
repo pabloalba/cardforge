@@ -1,0 +1,89 @@
+.modal-lightbox {
+    background-color: $light;
+    display: flex;
+    height: 100vh;
+    left: 0;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.modal {
+    animation: bounce 1s ease-out;
+    background: $white;
+    border: 1px solid $green-light;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Alegreya', serif;
+    justify-content: center;
+    margin: auto;
+    min-width: 600px;
+    padding: 5rem 3rem 3rem 3rem;
+    position: relative;
+    text-align: center;
+    h3 {
+        border-bottom: 1px solid $gray;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+    }
+    .art {
+        position: absolute;
+        top: -64px;
+        left: calc(50% - 65px);
+        right: calc(50% - 65px);
+        width: 130px;
+    }
+    .corner {
+        position: absolute;
+        &.top-left {
+            left: -14px;
+            top: -22px;
+            transform: rotate(-90deg);
+        }
+        &.top-right {
+            right: -18px;
+            top: -18px;
+        }
+        &.bottom-left {
+            bottom: -18px;
+            left: -18px;
+            transform: rotate(-180deg);
+        }
+        &.bottom-right {
+            bottom: -22px;
+            right: -14px;
+            transform: rotate(90deg);
+        }
+        &.bottom {
+            bottom: -22px;
+            left: 0;
+            width: 100%;
+            svg {
+                fill: $green-light;
+            }
+        }
+    }
+    .modal-buttons {
+        align-items: center;
+        display: flex;
+        margin-top: 2.5rem;
+        .btn-primary {
+            margin-left: auto;
+        }
+    }
+    &.modal-login {
+        animation: none;
+        min-width: 400px;
+        padding: 6.5rem 3rem 3rem 3rem;
+        .art {
+            top: -70px;
+            left: calc(50% - 80px);
+            right: calc(50% - 80px);
+            width: 160px;
+        }
+    }
+}
