@@ -1,14 +1,14 @@
-localhost:8000 {
+localhost:3000 {
   gzip
   proxy / localhost:8080 {
     transparent
   }
 
-  proxy /api localhost:8001 {
+  proxy /api localhost:8000 {
     transparent
   }
 
-  proxy /auth localhost:8001 {
+  proxy /auth localhost:8000 {
     transparent
   }
 }
