@@ -7,11 +7,13 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
 
 from .forge import forge_card_to_png, forge_deck
 from .models import Deck, Game
 from .permissions import IsOwner
-from .serializers import GameSerializer, UserSerializer
+from .serializers import UserSerializer, GameSerializer, DeckSimpleSerializer, DeckSerializer
 
 
 def login_success(request):
@@ -66,6 +68,20 @@ def logout(request):
     return redirect("/")
 
 
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'me': reverse('me', request=request, format=format),
+        'games': reverse('game-list', request=request, format=format)
+    })
+
+
+class MeDetail(generics.RetrieveAPIView):
+    def retrieve(selfself, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+
 class GameList(generics.ListCreateAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -73,12 +89,18 @@ class GameList(generics.ListCreateAPIView):
     def list(self, request):
         # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = Game.objects.filter(owners__id=request.user.id)
-        serializer = GameSerializer(queryset, many=True)
+        serializer = GameSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
     def perform_create(self, serializer):
         game = serializer.save()
         game.owners.add(self.request.user)
+
+
+class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwner,)
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
 
 
 class GameOwners(generics.ListCreateAPIView):
@@ -103,13 +125,28 @@ class GameOwners(generics.ListCreateAPIView):
         raise Http404("Game doesn't exists")
 
 
-class GameDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsOwner,)
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
+class GameDecks(generics.ListCreateAPIView):
+    queryset = Deck.objects.all()
+    serializer_class = DeckSimpleSerializer
 
-
-class MeDetail(generics.RetrieveAPIView):
-    def retrieve(selfself, request):
-        serializer = UserSerializer(request.user)
+    def list(self, request, pk):
+        queryset = Deck.objects.filter(game__id=pk)
+        serializer = DeckSimpleSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        game = Game.objects.filter(id=self.kwargs.get('pk', None)).first()
+        if not game:
+            raise Http404("Game doesn't exists")
+        serializer.save(
+            game=game,
+            cards="[]",
+            front_layers="[]",
+            back_layers="[]"
+        )
+
+
+class DeckDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Deck.objects.all()
+    serializer_class = DeckSerializer
+

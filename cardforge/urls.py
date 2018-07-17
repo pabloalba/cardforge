@@ -15,8 +15,11 @@ urlpatterns = [
     path("login/success", designer_views.login_success, name="login_success"),
 
     path("", designer_views.home, name="home"),
+    path("api", designer_views.api_root, name="api-root"),
     path("api/me", designer_views.MeDetail.as_view(), name="me"),
-    path("api/games", designer_views.GameList.as_view()),
-    path("api/games/<int:pk>", designer_views.GameDetail.as_view()),
-    path("api/games/<int:pk>/owners", designer_views.GameOwners.as_view()),
+    path("api/games", designer_views.GameList.as_view(), name="game-list"),
+    path("api/games/<int:pk>", designer_views.GameDetail.as_view(), name="game-detail"),
+    path("api/games/<int:pk>/owners", designer_views.GameOwners.as_view(), name="game-owners"),
+    path("api/games/<int:pk>/decks", designer_views.GameDecks.as_view(), name="game-decks"),
+    path("api/deck/<int:pk>", designer_views.DeckDetail.as_view(), name="deck-detail"),
 ]
