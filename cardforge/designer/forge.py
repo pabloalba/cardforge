@@ -1,4 +1,5 @@
 import json
+import math
 import uuid
 from io import BytesIO
 
@@ -6,11 +7,13 @@ import requests
 import requests_cache
 from PIL import Image, ImageDraw
 
-from .sizes import export_troquel_mini, sizes
+from .sizes import sizes, exports
 
 requests_cache.install_cache('cardforge_cache')
 
 BLEED = 35
+CUT_MARKS_SIZE = 65
+GROW = round(CUT_MARKS_SIZE - BLEED / 2)
 MM_TO_PX = 11.811
 
 
@@ -18,24 +21,30 @@ def _mm_to_px(mm):
     return int(round(mm * MM_TO_PX))
 
 
-def forge_deck(deck):
+def forge_deck(deck, export_type, export_format='pdf', export_target='standard'):
     # Read json
     cards = json.loads(deck.cards)
     front_layers = json.loads(deck.front_layers)
-    back_layers = json.loads(deck.front_layers)
+    back_layers = json.loads(deck.back_layers)
     size = deck.size
 
     forged_cards_fronts, forged_cards_backs = forge_cards(cards, front_layers, back_layers, size, deck.portrait)
 
-    # TODO: Choose export format
-    images = weld_cards(export_troquel_mini, forged_cards_fronts, forged_cards_backs)
+    if export_target == 'tabletop':
+        images = weld_cards_tabletop(forged_cards_fronts, forged_cards_fronts, deck.portrait)
+    elif export_target == 'print_and_play':
+        images = weld_cards_print_and_play(exports[export_type], forged_cards_fronts, forged_cards_backs,
+                                           deck.portrait)
+    else:
+        images = weld_cards_standard(exports[export_type], forged_cards_fronts, forged_cards_backs)
 
-    file_path = "/tmp/{}.pdf".format(uuid.uuid4())
-    # file_path = "/tmp/{}.png".format(uuid.uuid4())
-
-    # Convert images to pdf
-    images[0].save(file_path, save_all=True, append_images=images[1:])
-    # images[0].save(file_path)
+    if export_format == 'pdf':
+        file_path = "/tmp/{}.pdf".format(uuid.uuid4())
+        images[0].save(file_path, save_all=True, append_images=images[1:])
+    else:
+        # TODO: Zip multiimage
+        file_path = "/tmp/{}.png".format(uuid.uuid4())
+        images[0].save(file_path)
 
     return file_path
 
@@ -72,44 +81,6 @@ def forge_cards(cards, front_layers, back_layers, size, portrait):
 
     return cards_fronts, cards_backs
 
-    #
-    # return [
-    #     "/tmp/naufragio/barracuda.png",
-    #     "/tmp/naufragio/barracuda.png",
-    #     "/tmp/naufragio/espada.png",
-    #     "/tmp/naufragio/espada.png",
-    #     "/tmp/naufragio/medusa.png",
-    #     "/tmp/naufragio/medusa.png",
-    #     "/tmp/naufragio/salazon.png",
-    #     "/tmp/naufragio/salazon.png",
-    #     "/tmp/naufragio/salazon.png",
-    #     "/tmp/naufragio/vendas.png",
-    #     "/tmp/naufragio/vendas.png",
-    #     "/tmp/naufragio/barril-agua.png",
-    #     "/tmp/naufragio/barril-agua.png",
-    #     "/tmp/naufragio/barril-agua.png",
-    #     "/tmp/naufragio/farol.png",
-    #     "/tmp/naufragio/farol.png",
-    #     "/tmp/naufragio/morena.png",
-    #     "/tmp/naufragio/morena.png",
-    #     "/tmp/naufragio/tesoro.png",
-    #     "/tmp/naufragio/tesoro.png",
-    #     "/tmp/naufragio/barril-rum.png",
-    #     "/tmp/naufragio/barril-rum.png",
-    #     "/tmp/naufragio/barril-rum.png",
-    #     "/tmp/naufragio/herramientas.png",
-    #     "/tmp/naufragio/pistola.png",
-    #     "/tmp/naufragio/tiburon.png",
-    #     "/tmp/naufragio/cana-pescar.png",
-    #     "/tmp/naufragio/cana-pescar.png",
-    #     "/tmp/naufragio/machete.png",
-    #     "/tmp/naufragio/machete.png",
-    #     "/tmp/naufragio/pulpo.png",
-    #     "/tmp/naufragio/pulpo.png",
-    #     "/tmp/naufragio/pulpo.png",
-    #     "/tmp/naufragio/tridente.png"
-    # ]
-
 
 def forge_card(size_name, layers, card, portrait):
     size = sizes.get(size_name)
@@ -126,18 +97,19 @@ def forge_card(size_name, layers, card, portrait):
 
         if layer["type"] == "image":
 
-            file = layer["file"]
+            file = card.get("_{}".format(layer["name"]), "")
             if not file:
                 # Read values from cards
-                file = card.get("_{}".format(layer["name"]), "")
+                file = layer["file"]
 
             if file:
                 file = file.replace("www.dropbox.com", "dl.dropboxusercontent.com")
-                # TODO: Add cache
                 response = requests.get(file)
                 image = Image.open(BytesIO(response.content))
-
-                im.paste(image, (x, y), image)
+                try:
+                    im.paste(image, (x, y), image)
+                except ValueError:
+                    im.paste(image, (x, y))
         elif layer["type"] == "text":
             # font = ImageFont.truetype("sans-serif.ttf", 16)
             draw.text((x, y), layer.text, layer.color)
@@ -145,104 +117,221 @@ def forge_card(size_name, layers, card, portrait):
     return im
 
 
-def weld_cards(export, forged_cards_fronts, forged_cards_backs):
-    images = []
-    x = export['MARGIN_X']
-    y = export['MARGIN_Y']
-    num = 0
-    rows = 0
-    im = Image.new("RGBA", (export['WIDTH'], export['HEIGHT']))
+def add_cut_marks(original_im):
+    if original_im:
+        im = Image.new("RGBA", (original_im.width + 2 * GROW, original_im.height + 2 * GROW))
 
-    # TODO: Card backs
+        # draw original card in center
+        box = (GROW, GROW)
+
+        im.paste(original_im, box=box)
+
+        draw = ImageDraw.Draw(im)
+
+        # Vertical
+        pos_x = GROW + BLEED
+        pos_y = 0
+        draw.line((pos_x, pos_y, pos_x, pos_y + CUT_MARKS_SIZE), fill=(0, 255, 0, 255))
+
+        pos_x = GROW + BLEED
+        pos_y = im.height - CUT_MARKS_SIZE
+        draw.line((pos_x, pos_y, pos_x, pos_y + CUT_MARKS_SIZE), fill=(0, 255, 0, 255))
+
+        pos_x = im.width - GROW - BLEED
+        pos_y = 0
+        draw.line((pos_x, pos_y, pos_x, pos_y + CUT_MARKS_SIZE), fill=(0, 255, 0, 255))
+
+        pos_x = im.width - GROW - BLEED
+        pos_y = im.height - CUT_MARKS_SIZE
+        draw.line((pos_x, pos_y, pos_x, pos_y + CUT_MARKS_SIZE), fill=(0, 255, 0, 255))
+
+        # Horizontal
+        pos_x = 0
+        pos_y = GROW + BLEED
+        draw.line((pos_x, pos_y, pos_x + CUT_MARKS_SIZE, pos_y), fill=(0, 255, 0, 255))
+
+        pos_x = im.width - CUT_MARKS_SIZE
+        pos_y = GROW + BLEED
+        draw.line((pos_x, pos_y, pos_x + CUT_MARKS_SIZE, pos_y), fill=(0, 255, 0, 255))
+
+        pos_x = 0
+        pos_y = im.height - GROW - BLEED
+        draw.line((pos_x, pos_y, pos_x + CUT_MARKS_SIZE, pos_y), fill=(0, 255, 0, 255))
+
+        pos_x = im.width - CUT_MARKS_SIZE
+        pos_y = im.height - GROW - BLEED
+        draw.line((pos_x, pos_y, pos_x + CUT_MARKS_SIZE, pos_y), fill=(0, 255, 0, 255))
+
+        del (draw)
+
+        return im
+    return None
+
+
+def calculate_margins(export, card):
+    max_items_by_row = math.floor(export['WIDTH'] / card.width)
+    margin_x = round((export['WIDTH'] - max_items_by_row * card.width) / (max_items_by_row + 1))
+
+    while margin_x < BLEED:
+        max_items_by_row -= 1
+        margin_x = round((export['WIDTH'] - max_items_by_row * card.width) / (max_items_by_row + 1))
+
+    max_items_by_column = math.floor(export['HEIGHT'] / card.height)
+    margin_y = round((export['HEIGHT'] - max_items_by_column * card.height) / (max_items_by_column + 1))
+
+    while margin_y < BLEED:
+        max_items_by_column -= 1
+        margin_y = round(
+            (export['HEIGHT'] - max_items_by_column * card.height) / (max_items_by_column + 1))
+
+    return margin_x, margin_y, max_items_by_row, max_items_by_column
+
+
+def weld_cards_tabletop(forged_cards_fronts, forged_cards_backs, portrait):
+    max_items_by_row = 10
+    max_items_by_column = 7
+    card = forged_cards_fronts[0]
+    if portrait:
+        card = card.transpose(Image.ROTATE_270)
+    im = Image.new("RGBA", (card.width * max_items_by_row, card.height * max_items_by_column))
+    x = 0
+    y = 0
+    num = 0
+    row = 0
     for card in forged_cards_fronts:
-        if export['ROTATE']:
-            card = card.transpose(Image.ROTATE_270)
-        weld_card(export, im, card, x, y)
-        x += export['GAP_X'] + export['BOX_WIDTH']
         num += 1
-        if num == export['CARDS_PER_ROW']:
-            x = export['MARGIN_X']
-            y += export['GAP_Y'] + export['BOX_HEIGHT']
-            num = 0
-            rows += 1
-            if rows == export['ROWS']:
+        if num < 70:
+            if portrait:
+                card = card.transpose(Image.ROTATE_270)
+            im.paste(card, box=(x, y))
+            x += card.width
+            row += 1
+            if row == max_items_by_row:
+                x = 0
+                y += card.height
+                row = 0
+
+    # Add back on the 70th position
+    card = forged_cards_backs[0]
+    if portrait:
+        card = card.transpose(Image.ROTATE_270)
+
+    im.paste(card, box=(card.width * (max_items_by_row - 1), card.height * (max_items_by_column - 1)))
+
+    images = []
+    _add_image_to_image_list(im, images)
+    return images
+
+
+def weld_cards_print_and_play(export, forged_cards_fronts, forged_cards_backs, portrait):
+    # Join front and back
+    i = 0
+    joined_cards = []
+    for front in forged_cards_fronts:
+        back = forged_cards_backs[i]
+        i += 1
+        if portrait:
+            im = Image.new("RGBA", (front.width * 2, front.height))
+            im.paste(front, box=(0, 0))
+            im.paste(back, box=(front.width, 0))
+            joined_cards.append(im)
+        else:
+            im = Image.new("RGBA", (front.width, front.height * 2))
+            back = back.transpose(Image.ROTATE_180)
+            im.paste(back, box=(0, 0))
+            im.paste(front, box=(0, front.height))
+            joined_cards.append(im)
+
+    return weld_cards_standard(export, joined_cards, [])
+
+
+def weld_cards_standard(export, forged_cards_fronts, forged_cards_backs):
+    images_front, max_items_by_row = _weld_cards(export, forged_cards_fronts)
+
+    if forged_cards_backs:
+        # Reverse back order in groups of max_items_by_row
+        forged_cards_backs_reordered = []
+        empty_image = Image.new("RGBA", (forged_cards_fronts[0].width, forged_cards_fronts[0].height))
+
+        while forged_cards_backs:
+            chunk = forged_cards_backs[0:max_items_by_row]
+            chunk += [empty_image] * (max_items_by_row - len(chunk))
+            forged_cards_backs_reordered += reversed(chunk)
+            forged_cards_backs = forged_cards_backs[max_items_by_row:]
+
+        images_back, max_items_by_row = _weld_cards(export, forged_cards_backs_reordered)
+        return [response for ab in zip(images_front, images_back) for response in ab]
+    else:
+        return images_front
+
+
+def _weld_cards(export, forged_cards):
+    images = []
+    forged_cards_cut_marks = [add_cut_marks(card) for card in forged_cards]
+
+    original_card = forged_cards[0]
+
+    # Distribute uniformly
+    if export['WIDTH'] != 0:
+        page_width = export['WIDTH']
+        page_height = export['HEIGHT']
+        # Check without portrait
+        portrait = False
+        margin_x, margin_y, max_items_by_row, max_items_by_column = calculate_margins(export, original_card)
+        card_portrait = original_card.transpose(Image.ROTATE_270)
+
+        margin_x_portrait, margin_y_portrait, max_items_by_row_portrait, max_items_by_column_portrait = calculate_margins(
+            export, card_portrait)
+        if (max_items_by_row * max_items_by_column) < (max_items_by_row_portrait * max_items_by_column_portrait):
+            margin_x = margin_x_portrait
+            margin_y = margin_y_portrait
+            max_items_by_row = max_items_by_row_portrait
+            max_items_by_column = max_items_by_column_portrait
+            original_card = card_portrait
+            portrait = True
+
+    else:
+        max_items_by_row = 1
+        max_items_by_column = 1
+        margin_x = GROW
+        margin_y = GROW
+        page_width = forged_cards_cut_marks[0].width
+        page_height = forged_cards_cut_marks[0].height
+        portrait = False
+
+    row = 0
+    column = 0
+    x = margin_x - GROW
+    y = margin_y - GROW
+    im = Image.new("RGBA", (page_width, page_height))
+
+    for card in forged_cards_cut_marks:
+        if card:
+            if portrait:
+                card = card.transpose(Image.ROTATE_270)
+
+            im.paste(card, box=(x, y))
+        x += margin_x + original_card.width
+        row += 1
+        if row == max_items_by_row:
+            x = margin_x - GROW
+            y += margin_y + original_card.height
+            row = 0
+            column += 1
+            if column == max_items_by_column:
                 _add_image_to_image_list(im, images)
-                im = Image.new("RGBA", (export['WIDTH'], export['HEIGHT']))
-                rows = 0
-                x = export['MARGIN_X']
-                y = export['MARGIN_Y']
+                column = 0
+                y = margin_y - GROW
+                im = Image.new("RGBA", (page_width, page_height))
 
     if images == [] or images[-1] != im:
-        _add_image_to_image_list(im, images)
+        if column != 0 or row != 0:
+            _add_image_to_image_list(im, images)
 
-    return images
+    return images, max_items_by_row
 
 
 def _add_image_to_image_list(image, image_list):
     rgb = Image.new('RGB', image.size, (255, 255, 255))  # white background
     rgb.paste(image, mask=image.split()[3])  # paste using alpha channel as mask
     image_list.append(rgb)
-
-
-def weld_card(size, im, card, x, y):
-    # draw margin
-    # box = (x, y, x + size['BOX_WIDTH'], y + size['BOX_HEIGHT'])
-    # im.paste("black", box=box)
-
-    # draw card
-    margin_x = int(round((size['BOX_WIDTH'] - card.width) / 2))
-    margin_y = int(round((size['BOX_HEIGHT'] - card.height) / 2))
-    box = (x + margin_x, y + margin_y)
-
-    im.paste(card, box=box)
-    if size['CUT_MARKS']:
-        draw_cut_marks(size, im, x, y)
-
-
-def draw_cut_marks(size, im, x, y):
-    draw = ImageDraw.Draw(im)
-
-    # Vertical
-    pos_x = x + size['CUT_MARK_DISPLACEMENT']
-    pos_y = y + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_DISPLACEMENT'] - 1
-    pos_y = y + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
-    pos_x = x + size['CUT_MARK_DISPLACEMENT']
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_OVERLAP'] - 1
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_DISPLACEMENT'] - 1
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_OVERLAP'] - 1
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=True)
-
-    # Horizontal
-    pos_x = x + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
-    pos_y = y + size['CUT_MARK_DISPLACEMENT']
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
-
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_OVERLAP'] + 1
-    pos_y = y + size['CUT_MARK_DISPLACEMENT']
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
-
-    pos_x = x + size['CUT_MARK_OVERLAP'] - size['CUT_MARK_SIZE'] - 1
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_DISPLACEMENT'] - 1
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
-
-    pos_x = x + size['BOX_WIDTH'] - size['CUT_MARK_OVERLAP'] + 1
-    pos_y = y + size['BOX_HEIGHT'] - size['CUT_MARK_DISPLACEMENT'] - 1
-    draw_cut_mark(draw, size, pos_x, pos_y, vertical=False)
-
-    del draw
-
-
-def draw_cut_mark(draw, size, pos_x, pos_y, vertical=True):
-    if vertical:
-        draw.line((pos_x, pos_y, pos_x, pos_y + size['CUT_MARK_SIZE'] - 1), fill=(0, 255, 0, 255))
-        # draw.line((pos_x + 1, pos_y, pos_x + 1, pos_y + size['CUT_MARK_SIZE'] - 1), fill=(0, 255, 0, 255))
-    else:
-        draw.line((pos_x, pos_y, pos_x + size['CUT_MARK_SIZE'] - 1, pos_y), fill=(0, 255, 0, 255))
-        # draw.line((pos_x, pos_y + 1, pos_x + size['CUT_MARK_SIZE'] - 1, pos_y + 1), fill=(0, 255, 0, 255))

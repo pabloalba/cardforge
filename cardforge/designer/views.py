@@ -36,14 +36,19 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-def generate_pdf(request):
-    # TODO For test only
+def forge_deck_view(request):
     decks = Deck.objects.all()
-    file_path = forge_deck(decks[0])
+    export_format = request.GET.get('export_format', 'pdf')
+    export_target = request.GET.get('export_target', 'standard')
+    export_type = request.GET.get('export_type', 'a4')
+
+    file_path = forge_deck(decks[0], export_type=export_type, export_format=export_format, export_target=export_target)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/pdf")
-            # response = HttpResponse(fh.read(), content_type="image/png")
+            if export_format == 'pdf':
+                response = HttpResponse(fh.read(), content_type="application/pdf")
+            else:
+                response = HttpResponse(fh.read(), content_type="image/png")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404

@@ -10,6 +10,7 @@ urlpatterns = [
 
     path("auth/login", auth_views.login, name="login"),
     path("auth/login/success", designer_views.login_success, name="login-success"),
+    path('forge_deck', designer_views.forge_deck_view),
     path("auth/logout", designer_views.logout, name="logout"),
 
     path("forge_card", designer_views.forge_card),
