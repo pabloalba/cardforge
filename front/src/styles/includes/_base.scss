@@ -73,7 +73,7 @@ h3 {
   text-transform: uppercase;
   &::before ,
   &::after {
-    background-image: url("/images/buttonpath.svg");
+    background-image: url("../images/buttonpath.svg");
     background-repeat: no-repeat;
     content: "";
     height: 130%;
@@ -89,4 +89,15 @@ h3 {
     left: -18px;
     top: -6px;
   }
+  &:hover {
+    background: $green-hover;
+    box-shadow: none;
+    color: $green-dark;
+    text-shadow: none;
+  }
+}
+
+.content {
+  padding: 2rem;
+  width: 100%;
 }

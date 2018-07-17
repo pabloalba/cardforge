@@ -1,0 +1,37 @@
+.table {
+    display: grid;
+    grid-gap: 10px;
+    
+    .table-row {
+        background-color: $white;
+        display: grid;
+        grid-template-columns: 30vw repeat(3, 1fr);
+        padding: 1rem;
+        
+        &.table-header {
+            background-color: transparent;
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .table-actions {
+        align-items: center;
+        display: flex;
+        margin-left: auto;
+        a {
+            margin: 0 .8rem;
+            &:hover {
+                &.trash {
+                    svg {
+                        fill: $red;
+                    }
+                }
+                svg {
+                    fill: $green;
+                }
+            }
+        }
+    }
+}
