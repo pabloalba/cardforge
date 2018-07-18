@@ -1,13 +1,12 @@
 <template lang="pug" src="./GameCreateLightbox.pug"></template>
 
 <script>
-import {CLOSE_GAME_CREATE_LIGHBOX} from "../../data/store";
+import {CLOSE_LIGHTBOX} from "../../data/store";
 
 export default {
   computed: {
     isHidden() {
-      const state = this.$store.state.gameCreateLightbox;
-      return state ? state.isHidden : true;
+      return this.$store.state.lightboxOpen != "create-game";
     },
 
     isNameEmpty() {
@@ -28,7 +27,7 @@ export default {
       }
     },
     onCancelClicked(event) {
-      this.$store.commit(CLOSE_GAME_CREATE_LIGHBOX, null);
+      this.$store.commit(CLOSE_LIGHTBOX, null);
     }
   }
 }
