@@ -7,5 +7,8 @@ export default {
   },
   retrieveGames() {
     return http.fetch('GET', `${config.API_URL}/games`);
+  },
+  retrieveGame(id) {
+    return http.fetch('GET', `${config.API_URL}/games/${id}`);
   }
 }

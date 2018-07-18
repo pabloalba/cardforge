@@ -2,6 +2,11 @@
 
 <script>
 export default {
-  name: 'breadcrumbs'
+  name: 'breadcrumbs',
+  computed: {
+    currentGame: function () {
+      return this.$store.state.currentGame;
+    }
+  }
 }
 </script>

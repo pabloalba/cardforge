@@ -1,19 +1,31 @@
 div.breadcrumb
 
   ul.bread-nav
-    li
-      include ../../images/games.svg
-      a(href="#")
+    // null=loading; undefined=no game
+    template(v-if="currentGame === undefined")
+
+      li
+        include ../../images/games.svg
         span YOUR GAMES
 
-    li
-      include ../../images/decks.svg
-      a(href="#")
-        span _GAME NAME_
-    li
-      include ../../images/cards.svg
-      span _DECK NAME_
+    template(v-else)
 
+      template(v-if="currentGame !== null")
+
+        li
+          include ../../images/games.svg
+          span {{ currentGame.name }}
+
+      template(v-else)
+
+        li
+          include ../../images/games.svg
+          router-link(:to="{name: 'Game', params: {id: currentGame.id}}")
+            span {{ currentGame.name }}
+
+        li
+          include ../../images/cards.svg
+          span _DECK NAME_
 
   div.buttonzone
     a(href="#").btn-primary CREATE GAME

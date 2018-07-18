@@ -5,6 +5,7 @@ import api from '../api';
 
 export const SET_ME = 'GENERAL_SET_ME';
 export const SET_GAMES = 'GENERAL_SET_GAMES';
+export const SET_CURRENT_GAME = 'GENERAL_SET_CURRENT_GAME';
 
 
 Vue.use(Vuex);
@@ -12,7 +13,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     me: null,
-    games: null
+    games: null,
+    currentGame: null
   },
 
   mutations: {
@@ -20,8 +22,10 @@ export default new Vuex.Store({
       state.me = me;
     },
     [SET_GAMES] (state, games) {
-      console.log("SET_GAMES", games);
       state.games = games;
+    },
+    [SET_CURRENT_GAME] (state, game) {
+      state.currentGame = game;
     }
   },
 
@@ -42,6 +46,11 @@ export default new Vuex.Store({
       // }];
 
       commit(SET_GAMES, games);
+    },
+
+    async retrieveGame({commit}, {id}) {
+      const game = await api.retrieveGame(id);
+      commit(SET_CURRENT_GAME, game);
     }
   }
 })

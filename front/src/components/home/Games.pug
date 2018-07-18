@@ -5,7 +5,8 @@ div.table
     span CREATED
 
   div.table-row(v-for="game in games")
-    a(href="#") {{ game.name }}
+    router-link(:to="{name: 'Game', params: {id: game.id}}")
+      | {{ game.name }}
     span {{ game.decks }}
     span 2/3/2018
     div.table-actions

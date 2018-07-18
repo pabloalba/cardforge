@@ -32,13 +32,13 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('url', 'name', 'created', 'owners', 'decks')
+        fields = ('id', 'url', 'name', 'created', 'owners', 'decks')
 
 
 class DeckSimpleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Deck
-        fields = ('url', 'name', 'created', 'size', 'front_cut_marks_color',
+        fields = ('id', 'url', 'name', 'created', 'size', 'front_cut_marks_color',
                   'back_cut_marks_color', 'portrait')
 
 
@@ -49,6 +49,6 @@ class DeckSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Deck
-        fields = ('url', 'name', 'created', 'size', 'front_cut_marks_color',
+        fields = ('id', 'url', 'name', 'created', 'size', 'front_cut_marks_color',
                   'back_cut_marks_color', 'portrait', 'cards', 'front_layers', 'back_layers', 'trunks')
 
