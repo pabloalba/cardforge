@@ -10,5 +10,8 @@ export default {
   },
   retrieveGame(id) {
     return http.fetch('GET', `${config.API_URL}/games/${id}`);
+  },
+  retrieveGameDecks(id) {
+    return http.fetch('GET', `${config.API_URL}/games/${id}/decks`);
   }
 }

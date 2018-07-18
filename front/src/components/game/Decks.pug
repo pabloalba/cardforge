@@ -1,0 +1,21 @@
+div.table-4
+  div.table-row.table-header
+    span NAME
+    span Nº CARDS
+    span SIZE (mm)
+    span CREATED
+
+  div.table-row(v-for="deck in decks")
+    // router-link(:to="{name: 'Deck', params: {id: deck.id}}")
+    a(href="#")
+      | {{ deck.name }}
+    span {{ deck.n_cards }}
+    span {{ deck.size }}
+    span 2/3/2018
+    div.table-actions
+      a(href="#")
+        include ../../images/edit.svg
+      a(href="#")
+        include ../../images/copy.svg
+      a(href="#")
+        include ../../images/trash.svg

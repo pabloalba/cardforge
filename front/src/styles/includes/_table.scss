@@ -1,13 +1,12 @@
-.table {
+.table-3, .table-4 {
     display: grid;
     grid-gap: 10px;
-    
+
     .table-row {
         background-color: $white;
         display: grid;
-        grid-template-columns: 30vw repeat(3, 1fr);
         padding: 1rem;
-        
+
         &.table-header {
             background-color: transparent;
             span {
@@ -34,4 +33,16 @@
             }
         }
     }
+}
+
+.table-3 {
+  .table-row {
+    grid-template-columns: 30vw repeat(3, 1fr);
+  }
+}
+
+.table-4 {
+  .table-row {
+    grid-template-columns: 30vw repeat(4, 1fr);
+  }
 }

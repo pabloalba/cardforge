@@ -6,6 +6,9 @@ export default {
   computed: {
     currentGame: function () {
       return this.$store.state.currentGame;
+    },
+    currentDeck: function () {
+      return this.$store.state.currentDeck;
     }
   }
 }

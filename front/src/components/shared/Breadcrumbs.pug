@@ -8,15 +8,20 @@ div.breadcrumb
         include ../../images/games.svg
         span YOUR GAMES
 
-    template(v-else)
+    template(v-else-if="currentGame !== null")
 
-      template(v-if="currentGame !== null")
+      li
+        include ../../images/games.svg
+        router-link(:to="{name: 'Home'}")
+          span YOUR GAMES
+
+      template(v-if="currentDeck === undefined")
 
         li
           include ../../images/games.svg
           span {{ currentGame.name }}
 
-      template(v-else)
+      template(v-else-if="currentDeck !== null")
 
         li
           include ../../images/games.svg
@@ -28,4 +33,5 @@ div.breadcrumb
           span _DECK NAME_
 
   div.buttonzone
-    a(href="#").btn-primary CREATE GAME
+    a(v-if="currentGame === undefined", href="#").btn-primary CREATE GAME
+    a(v-else-if="currentDeck === undefined", href="#").btn-primary CREATE DECK
