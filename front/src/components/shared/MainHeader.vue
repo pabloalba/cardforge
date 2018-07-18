@@ -5,7 +5,7 @@ export default {
   name: 'main-header',
   computed: {
     me: function () {
-      return this.$store.getters.getMe;
+      return this.$store.state.me;
     }
   }
 }
