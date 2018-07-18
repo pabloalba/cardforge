@@ -6,11 +6,12 @@ import {CLOSE_LIGHTBOX} from "../../data/store";
 export default {
   computed: {
     lightboxOpen() {
-      return this.$store.state.lightboxOpen;
+      return (this.$store.state.lightboxOpen === 'update-deck');
     },
 
-    deckName() {
-      return this.$store.state.lightboxProps ? this.$store.state.lightboxProps.name : null;
+    propsName() {
+      const props = this.$store.state.lightboxProps;
+      return props ? props.name : null;
     },
 
     isNameEmpty() {
@@ -24,9 +25,8 @@ export default {
     }
   },
   watch: {
-    deckName(name) {
-      console.log('eeee');
-      this.name = name;
+    propsName(newName, oldName) {
+      this.name = newName;
     }
   },
   methods: {

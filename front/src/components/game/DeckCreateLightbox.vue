@@ -6,7 +6,7 @@ import {CLOSE_LIGHTBOX} from "../../data/store";
 export default {
   computed: {
     lightboxOpen() {
-      return this.$store.state.lightboxOpen;
+      return (this.$store.state.lightboxOpen === 'create-deck');
     },
 
     isNameEmpty() {
