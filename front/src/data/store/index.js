@@ -17,6 +17,8 @@ export const OPEN_LIGHTBOX = "OPEN_LIGHTBOX";
 export const CLOSE_LIGHTBOX = "CLOSE_LIGHTBOX";
 
 export const GAME_CREATED = "GAME_CREATED";
+export const DECK_CREATED = "DECK_CREATED";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -26,6 +28,7 @@ export default new Vuex.Store({
     gamesById: {},
     currentGame: null,
     decks: null,
+    decksById: {},
     currentDeck: null,
     gameCreateLightbox: null,
     gameUpdateLightbox: null,
@@ -92,6 +95,11 @@ export default new Vuex.Store({
     [GAME_CREATED] (state, game) {
       state.games.push(game);
       state.gamesById[game.id] = game;
+    },
+
+    [DECK_CREATED] (state, deck) {
+      state.decks.push(deck);
+      state.decksById[deck.id] = deck;
     }
   },
 
@@ -120,11 +128,17 @@ export default new Vuex.Store({
       const deck = await api.retrieveDeck(id);
       commit(SET_CURRENT_DECK, deck);
     },
-    
+
     async createGame({commit}, {name}) {
       const game = await api.createGame(name);
       commit(GAME_CREATED, game);
       commit(CLOSE_GAME_CREATE_LIGHBOX, null);
+    },
+
+    async createDeck({commit}, {gameId, name, size, orientation}) {
+      const deck = await api.createDeck(gameId, name, size, orientation);
+      commit(DECK_CREATED, deck);
+      commit(CLOSE_LIGHTBOX);
     }
   }
 })

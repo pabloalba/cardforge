@@ -15,7 +15,7 @@ class Deck(models.Model):
     DECK_SIZES = (
         ('PO', 'estandar poker 63x88'),
         ('B1', 'bridge 56x88'),
-        ('B1', 'bridge 57x89'),
+        ('B2', 'bridge 57x89'),
         ('M1', 'mini 41x68'),
         ('M2', 'mini 45x68'),
         ('M3', 'mini 44x63'),

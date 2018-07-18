@@ -1,5 +1,5 @@
 div.modal-lightbox(v-if="lightboxOpen")
-  form(@submit="onSubmit")
+  form(@submit.prevent="onSubmit")
     div.modal
       div.art
         include ../../images/decks.svg
@@ -10,19 +10,25 @@ div.modal-lightbox(v-if="lightboxOpen")
       div.row-input
         div.input-text
           label CARD SIZE
-          select
-            option Poker (63 x 88 mm)
-            option Poker (63 x 88 mm)
-            option Poker (63 x 88 mm)
-            option Poker (63 x 88 mm)
+          select(v-model="size")
+            option(value="PO") estandar poker (63 x 88 mm)
+            option(value="B1") bridge (56 x 88 mm)
+            option(value="B1") bridge (57 x 89 mm)
+            option(value="M1") mini (41 x 68 mm)
+            option(value="M2") mini (45 x 68 mm)
+            option(value="M3") mini (44 x 63 mm)
+            option(value="C1") cuadrada (68 x 68 mm)
+            option(value="C2") cuadrada (70 x 70 mm)
+            option(value="TA") tarot (70 x 110 mm)
+            option(value="GR") grande (70 x 120 mm)
         div.input-text
           label DECK ORIENTATION
-          select
-            option Portrait
-            option Landscape
+          select(v-model="orientation")
+            option(value="portrait") Portrait
+            option(value="landscape") Landscape
       div.modal-buttons
         a(@click="onCancelClicked").cancel-link CANCEL
-        button(type="submit" value="CREATE DECK" :class="{disabled: isNameEmpty}").btn-primary CREATE DECK
+        button(type="submit" value="CREATE DECK" :class="{disabled: isEmpty}").btn-primary CREATE DECK
       //- corners
       div.corner.top-left
         include ../../images/corner.svg

@@ -9,22 +9,32 @@ export default {
       return (this.$store.state.lightboxOpen === 'create-deck');
     },
 
-    isNameEmpty() {
-      return this.$data.name.length == 0;
+    gameId() {
+      return this.$store.state.currentGame.id;
+    },
+
+    isEmpty() {
+      return (this.name.length === 0) ||
+        (this.size.length === 0) ||
+        (this.orientation.length === 0);
     }
   },
   data() {
     return {
       errors: [],
-      name: ""
+      name: "",
+      size: "",
+      orientation: "",
     }
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-      if (this.$data.name.length > 0) {
-        console.log("CREATE DECK:", this.$data.name);
-      }
+    onSubmit() {
+      this.$store.dispatch("createDeck", {
+        gameId: this.gameId,
+        name: this.name,
+        size: this.size,
+        orientation: this.orientation
+      });
     },
     onCancelClicked(event) {
       this.$store.commit(CLOSE_LIGHTBOX);

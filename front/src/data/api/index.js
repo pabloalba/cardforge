@@ -30,5 +30,19 @@ export default {
 
     const response = await http.post(url, body);
     return await response.json();
+  },
+
+  async createDeck(gameId, name, size, orientation) {
+    const body = {
+      name: name,
+      size: size,
+      portrait: orientation === "portrait" ? true : false,
+      front_cut_marks_color: "#ff0000",
+      back_cut_marks_color: "#ff0000"
+    };
+    const url = `${config.API_URL}/games/${gameId}/decks`;
+
+    const response = await http.post(url, body);
+    return await response.json();
   }
 }
