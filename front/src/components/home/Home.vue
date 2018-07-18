@@ -4,6 +4,10 @@
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import Games from "./Games";
+
+import GameCreateLighbox from "./GameCreateLightbox";
+import GameUpdateLighbox from "./GameUpdateLightbox";
+
 import {
   SET_GAMES, SET_DECKS, SET_CURRENT_GAME, SET_CURRENT_DECK
 } from "../../data/store";
@@ -13,7 +17,9 @@ export default {
   components: {
     Games,
     MainHeader,
-    Breadcrumbs
+    Breadcrumbs,
+    GameCreateLighbox,
+    GameUpdateLighbox
   },
   created: function () {
     this.$store.commit(SET_GAMES, null);

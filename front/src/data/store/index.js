@@ -9,6 +9,10 @@ export const SET_CURRENT_GAME = 'GENERAL_SET_CURRENT_GAME';
 export const SET_DECKS = 'GENERAL_SET_DECKS';
 export const SET_CURRENT_DECK = 'GENERAL_SET_CURRENT_DECK';
 
+export const OPEN_GAME_CREATE_LIGHBOX = "OPEN_GAME_CREATE_LIGHBOX";
+export const OPEN_GAME_UPDATE_LIGHBOX = "OPEN_GAME_UPDATE_LIGHBOX";
+export const CLOSE_GAME_CREATE_LIGHBOX = "CLOSE_GAME_CREATE_LIGHBOX";
+export const CLOSE_GAME_UPDATE_LIGHBOX = "CLOSE_GAME_UPDATE_LIGHBOX";
 
 Vue.use(Vuex);
 
@@ -18,7 +22,9 @@ export default new Vuex.Store({
     games: null,
     currentGame: null,
     decks: null,
-    currentDeck: null
+    currentDeck: null,
+    gameCreateLightbox: null,
+    gameUpdateLightbox: null
   },
 
   mutations: {
@@ -27,15 +33,42 @@ export default new Vuex.Store({
     },
     [SET_GAMES] (state, games) {
       state.games = games;
+      state.gamesById = games.reduce((acc, item) => {
+        return Object.assign(acc, {[item.id]: item});
+      }, {});
     },
+
     [SET_CURRENT_GAME] (state, game) {
       state.currentGame = game;
     },
+
     [SET_DECKS] (state, decks) {
       state.decks = decks;
     },
+
     [SET_CURRENT_DECK] (state, deck) {
       state.currentDeck = deck;
+    }
+
+    [OPEN_GAME_CREATE_LIGHBOX] (state) {
+      state.gameCreateLightbox = {
+        isHidden: false
+      };
+    },
+
+    [CLOSE_GAME_CREATE_LIGHBOX] (state) {
+      state.gameCreateLightbox = null;
+    },
+
+    [OPEN_GAME_UPDATE_LIGHBOX] (state, id) {
+      state.gameUpdateLightbox = {
+        isHidden: false,
+        id: id
+      };
+    },
+
+    [CLOSE_GAME_UPDATE_LIGHBOX] (state) {
+      state.gameCreateLightbox = null;
     }
   },
 
