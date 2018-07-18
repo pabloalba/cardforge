@@ -152,10 +152,26 @@ h3 {
 
 // inputs
 
+.row-input {
+  display: flex;
+  margin-top: 1rem;
+  width: 100%;
+  > * {
+    margin-right: 2rem;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
 .input-text {
   display: flex;
   flex-direction: column;
   font-family: 'Oswald', sans-serif;
+  width: 100%;
   label {
     font-weight: bold;
     margin-bottom: .5rem;
@@ -170,8 +186,46 @@ h3 {
     font-size: 1rem;
     height: 50px;
     padding: 1rem;
+    &::placeholder {
+      color: $gray-medium;
+    }
+    &:focus {
+      border-color: $green-hover;
+    }
   }
 }
+
+.input-checkbox {
+  align-items: center;
+  display: flex;
+  font-family: 'Oswald', sans-serif;
+  width: 100%;
+  input[type="checkbox"] {
+    display:none;
+  }
+  input[type="checkbox"] + label span {
+    background-image: url("../images/check-off.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    cursor:pointer;
+    height: 28px;
+    vertical-align: middle;
+    width: 28px;
+  }
+  input[type="checkbox"]:checked + label span {
+    background:url("../images/check-on.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+  }
+  span {
+    padding: 0 2.5rem 0 1rem;
+    font-weight: bold;
+  }
+}
+
+// general
 
 .content {
   padding: 2rem;

@@ -7,13 +7,14 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 40%;
+        width: 45%;
     }
 
     .tools {
         display: flex;
         flex-direction: column;
-        width: 60%;
+        overflow-y: auto;
+        width: 55%;
     }
 }
 
@@ -26,6 +27,7 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    margin-top: .5rem;
     svg {
         cursor: pointer;
         margin: 0 2rem;
@@ -57,10 +59,73 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    margin: .5rem 0 1rem 0;
     span {
         font-weight: bold;
     }
     .btn-line {
         margin-left: 3rem;
     }
+}
+
+.element {
+    background-color: $white;
+    margin-top: 1rem;
+}
+
+.element-header {
+    align-items: center;
+    border-bottom: 1px solid $gray;
+    display: flex;
+    .element-name {
+        align-items: center;
+        display: flex;
+        padding: .8rem 1rem;
+        span {
+            font-family: 'Alegreya', serif;
+            font-weight: bold;
+            margin-left: .6rem;
+        }
+        input {
+            border: none;
+            color: $black;
+            font-family: 'Alegreya', serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-width: 25vw;
+            padding: 0 .6rem;
+            &::placeholder {
+                color: $green;
+            }
+        }
+    }
+    .element-options {
+        align-items: center;
+        display: flex;
+        margin-left: auto;
+        a {
+            padding: .8rem 1rem;
+            &:hover {
+                svg {
+                    fill: $green;
+                }
+            }
+            &.delete {
+                margin-right: .5rem;
+                &:hover {
+                    svg {
+                        fill: $red;
+                    }
+                }
+            }
+            &.collapse {
+                border-left: 1px solid $gray;
+                padding: .8rem 1.5rem;
+            }
+        }
+    }
+}
+
+.element-content {
+    padding: 1rem;
 }

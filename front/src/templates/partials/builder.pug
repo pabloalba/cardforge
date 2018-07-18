@@ -36,3 +36,48 @@ div.builder
       a(href="#", alt="add line").btn-primary.btn-line
         include ../../images/line.svg
         span LINE
+
+    div.element
+      div.element-header
+        div.element-name
+          include ../../images/image.svg
+          input(type="text", placeholder="IMAGE")
+        div.element-options
+          a(href="#", alt="hide element")
+            include ../../images/eye.svg
+          a(href="#", alt="duplicate element")
+            include ../../images/copy.svg
+          a(href="#", alt="order element")
+            include ../../images/drag.svg
+          a(href="#", alt="delete element").delete
+            include ../../images/trash.svg
+          a(href="#", alt="collapse element").collapse
+            include ../../images/arrow.svg
+      div.element-content.content-image
+        div.row-input
+          div.input-checkbox
+            input(type="checkbox", id="c1", name="template-check")
+            label(for="c1")
+              span Template element
+        div.row-input
+          div.input-text
+            label Image file 
+            input(type="text", placeholder="Paste an image URL")
+          //-div.input-text
+            label Upload file
+            input(type="file")
+        div.row-input
+          div.input-text
+            label Image size X (px)
+            input(type="number")
+          div.input-text
+            label Image size Y (px) 
+            input(type="number")
+        div.row-input
+          div.input-text
+            label Position X (px)
+            input(type="number")
+          div.input-text
+            label Position Y (px) 
+            input(type="number")
+
