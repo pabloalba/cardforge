@@ -9,7 +9,7 @@ div.modal-lightbox(:class="{hide:isHidden}")
         input(type="text" v-model.trim="name")
       div.modal-buttons
         a(@click="onCancelClicked").cancel-link CANCEL
-        input(type="submit" value="CREATE GAME" :class="{disabled: isNameEmpty}").btn-primary
+        button(type="submit" value="CREATE GAME" :class="{disabled: isNameEmpty}").btn-primary CREATE GAME
       //- corners
       div.corner.top-left
         include ../../images/corner.svg

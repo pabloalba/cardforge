@@ -16,6 +16,7 @@ body {
 
 a {
   color: $green;
+  cursor: pointer;
   font-family: 'Oswald', sans-serif;
   text-decoration: none;
   &:hover {
