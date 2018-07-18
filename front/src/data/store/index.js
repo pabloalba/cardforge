@@ -3,8 +3,8 @@ import Vuex from 'vuex';
 
 import api from '../api';
 
-export const SET_ME = Symbol('set-me');
-export const SET_GAMES = Symbol('set-games');
+export const SET_ME = 'GENERAL_SET_ME';
+export const SET_GAMES = 'GENERAL_SET_GAMES';
 
 
 Vue.use(Vuex);
