@@ -44,5 +44,25 @@
 .table-4 {
   .table-row {
     grid-template-columns: 30vw repeat(4, 1fr);
+    //repeat(auto-fit, minmax(20px, 1fr));
   }
+}
+
+.table-empty {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: .3;
+    width: 100%;
+    span {
+        font-family: 'Alegreya', serif;
+        font-size: 2rem;
+        text-align: center;
+    }
+    svg {
+        margin: 2rem 0;
+        max-height: 200px;
+        max-width: 200px;
+    }
 }

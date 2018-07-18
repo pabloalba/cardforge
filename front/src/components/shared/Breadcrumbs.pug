@@ -18,13 +18,13 @@ div.breadcrumb
       template(v-if="currentDeck === undefined")
 
         li
-          include ../../images/games.svg
+          include ../../images/decks.svg
           span {{ currentGame.name }}
 
       template(v-else-if="currentDeck !== null")
 
         li
-          include ../../images/games.svg
+          include ../../images/cards.svg
           router-link(:to="{name: 'Game', params: {id: currentGame.id}}")
             span {{ currentGame.name }}
 
