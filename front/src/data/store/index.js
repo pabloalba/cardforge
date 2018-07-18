@@ -26,8 +26,6 @@ export default new Vuex.Store({
     decks: null,
     decksById: {},
     currentDeck: null,
-    gameCreateLightbox: null,
-    gameUpdateLightbox: null,
     lightboxOpen: null,
     lightboxProps: null,
   },
@@ -57,27 +55,6 @@ export default new Vuex.Store({
       state.currentDeck = deck;
     },
 
-    // [OPEN_GAME_CREATE_LIGHBOX] (state) {
-    //   state.gameCreateLightbox = {
-    //     isHidden: false
-    //   };
-    // },
-
-    // [CLOSE_GAME_CREATE_LIGHBOX] (state) {
-    //   state.gameCreateLightbox = null;
-    // },
-
-    // [OPEN_GAME_UPDATE_LIGHBOX] (state, id) {
-    //   state.gameUpdateLightbox = {
-    //     isHidden: false,
-    //     id: id
-    //   };
-    // },
-
-    // [CLOSE_GAME_UPDATE_LIGHBOX] (state) {
-    //   state.gameCreateLightbox = null;
-    // },
-
     [OPEN_LIGHTBOX] (state, {name, props=null}) {
       state.lightboxOpen = name;
       state.lightboxProps = props;
@@ -93,10 +70,22 @@ export default new Vuex.Store({
       state.gamesById[game.id] = game;
     },
 
+    [GAME_UPDATED] (state, game) {
+      state.games = state.games.map((item) => {
+        if (item.id === game.id) {
+          return game;
+        } else {
+          return item;
+        }
+      });
+
+      state.gamesById[game.id] = game;
+    },
+
     [DECK_CREATED] (state, deck) {
       state.decks.push(deck);
       state.decksById[deck.id] = deck;
-    }
+    },
   },
 
   actions: {
@@ -131,10 +120,16 @@ export default new Vuex.Store({
       commit(CLOSE_LIGHTBOX, null);
     },
 
+    async updateGame({commit}, game) {
+      game = await api.createGame(game);
+      commit(GAME_UPDATED, game);
+      commit(CLOSE_LIGHTBOX, null);
+    },
+
     async createDeck({commit}, {gameId, name, size, orientation}) {
       const deck = await api.createDeck(gameId, name, size, orientation);
       commit(DECK_CREATED, deck);
-      commit(CLOSE_LIGHTBOX);
+      commit(CLOSE_LIGHTBOX, null);
     }
   }
-})
+});
