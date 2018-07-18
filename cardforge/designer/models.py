@@ -7,6 +7,9 @@ class Game(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     owners = models.ManyToManyField(User, related_name='games')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ('name',)
 
@@ -34,6 +37,9 @@ class Deck(models.Model):
     cards = models.TextField(default="[]")  # json data
     front_layers = models.TextField(default="[]")  # json data
     back_layers = models.TextField(default="[]")  # json data
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ('name',)
