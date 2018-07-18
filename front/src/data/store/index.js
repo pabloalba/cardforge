@@ -36,15 +36,7 @@ export default new Vuex.Store({
     },
 
     async retrieveGames({commit}) {
-      let games = await api.retrieveGames();
-      // let games = [{
-      //   name: "Test1",
-      //   decks: 3
-      // }, {
-      //   name: "Test2",
-      //   decks: 2
-      // }];
-
+      const games = await api.retrieveGames();
       commit(SET_GAMES, games);
     },
 

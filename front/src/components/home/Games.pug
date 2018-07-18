@@ -8,7 +8,7 @@ div.table
     router-link(:to="{name: 'Game', params: {id: game.id}}")
       | {{ game.name }}
     span {{ game.decks }}
-    span 2/3/2018
+    span {{ game.created|format("YYYY-DD-MM") }}
     div.table-actions
       a(href="#")
         include ../../images/edit.svg
