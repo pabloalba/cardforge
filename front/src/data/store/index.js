@@ -8,6 +8,7 @@ export const SET_GAMES = 'GENERAL_SET_GAMES';
 export const SET_CURRENT_GAME = 'GENERAL_SET_CURRENT_GAME';
 export const SET_DECKS = 'GENERAL_SET_DECKS';
 export const SET_CURRENT_DECK = 'GENERAL_SET_CURRENT_DECK';
+export const SET_SHOW_LAYERS = 'GENERAL_SET_SHOW_LAYERS';
 
 export const OPEN_LIGHTBOX = "OPEN_LIGHTBOX";
 export const CLOSE_LIGHTBOX = "CLOSE_LIGHTBOX";
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     currentDeck: null,
     lightboxOpen: null,
     lightboxProps: null,
+    showLayers: false
   },
 
   mutations: {
@@ -70,6 +72,10 @@ export default new Vuex.Store({
     [GAME_CREATED] (state, game) {
       state.games.push(game);
       state.gamesById[game.id] = game;
+    },
+
+    [SET_SHOW_LAYERS] (state, show) {
+      state.showLayers = show;
     },
 
     [GAME_UPDATED] (state, game) {
@@ -150,6 +156,10 @@ export default new Vuex.Store({
       const deck = await api.updateDeck(id, name);
       commit(DECK_UPDATED, deck);
       commit(CLOSE_LIGHTBOX, null);
-    }
+    },
+
+    async updateLayers({commit}, {deckId, front, layers}) {
+      await api.updateLayers(deckId, front, layers);
+    },
   }
 });

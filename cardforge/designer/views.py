@@ -1,20 +1,21 @@
+import json
 import os
 
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Count
+from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from .forge import forge_card_to_png, forge_deck
 from .models import Deck, Game
 from .permissions import IsOwner
-from .serializers import UserSerializer, GameSerializer, DeckSimpleSerializer, DeckSerializer
+from .serializers import DeckSerializer, DeckSimpleSerializer, GameSerializer, UserSerializer
 
 
 def login_success(request):
@@ -55,17 +56,28 @@ def forge_deck_view(request):
     raise Http404
 
 
-def forge_card(request):
-    # TODO Choose Deck
-    decks = Deck.objects.all()
+def forge_card(request, pk):
+    deck = get_object_or_404(Deck, pk=pk)
     num = int(request.GET.get('num', 0))
-    file_path = forge_card_to_png(decks[0], num)
+    front = request.GET.get('front', '').lower() == 'true'
+    file_path = forge_card_to_png(deck, num, front)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="image/png")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
+
+
+def update_layers(request, pk):
+    deck = get_object_or_404(Deck, pk=pk)
+    data = json.loads(request.body)
+    if data.get('front', '') == 'true':
+        deck.front_layers = data['layers']
+    else:
+        deck.back_layers = data['layers']
+    deck.save()
+    return JsonResponse({})
 
 
 @login_required
@@ -155,4 +167,3 @@ class GameDecks(generics.ListCreateAPIView):
 class DeckDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Deck.objects.all()
     serializer_class = DeckSerializer
-

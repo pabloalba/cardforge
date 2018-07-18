@@ -36,8 +36,20 @@ div.breadcrumb
     a(v-if="currentGame === undefined", @click.prevent="openGameCreateLighbox").btn-primary CREATE GAME
     a(v-else-if="currentDeck === undefined", @click.prevent="openDeckCreateLighbox").btn-primary CREATE DECK
     <template v-else>
-      a(href="#").icon-link
-        include ../../images/add-card.svg
-        span ADD CARD
-      a(href="#").btn-primary CARD DESIGN
+      <template v-if="showLayers">
+        router-link(:to="{name: 'Deck', params: {id: currentDeck.id}}").cancel-link
+          include ../../images/skull.svg
+          span DISCARD
+        router-link(:to="{name: 'Deck', params: {id: currentDeck.id}}").btn-primary
+          | FORGE CARDS
+      </template>
+      <template v-else>
+        a(href="#").icon-link
+          include ../../images/add-card.svg
+          span ADD CARD
+        router-link(:to="{name: 'CardBuilder', params: {id: currentDeck.id}}").btn-primary
+          | CARD DESIGN
+      </template>
+
+
     </template>

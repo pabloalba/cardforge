@@ -11,6 +11,9 @@ export default {
     },
     currentDeck: function () {
       return this.$store.state.currentDeck;
+    },
+    showLayers: function () {
+      return this.$store.state.showLayers;
     }
   },
   methods: {

@@ -52,6 +52,13 @@ export default {
     return await response.json();
   },
 
+  async updateLayers(deckId, front, layers){
+    const body = {"front":front, "layers": layers};
+    const url = `${config.API_URL}/decks/${deckId}/layers`;
+    const response = await http.post(url, body);
+    return await response.json();
+  },
+  
   async updateDeck(id, name) {
     const body = {
       name: name

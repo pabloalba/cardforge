@@ -20,7 +20,7 @@ MM_TO_PX = 11.811
 
 
 def _mm_to_px(mm):
-    return int(round(mm * MM_TO_PX))
+    return int(round(float(mm) * MM_TO_PX))
 
 
 def _get_tmp_path(deck):
@@ -62,19 +62,21 @@ def forge_card_to_png(deck, num_card, front=True):
     tmp_path = _get_tmp_path(deck)
     # Read json
     cards = json.loads(deck.cards)
+    card = None
     if num_card < len(cards):
-        front_layers = json.loads(deck.front_layers)
-        back_layers = json.loads(deck.front_layers)
-        size = deck.size
-        if front:
-            im = forge_card(size, front_layers, cards[num_card], deck)
-        else:
-            im = forge_card(size, back_layers, cards[num_card], deck)
+        card = cards[num_card]
 
-        file_path_png = "{}/{}.png".format(tmp_path, uuid.uuid4())
-        im.save(file_path_png, resoultion=300.0)
-        return file_path_png
-    return None
+    front_layers = json.loads(deck.front_layers)
+    back_layers = json.loads(deck.back_layers)
+    size = deck.size
+    if front:
+        im = forge_card(size, front_layers, card, deck)
+    else:
+        im = forge_card(size, back_layers, card, deck)
+
+    file_path_png = "{}/{}.png".format(tmp_path, uuid.uuid4())
+    im.save(file_path_png, resoultion=300.0)
+    return file_path_png
 
 
 def forge_cards(cards, front_layers, back_layers, size, deck):
@@ -109,7 +111,9 @@ def forge_card(size_name, layers, card, deck):
         if layer["type"] == "image":
 
             # Read values from cards
-            file = card.get("_{}".format(layer["name"]), "")
+            file = None
+            if card:
+                file = card.get("_{}".format(layer["name"]), "")
             if not file:
                 # Read values from layer
                 file = layer["file"]
@@ -138,7 +142,10 @@ def forge_card(size_name, layers, card, deck):
                 font = ImageFont.load_default()
 
             # Read values from cards
-            text = card.get("_{}".format(layer["name"]), "")
+            text = None
+            if card:
+                text = card.get("_{}".format(layer["name"]), "")
+
             if not text:
                 # Read values from layer
                 text = layer["text"]

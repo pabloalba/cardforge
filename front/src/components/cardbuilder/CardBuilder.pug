@@ -1,8 +1,136 @@
 extends ../../templates/layouts/main
 
+block head_end
+
 block content
-  include ../../templates/partials/header
-  include ../../templates/partials/breadcrumb
+  main-header
+  breadcrumbs
 
   div.content
-      include ../../templates/partials/builder
+      div.builder
+
+        div.preview
+          div.flip
+            a(href="#", alt="card face", v-bind:class="{ current: !frontSelected }", @click="onSelectFace(true)").btn-primary.btn-line FACE
+            include ../../images/switch.svg
+            a(href="#", alt="card back", v-bind:class="{ current: frontSelected }", @click="onSelectFace(false)").btn-primary.btn-line BACK
+          p.card-info Poker deck (63 x 88 mm) | Portrait
+
+          p.card-info
+            button(@click="saveLayers") Save
+
+          div.card-preview
+            //img(src="../../images/guides/po.png").card-guides
+            img(:src="cardPreviewUrl")
+
+          div.preview-links
+            a(href="#", alt="print info").icon-link
+              include ../../images/info-circle.svg
+              span PRINT INFO
+            a(href="#", alt="show guides").icon-link
+              include ../../images/eye.svg
+              span SHOW GUIDES
+
+        div.tools
+          div.add-to-card
+            span ADD TO CARD
+            a(href="#", alt="add image", @click="onAddImageLayer").btn-primary.btn-line
+              include ../../images/image.svg
+              span IMAGE
+            a(href="#", alt="add text", @click="onAddTextLayer").btn-primary.btn-line
+              include ../../images/text.svg
+              span TEXT
+            //a(href="#", alt="add box").btn-primary.btn-line
+              include ../../images/box.svg
+              span BOX
+            //a(href="#", alt="add circle").btn-primary.btn-line
+              include ../../images/circle.svg
+              span CIRCLE
+            //a(href="#", alt="add line").btn-primary.btn-line
+              include ../../images/line.svg
+              span LINE
+          div.element-list
+            div(v-for="layer, num_layer in currentLayers")
+              div.element.element-image(v-bind:class="{ collapsed: layer['collapsed'] }")
+                div.element-header
+                  div.element-name(v-if="layer['type']==='image'")
+                    include ../../images/image.svg
+                    input(type="text", placeholder="IMAGE")
+                  div.element-name(v-if="layer['type']==='text'")
+                    include ../../images/text.svg
+                    input(type="text", placeholder="TEXT")
+                  div.element-options
+                    a(href="#", alt="hide element")
+                      include ../../images/eye.svg
+                    a(href="#", alt="duplicate element", @click="onDuplicateLayerClicked(num_layer)")
+                      include ../../images/copy.svg
+                    a(href="#", alt="bring up element", @click="onMoveUpLayerClicked(num_layer)")
+                      include ../../images/arrow-up.svg
+                    a(href="#", alt="bring down element", @click="onMoveDownLayerClicked(num_layer)")
+                      include ../../images/arrow-down.svg
+                    a(href="#", alt="delete element", @click="onDeleteLayerClicked(num_layer)").delete
+                      include ../../images/trash.svg
+                    a(href="#", alt="collapse element", v-on:click="layer['collapsed'] = !layer['collapsed']").collapse
+                      include ../../images/arrow.svg
+                div.element-content(v-if="layer['type']==='image'")
+                  div.row-input
+                    div.input-checkbox
+                      input(type="checkbox", id="c1", name="template-check", v-model="layer['template']")
+                      label(for="c1")
+                        span Template element
+                  div.row-input
+                    div.input-text
+                      label Image file
+                      input(type="text", placeholder="Paste an image URL", v-model="layer['file']")
+                    //-div.input-text
+                      label Upload file
+                      input(type="file")
+                  //div.row-input
+                    div.input-text
+                      label Image size X (mm)
+                      input(type="number", v-model="layer['width']")
+                    div.input-text
+                      label Image size Y (mm)
+                      input(type="number", v-model="layer['height']")
+                  div.row-input
+                    div.input-text
+                      label Position X (mm)
+                      input(type="number", v-model="layer['x']")
+                    div.input-text
+                      label Position Y (mm)
+                      input(type="number", v-model="layer['y']")
+                div.element-content(v-if="layer['type']==='text'")
+                  div.row-input
+                    div.input-checkbox
+                      input(type="checkbox", id="c2", name="template-check", v-model="layer['template']")
+                      label(for="c2")
+                        span Template element
+                  div.row-input
+                    div.input-text
+                      label Text
+                      input(type="text", placeholder="Write a text", v-model="layer['text']")
+                  div.row-input
+                    div.input-text
+                      label Font family
+                      input(type="text", placeholder="Paste a TTF file URL", v-model="layer['font']")
+                    div.input-text
+                      label Font size
+                      input(type="number", v-model="layer['font_size']")
+                  div.row-input
+                  //  div.input-text
+                  //    label Font weight
+                  //    select
+                  //      option Normal
+                  //      option Italic
+                  //      option Bold
+                  //      option Bold italic
+                  div.input-text
+                      label Font color
+                      input(type="color", v-model="layer['color']")
+                  div.row-input
+                    div.input-text
+                      label Position X (mm)
+                      input(type="number", v-model="layer['x']")
+                    div.input-text
+                      label Position Y (mm)
+                      input(type="number", v-model="layer['y']")
