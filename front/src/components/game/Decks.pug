@@ -7,8 +7,7 @@ div
       span CREATED
 
     div.table-row(v-for="deck in decks")
-      // router-link(:to="{name: 'Deck', params: {id: deck.id}}")
-      a(href="#")
+      router-link(:to="{name: 'Deck', params: {id: deck.id}}")
         | {{ deck.name }}
       span {{ deck.n_cards }}
       span {{ deck.size }}

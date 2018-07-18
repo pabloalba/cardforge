@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path, include
+from django.urls import include, path
 
 from .designer import views as designer_views
 
@@ -22,5 +22,5 @@ urlpatterns = [
     path("api/games/<int:pk>", designer_views.GameDetail.as_view(), name="game-detail"),
     path("api/games/<int:pk>/owners", designer_views.GameOwners.as_view(), name="game-owners"),
     path("api/games/<int:pk>/decks", designer_views.GameDecks.as_view(), name="game-decks"),
-    path("api/deck/<int:pk>", designer_views.DeckDetail.as_view(), name="deck-detail"),
+    path("api/decks/<int:pk>", designer_views.DeckDetail.as_view(), name="deck-detail"),
 ]

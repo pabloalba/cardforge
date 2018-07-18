@@ -9,7 +9,6 @@ export const SET_CURRENT_GAME = 'GENERAL_SET_CURRENT_GAME';
 export const SET_DECKS = 'GENERAL_SET_DECKS';
 export const SET_CURRENT_DECK = 'GENERAL_SET_CURRENT_DECK';
 
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -58,6 +57,11 @@ export default new Vuex.Store({
     async retrieveGameDecks({commit}, {id}) {
       const decks = await api.retrieveGameDecks(id);
       commit(SET_DECKS, decks);
+    },
+
+    async retrieveDeck({commit}, {id}) {
+      const deck = await api.retrieveDeck(id);
+      commit(SET_CURRENT_DECK, deck);
     }
   }
 })

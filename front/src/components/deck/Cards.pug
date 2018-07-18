@@ -1,0 +1,19 @@
+div
+  div.table-4(v-if="cards && cards.length > 0")
+    div.table-row.table-header
+      span NUM
+      span(v-for="col_name in columns") {{ col_name.substr(1).toUpperCase() }}
+      span
+
+
+    div.table-row(v-for="card, num_card in cards")
+      span {{ num_card + 1 }}
+      input(v-for="col_name in columns", v-model="card[col_name]")
+      div.table-actions
+        a(href="#")
+          include ../../images/copy.svg
+        a(href="#")
+          include ../../images/trash.svg
+
+  div.table-empty(v-if="cards && cards.length === 0")
+    span Still no cards here...
