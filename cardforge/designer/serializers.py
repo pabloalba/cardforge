@@ -29,10 +29,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     owners = serializers.HyperlinkedIdentityField(view_name='game-owners')
     decks = serializers.HyperlinkedIdentityField(view_name='game-decks')
-    n_decks = serializers.SerializerMethodField()
-
-    def get_n_decks(self, obj):
-        return 33
+    n_decks = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Game
@@ -40,10 +37,13 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DeckSimpleSerializer(serializers.HyperlinkedModelSerializer):
-    n_cards = serializers.SerializerMethodField()
+    n_cards = serializers.SerializerMethodField(read_only=True)
 
     def get_n_cards(self, obj):
-        return 44
+        if obj.cards:
+            return len(json.loads(obj.cards))
+        else:
+            return 0
 
     class Meta:
         model = Deck
@@ -55,13 +55,9 @@ class DeckSerializer(serializers.HyperlinkedModelSerializer):
     cards = JSONSerializerField()
     front_layers = JSONSerializerField()
     back_layers = JSONSerializerField()
-    n_cards = serializers.SerializerMethodField()
-
-    def get_n_cards(self, obj):
-        return 44
 
     class Meta:
         model = Deck
-        fields = ('id', 'url', 'name', 'n_cards', 'created', 'size', 'front_cut_marks_color',
+        fields = ('id', 'url', 'name', 'created', 'size', 'front_cut_marks_color',
                   'back_cut_marks_color', 'portrait', 'cards', 'front_layers', 'back_layers')
 

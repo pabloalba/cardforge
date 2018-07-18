@@ -1,0 +1,23 @@
+div.modal-lightbox(:class="{hide:isHidden}")
+  form(@submit="onSubmit")
+    div.modal
+      div.art
+        include ../../images/games.svg
+      h3 Create new game
+      div.input-text
+        label GAME NAME
+        input(type="text" v-model.trim="name")
+      div.modal-buttons
+        a(@click="onCancelClicked").cancel-link CANCEL
+        input(type="submit" value="CREATE GAME" :class="{disabled: isNameEmpty}").btn-primary
+      //- corners
+      div.corner.top-left
+        include ../../images/corner.svg
+      div.corner.top-right
+        include ../../images/corner.svg
+      div.corner.bottom-left
+        include ../../images/corner.svg
+      div.corner.bottom-right
+        include ../../images/corner.svg
+      div.corner.bottom
+        include ../../images/marker.svg

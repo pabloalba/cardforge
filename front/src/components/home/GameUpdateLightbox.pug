@@ -1,0 +1,22 @@
+div.modal-lightbox(v-bind:class="{hide:isHidden}")
+  div.modal
+    div.art
+      include ../../images/games.svg
+    h3 Create new game
+    div.input-text
+      label GAME NAME
+      input(type="text")
+    div.modal-buttons
+      a(href="#").cancel-link CANCEL
+      a(href="#").btn-primary CREATE GAME
+    //- corners
+    div.corner.top-left
+      include ../../images/corner.svg
+    div.corner.top-right
+      include ../../images/corner.svg
+    div.corner.bottom-left
+      include ../../images/corner.svg
+    div.corner.bottom-right
+      include ../../images/corner.svg
+    div.corner.bottom
+      include ../../images/marker.svg

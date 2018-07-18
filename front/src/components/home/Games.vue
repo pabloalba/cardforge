@@ -2,7 +2,9 @@
 
 <script>
 export default {
-  name: "games",
+  created: function () {
+    this.$store.dispatch("retrieveGames");
+  },
   computed: {
     games() {
       return this.$store.state.games;

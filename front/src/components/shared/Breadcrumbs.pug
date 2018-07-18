@@ -33,7 +33,7 @@ div.breadcrumb
           span {{ currentDeck.name }}
 
   div.buttonzone
-    a(v-if="currentGame === undefined", href="#").btn-primary CREATE GAME
+    a(v-if="currentGame === undefined", @click="openGameCreateLighbox").btn-primary CREATE GAME
     a(v-else-if="currentDeck === undefined", href="#").btn-primary CREATE DECK
     <template v-else>
       a(href="#").btn-secundary
