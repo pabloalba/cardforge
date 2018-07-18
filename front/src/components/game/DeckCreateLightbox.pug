@@ -7,9 +7,22 @@ div.modal-lightbox(v-if="lightboxOpen")
       div.input-text
         label DECK NAME
         input(type="text" v-model.trim="name")
+      div.row-input
+        div.input-text
+          label CARD SIZE
+          select
+            option Poker (63 x 88 mm)
+            option Poker (63 x 88 mm)
+            option Poker (63 x 88 mm)
+            option Poker (63 x 88 mm)
+        div.input-text
+          label DECK ORIENTATION
+          select
+            option Portrait
+            option Landscape
       div.modal-buttons
         a(@click="onCancelClicked").cancel-link CANCEL
-        input(type="submit" value="CREATE DECK" :class="{disabled: isNameEmpty}").btn-primary
+        button(type="submit" value="CREATE DECK" :class="{disabled: isNameEmpty}").btn-primary CREATE DECK
       //- corners
       div.corner.top-left
         include ../../images/corner.svg
