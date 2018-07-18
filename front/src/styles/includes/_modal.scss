@@ -40,6 +40,10 @@
         left: calc(50% - 65px);
         right: calc(50% - 65px);
         width: 130px;
+        svg {
+          height: 100%;
+          width: 100%;
+        }
     }
     .corner {
         position: absolute;

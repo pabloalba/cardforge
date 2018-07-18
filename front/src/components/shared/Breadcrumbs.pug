@@ -33,13 +33,11 @@ div.breadcrumb
           span {{ currentDeck.name }}
 
   div.buttonzone
-    a(v-if="currentGame === undefined", @click="openGameCreateLighbox").btn-primary CREATE GAME
-    a(v-else-if="currentDeck === undefined", href="#").btn-primary CREATE DECK
+    a(v-if="currentGame === undefined", @click.prevent="openGameCreateLighbox").btn-primary CREATE GAME
+    a(v-else-if="currentDeck === undefined", @click.prevent="openDeckCreateLighbox").btn-primary CREATE DECK
     <template v-else>
       a(href="#").btn-secundary
         include ../../images/add-card.svg
         span ADD CARD
       a(href="#").btn-primary CARD DESIGN
     </template>
-
-

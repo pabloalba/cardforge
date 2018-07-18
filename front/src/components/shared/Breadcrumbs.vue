@@ -1,7 +1,7 @@
 <template lang="pug" src="./Breadcrumbs.pug"></template>
 
 <script>
-import {OPEN_GAME_CREATE_LIGHBOX} from "../../data/store";
+import {OPEN_GAME_CREATE_LIGHBOX, OPEN_LIGHTBOX} from "../../data/store";
 
 export default {
   name: 'breadcrumbs',
@@ -15,8 +15,10 @@ export default {
   },
   methods: {
     openGameCreateLighbox(event) {
-      event.preventDefault();
       this.$store.commit(OPEN_GAME_CREATE_LIGHBOX, null);
+    },
+    openDeckCreateLighbox(event) {
+      this.$store.commit(OPEN_LIGHTBOX, {name: "create-deck"});
     }
   }
 }

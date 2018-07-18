@@ -13,7 +13,7 @@ div
       span {{ deck.size }}
       span 2/3/2018
       div.table-actions
-        a(href="#")
+        a(@click.prevent="openDeckUpdateLightbox(deck)")
           include ../../images/edit.svg
         a(href="#")
           include ../../images/copy.svg

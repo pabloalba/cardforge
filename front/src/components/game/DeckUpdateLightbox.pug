@@ -1,0 +1,23 @@
+div.modal-lightbox(v-if="lightboxOpen === 'update-deck'")
+  form(@submit="onSubmit")
+    div.modal
+      div.art
+        include ../../images/decks.svg
+      h3 Edit deck
+      div.input-text
+        label DECK NAME
+        input(type="text" v-model.trim="name")
+      div.modal-buttons
+        a(@click="onCancelClicked").cancel-link CANCEL
+        input(type="submit" value="UPDATE DECK" :class="{disabled: isNameEmpty}").btn-primary
+      //- corners
+      div.corner.top-left
+        include ../../images/corner.svg
+      div.corner.top-right
+        include ../../images/corner.svg
+      div.corner.bottom-left
+        include ../../images/corner.svg
+      div.corner.bottom-right
+        include ../../images/corner.svg
+      div.corner.bottom
+        include ../../images/marker.svg

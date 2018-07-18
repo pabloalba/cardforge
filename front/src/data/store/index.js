@@ -13,6 +13,8 @@ export const OPEN_GAME_CREATE_LIGHBOX = "OPEN_GAME_CREATE_LIGHBOX";
 export const OPEN_GAME_UPDATE_LIGHBOX = "OPEN_GAME_UPDATE_LIGHBOX";
 export const CLOSE_GAME_CREATE_LIGHBOX = "CLOSE_GAME_CREATE_LIGHBOX";
 export const CLOSE_GAME_UPDATE_LIGHBOX = "CLOSE_GAME_UPDATE_LIGHBOX";
+export const OPEN_LIGHTBOX = "OPEN_LIGHTBOX";
+export const CLOSE_LIGHTBOX = "CLOSE_LIGHTBOX";
 
 export const GAME_CREATED = "GAME_CREATED";
 Vue.use(Vuex);
@@ -26,7 +28,9 @@ export default new Vuex.Store({
     decks: null,
     currentDeck: null,
     gameCreateLightbox: null,
-    gameUpdateLightbox: null
+    gameUpdateLightbox: null,
+    lightboxOpen: null,
+    lightboxProps: null,
   },
 
   mutations: {
@@ -73,6 +77,16 @@ export default new Vuex.Store({
 
     [CLOSE_GAME_UPDATE_LIGHBOX] (state) {
       state.gameCreateLightbox = null;
+    },
+
+    [OPEN_LIGHTBOX] (state, {name, props=null}) {
+      state.lightboxOpen = name;
+      state.lightboxProps = props;
+    },
+
+    [CLOSE_LIGHTBOX] (state) {
+      state.lightboxOpen = null;
+      state.lightboxProps = null;
     },
 
     [GAME_CREATED] (state, game) {
