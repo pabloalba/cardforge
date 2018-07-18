@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "date-fns": "^1.29.0",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.10",
     "pug": "^2.0.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

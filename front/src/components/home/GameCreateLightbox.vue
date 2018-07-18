@@ -24,7 +24,7 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       if (this.$data.name.length > 0) {
-        console.log("CREATE GAME:", this.$data.name);
+        this.$store.dispatch("createGame", {name: this.$data.name});
       }
     },
     onCancelClicked(event) {

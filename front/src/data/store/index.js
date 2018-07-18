@@ -110,6 +110,7 @@ export default new Vuex.Store({
     async createGame({commit}, {name}) {
       const game = await api.createGame(name);
       commit(GAME_CREATED, game);
+      commit(CLOSE_GAME_CREATE_LIGHBOX, null);
     }
   }
 })

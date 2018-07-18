@@ -27,7 +27,7 @@ export default {
     this.$store.commit(SET_DECKS, null);
     this.$store.commit(SET_CURRENT_GAME, undefined);
     this.$store.commit(SET_CURRENT_DECK, undefined);
-    this.$store.dispatch('retrieveMe');
+    this.$store.dispatch("retrieveMe");
     this.$store.dispatch("retrieveGames");
   }
 }
