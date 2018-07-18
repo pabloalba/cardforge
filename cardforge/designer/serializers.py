@@ -29,10 +29,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     owners = serializers.HyperlinkedIdentityField(view_name='game-owners')
     decks = serializers.HyperlinkedIdentityField(view_name='game-decks')
-    n_decks = serializers.SerializerMethodField()
-
-    def get_n_decks(self, obj):
-        return 33
+    n_decks = serializers.IntegerField()
 
     class Meta:
         model = Game
@@ -43,7 +40,10 @@ class DeckSimpleSerializer(serializers.HyperlinkedModelSerializer):
     n_cards = serializers.SerializerMethodField()
 
     def get_n_cards(self, obj):
-        return 44
+        if obj.cards:
+            return len(json.loads(obj.cards))
+        else:
+            return 0
 
     class Meta:
         model = Deck

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.db.models import Count
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -93,7 +94,7 @@ class GameList(generics.ListCreateAPIView):
 
     def list(self, request):
         # Note the use of `get_queryset()` instead of `self.queryset`
-        queryset = Game.objects.filter(owners__id=request.user.id)
+        queryset = Game.objects.filter(owners__id=request.user.id).annotate(n_decks=Count("decks"))
         serializer = GameSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
