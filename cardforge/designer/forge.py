@@ -1,13 +1,15 @@
 import json
 import math
+import os
+import re
 import uuid
 from io import BytesIO
 
 import requests
 import requests_cache
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
-from .sizes import sizes, exports
+from .sizes import exports, sizes
 
 requests_cache.install_cache('cardforge_cache')
 
@@ -21,14 +23,21 @@ def _mm_to_px(mm):
     return int(round(mm * MM_TO_PX))
 
 
+def _get_tmp_path(deck):
+    tmp_path = "/tmp/cardforge/{}".format(deck.id)
+    os.makedirs(tmp_path, exist_ok="true")
+    return tmp_path
+
+
 def forge_deck(deck, export_type, export_format='pdf', export_target='standard'):
+    tmp_path = _get_tmp_path(deck)
     # Read json
     cards = json.loads(deck.cards)
     front_layers = json.loads(deck.front_layers)
     back_layers = json.loads(deck.back_layers)
     size = deck.size
 
-    forged_cards_fronts, forged_cards_backs = forge_cards(cards, front_layers, back_layers, size, deck.portrait)
+    forged_cards_fronts, forged_cards_backs = forge_cards(cards, front_layers, back_layers, size, deck)
 
     if export_target == 'tabletop':
         images = weld_cards_tabletop(forged_cards_fronts, forged_cards_backs, deck.portrait)
@@ -39,17 +48,18 @@ def forge_deck(deck, export_type, export_format='pdf', export_target='standard')
         images = weld_cards_standard(exports[export_type], forged_cards_fronts, forged_cards_backs)
 
     if export_format == 'pdf':
-        file_path = "/tmp/{}.pdf".format(uuid.uuid4())
+        file_path = "{}/{}.pdf".format(tmp_path, uuid.uuid4())
         images[0].save(file_path, save_all=True, append_images=images[1:])
     else:
         # TODO: Zip multiimage
-        file_path = "/tmp/{}.png".format(uuid.uuid4())
+        file_path = "{}/{}.png".format(tmp_path, uuid.uuid4())
         images[0].save(file_path)
 
     return file_path
 
 
 def forge_card_to_png(deck, num_card, front=True):
+    tmp_path = _get_tmp_path(deck)
     # Read json
     cards = json.loads(deck.cards)
     if num_card < len(cards):
@@ -57,34 +67,35 @@ def forge_card_to_png(deck, num_card, front=True):
         back_layers = json.loads(deck.front_layers)
         size = deck.size
         if front:
-            im = forge_card(size, front_layers, cards[num_card], deck.portrait)
+            im = forge_card(size, front_layers, cards[num_card], deck)
         else:
-            im = forge_card(size, back_layers, cards[num_card], deck.portrait)
+            im = forge_card(size, back_layers, cards[num_card], deck)
 
-        file_path_png = "/tmp/{}.png".format(uuid.uuid4())
+        file_path_png = "{}/{}.png".format(tmp_path, uuid.uuid4())
         im.save(file_path_png, resoultion=300.0)
         return file_path_png
     return None
 
 
-def forge_cards(cards, front_layers, back_layers, size, portrait):
+def forge_cards(cards, front_layers, back_layers, size, deck):
     cards_fronts = []
     cards_backs = []
 
     for card in cards:
         cards_fronts.append(
-            forge_card(size, front_layers, card, portrait)
+            forge_card(size, front_layers, card, deck)
         )
         cards_backs.append(
-            forge_card(size, back_layers, card, portrait)
+            forge_card(size, back_layers, card, deck)
         )
 
     return cards_fronts, cards_backs
 
 
-def forge_card(size_name, layers, card, portrait):
+def forge_card(size_name, layers, card, deck):
+    tmp_path = _get_tmp_path(deck)
     size = sizes.get(size_name)
-    if portrait:
+    if deck.portrait:
         im = Image.new("RGBA", (size['HEIGHT_PX'] + 2 * BLEED, size['WIDTH_PX'] + 2 * BLEED))
     else:
         im = Image.new("RGBA", (size['WIDTH_PX'] + 2 * BLEED, size['HEIGHT_PX'] + 2 * BLEED))
@@ -97,24 +108,50 @@ def forge_card(size_name, layers, card, portrait):
 
         if layer["type"] == "image":
 
+            # Read values from cards
             file = card.get("_{}".format(layer["name"]), "")
             if not file:
-                # Read values from cards
+                # Read values from layer
                 file = layer["file"]
 
             if file:
-                file = file.replace("www.dropbox.com", "dl.dropboxusercontent.com")
-                response = requests.get(file)
+                response = _download(file)
                 image = Image.open(BytesIO(response.content))
                 try:
                     im.paste(image, (x, y), image)
                 except ValueError:
                     im.paste(image, (x, y))
         elif layer["type"] == "text":
-            # font = ImageFont.truetype("sans-serif.ttf", 16)
-            draw.text((x, y), layer.text, layer.color)
+            font_size = int(layer.get("font_size", "32"))
+
+            font_file = layer.get("font", "")
+            if font_file:
+                safe_font_file = re.sub('[^0-9a-zA-Z]+', '_', font_file)
+                file_path_ttf = "{}/{}.ttf".format(tmp_path, safe_font_file)
+                if not os.path.isfile(file_path_ttf):
+                    response = _download(font_file)
+                    ttf = open(file_path_ttf, 'wb')
+                    ttf.write(response.content)
+                    ttf.close()
+                font = ImageFont.truetype(file_path_ttf, font_size)
+            else:
+                font = ImageFont.load_default()
+
+            # Read values from cards
+            text = card.get("_{}".format(layer["name"]), "")
+            if not text:
+                # Read values from layer
+                text = layer["text"]
+
+            color = layer.get("color", "#000000")
+            draw.text((x, y), text, color, font=font)
 
     return im
+
+
+def _download(url):
+    url = url.replace("www.dropbox.com", "dl.dropboxusercontent.com")
+    return requests.get(url)
 
 
 def add_cut_marks(original_im):
