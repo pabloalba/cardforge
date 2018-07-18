@@ -122,6 +122,10 @@ h3 {
   svg {
     margin-right: .6rem;
   }
+  &.disabled {
+    opacity: .5;
+    cursor: none;
+  }
 }
 
 .icon-link {
