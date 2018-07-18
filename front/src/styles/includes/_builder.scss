@@ -13,7 +13,7 @@
     .tools {
         display: flex;
         flex-direction: column;
-        overflow-y: auto;
+        padding: 1rem 0 0 1rem;
         width: 55%;
     }
 }
@@ -59,7 +59,7 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    margin: .5rem 0 1rem 0;
+    margin-bottom: 1rem;
     span {
         font-weight: bold;
     }
@@ -68,14 +68,28 @@
     }
 }
 
+.element-list {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    margin-top: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+}
+
 .element {
     background-color: $white;
     margin-top: 1rem;
+    &.collapsed {
+        .element-content {
+            display: none;
+        }
+    }
 }
 
 .element-header {
     align-items: center;
-    border-bottom: 1px solid $gray;
+    border-bottom: 2px solid $gray-light;
     display: flex;
     .element-name {
         align-items: center;

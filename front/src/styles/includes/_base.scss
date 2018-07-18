@@ -178,7 +178,8 @@ h3 {
     margin-left: 1rem;
     text-align: left;
   }
-  input {
+  input,
+  select {
     background: $white;
     border: 1px solid $green-dark;
     box-shadow: inset 0px 2px 2px rgba(21, 51, 60, 0.5);
@@ -191,6 +192,21 @@ h3 {
     }
     &:focus {
       border-color: $green-hover;
+    }
+  }
+  select {
+    padding: 0 1rem;
+  }
+  input[type="color"] {
+    padding: .2rem .8rem .2rem 80%;
+    position: relative;
+    width: 100%;
+    &::before {
+      color: $gray-medium;
+      content: "Pick a color";
+      left: 1rem;
+      position: absolute;
+      top: .7rem;
     }
   }
 }
