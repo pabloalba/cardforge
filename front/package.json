@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "date-fns": "^1.29.0",
     "pug": "^2.0.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

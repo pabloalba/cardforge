@@ -6,6 +6,6 @@ export default {
     return http.fetch('GET', `${config.API_URL}/me`);
   },
   retrieveGames() {
-    return http.fetch('GET', `${config.API_URL}/me`);
+    return http.fetch('GET', `${config.API_URL}/games`);
   }
 }

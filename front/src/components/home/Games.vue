@@ -5,8 +5,12 @@ export default {
   name: "games",
   components: {},
   created: function () {
-    console.log("Games.created", this.$store.state.games);
     this.$store.dispatch("retrieveGames");
+  },
+  computed: {
+    games() {
+      return this.$store.state.games;
+    }
   }
 }
 </script>
