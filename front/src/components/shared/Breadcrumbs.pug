@@ -33,5 +33,5 @@ div.breadcrumb
           span _DECK NAME_
 
   div.buttonzone
-    a(v-if="currentGame === undefined", href="#").btn-primary CREATE GAME
+    a(v-if="currentGame === undefined", @click="openGameCreateLighbox").btn-primary CREATE GAME
     a(v-else-if="currentDeck === undefined", href="#").btn-primary CREATE DECK
