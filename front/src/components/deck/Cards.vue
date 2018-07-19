@@ -14,14 +14,36 @@ export default {
     },
 
     columns() {
-        if ((this.$store.state.currentDeck) && (this.$store.state.currentDeck.cards)) {
+        if (this.$store.state.currentDeck) {
             var keys = [];
-            var f;
-            for(f in this.$store.state.currentDeck.cards[0]) {
-                if (f.startsWith("_")) {
-                    keys.push(f)
+            var layer;
+            var i;
+            if (this.$store.state.currentDeck.front_layers) {
+                for(i=0;i<this.$store.state.currentDeck.front_layers.length;i++) {
+                    var layer = this.$store.state.currentDeck.front_layers[i];
+                    if (!layer['template']) {
+                        keys.push({
+                            "name": layer['name'],
+                            "id": layer['id']
+                        })
+                    }
                 }
             }
+
+            if (this.$store.state.currentDeck.back_layers) {
+                for(i=0;i<this.$store.state.currentDeck.back_layers.length;i++) {
+                    var layer = this.$store.state.currentDeck.back_layers[i];
+                    if (!layer['template']) {
+                        keys.push({
+                            "name": layer['name'],
+                            "id": layer['id']
+                        })
+                    }
+                }
+            }
+
+            console.log(keys);
+
             return keys;
         } else {
           return []
