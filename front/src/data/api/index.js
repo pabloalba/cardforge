@@ -29,18 +29,18 @@ export default {
   },
 
   async createGame(name) {
-    const body = {name: name};
+    const data = {name: name};
     const url = `${config.API_URL}/games`;
 
-    const response = await http.post(url, body);
-    return await response.json();
+    const response = await http.post(url, data);
+    return response.body;
   },
 
   async updateGame(id, name) {
-    const body = {id, name};
+    const data = {id, name};
     const url = `${config.API_URL}/games/${id}`;
-    const response = await http.patch(url, body);
-    return await response.json();
+    const response = await http.patch(url, data);
+    return response.body;
   },
 
   async deleteGame(id) {
@@ -50,7 +50,7 @@ export default {
   },
 
   async createDeck(gameId, name, size, orientation) {
-    const body = {
+    const data = {
       name: name,
       size: size,
       portrait: orientation === "portrait" ? true : false,
@@ -58,22 +58,22 @@ export default {
       back_cut_marks_color: "#ff0000"
     };
     const url = `${config.API_URL}/games/${gameId}/decks`;
-    const response = await http.post(url, body);
-    return await response.json();
+    const response = await http.post(url, data);
+    return response.body;
   },
 
   async updateLayers(deckId, front, layers){
-    const body = {"front":front, "layers": layers};
+    const data = {"front":front, "layers": layers};
     const url = `${config.API_URL}/decks/${deckId}/layers`;
-    const response = await http.post(url, body);
-    return await response.json();
+    const response = await http.post(url, data);
+    return response.body;
   },
 
   async updateDeck(id, name) {
-    const body = {name};
+    const data = {name};
     const url = `${config.API_URL}/decks/${id}`;
-    const response = await http.patch(url, body);
-    return await response.json();
+    const response = await http.patch(url, data);
+    return response.body;
   },
 
   forgeDeck(id, printingType, pageSize, fileType) {
