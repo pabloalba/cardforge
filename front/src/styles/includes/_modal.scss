@@ -1,5 +1,4 @@
-.modal-lightbox,
-.modal-message {
+.modal-lightbox {
     background-color: $light;
     display: flex;
     height: 100vh;
@@ -105,4 +104,48 @@
         color: $gray-medium;
         margin-top: 1.5rem;
     }
+}
+
+.modal-message {
+  background-color: #81EAAB;
+  border: 1px solid #27AE60;
+  display: flex;
+  left: calc(50% - 400px);
+  padding: 1rem;
+  position: fixed;
+  top: 2rem;
+  width: 800px;
+  z-index: 10;
+  span {
+    svg {
+      height: 120px;
+      width: 120px;
+    }
+  }
+  .message-text {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-left: 2rem;
+    width: 100%;
+    h3 {
+      color: $green-dark;
+      font-family: 'Oswald', sans-serif;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    p {
+      font-family: 'Alegreya', serif;
+      color: $green-dark;
+      font-size: 1.1rem;
+    }
+    .cancel-link {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      svg {
+        fill: $green-dark;
+      }
+    }
+  }
 }

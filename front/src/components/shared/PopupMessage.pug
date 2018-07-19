@@ -1,7 +1,9 @@
 div.modal-message(v-if="messageOpen")
-  div.modal
-    div {{ messageHeader }}
-    div {{ messageSubtext }}
+  span
+    include ../../images/hammer.svg
+  div.message-text
+    h3 {{ messageHeader }}
+    p {{ messageSubtext }}
 
-    div.modal-buttons
-      a(@click.prevent="onCloseClicked").cancel-link X
+    a(@click.prevent="onCloseClicked").cancel-link
+      include ../../images/close.svg
