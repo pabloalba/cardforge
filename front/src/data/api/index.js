@@ -103,5 +103,9 @@ export default {
 
   forgeDeck(id, printingType, pageSize, fileType) {
     window.open(`${config.API_URL}/decks/${id}/forge_deck?export_target=${printingType}&export_type=${pageSize}&export_format=${fileType}`);
+  },
+
+  generateDesignPreviewUrl(deckId, front) {
+    return `${config.API_URL}/decks/${deckId}/forge_card?front=${front}&a=${new Date().getTime()}`;
   }
 }

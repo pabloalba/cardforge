@@ -4,12 +4,13 @@ import Vuex from 'vuex';
 import api from '../api';
 import router from "../../router";
 
-
 export const SET_ME = 'GENERAL_SET_ME';
 export const SET_GAMES = 'GENERAL_SET_GAMES';
 export const SET_CURRENT_GAME = 'GENERAL_SET_CURRENT_GAME';
 export const SET_DECKS = 'GENERAL_SET_DECKS';
 export const SET_CURRENT_DECK = 'GENERAL_SET_CURRENT_DECK';
+export const GENERATE_DESIGN_PREVIEW_URL = 'GENERAL_GENERATE_DESIGN_PREVIEW_URL';
+export const CLEAR_DESIGN_PREVIEW_URL = 'GENERAL_CLEAR_DESIGN_PREVIEW_URL';
 export const SET_SHOW_LAYERS = 'GENERAL_SET_SHOW_LAYERS';
 
 export const OPEN_LIGHTBOX = "OPEN_LIGHTBOX";
@@ -49,6 +50,7 @@ export default new Vuex.Store({
     decks: null,
     decksById: {},
     currentDeck: null,
+    designPreviewUrl: null,
     showLayers: false,
     lightboxOpen: null,
     lightboxProps: null,
@@ -79,6 +81,18 @@ export default new Vuex.Store({
           return Object.assign(acc, {[item.id]: item});
         }, {});
       }
+    },
+
+    [GENERATE_DESIGN_PREVIEW_URL] (state, {front}) {
+      if (state.currentDeck) {
+        state.designPreviewUrl = api.generateDesignPreviewUrl(state.currentDeck.id, front);
+      } else {
+        state.designPreviewUrl = null;
+      }
+    },
+
+    [CLEAR_DESIGN_PREVIEW_URL] (state) {
+      state.designPreviewUrl = null;
     },
 
     [SET_CURRENT_DECK] (state, deck) {
@@ -236,7 +250,9 @@ export default new Vuex.Store({
     },
 
     async updateLayers({commit}, {deckId, front, layers}) {
+      commit(CLEAR_DESIGN_PREVIEW_URL);
       await api.updateLayers(deckId, front, layers);
+      commit(GENERATE_DESIGN_PREVIEW_URL, {front: front});
     },
 
     async updateCards({commit}, {deckId, cards}) {

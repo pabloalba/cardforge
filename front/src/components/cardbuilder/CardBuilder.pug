@@ -19,8 +19,9 @@ block content
           p.card-info {{ deskDescription }}
 
           div.card-preview
+            div(v-if="loadingPreview") Loading...
             img(:src="cardGuidesUrl", v-if="showGuides").card-guides
-            img(:src="cardPreviewUrl")
+            img(:src="cardPreviewUrl", @load="onPreviewLoaded")
 
           div.preview-links
             a(@click.prevent="onPrintInfoClicked", alt="print info").icon-link

@@ -10,7 +10,9 @@ import router from "@/router"
 
 import {
   SET_SHOW_LAYERS,
-  DECK_SIZES
+  DECK_SIZES,
+  GENERATE_DESIGN_PREVIEW_URL,
+  CLEAR_DESIGN_PREVIEW_URL
 } from "../../data/store";
 
 import {OPEN_LIGHTBOX} from "../../data/store";
@@ -27,7 +29,7 @@ export default {
   created: function () {
     this.$store.commit(SET_SHOW_LAYERS, true);
     this.frontSelected = true;
-    this.showPreview();
+    this.refreshPreview();
     if (this.$store.state.currentDeck.portrait) {
       this.cardGuidesUrl = require("../../images/guides/"+this.$store.state.currentDeck.size.toLowerCase()+"b.png");
     } else {
@@ -35,14 +37,17 @@ export default {
     }
     this.guidesRotated = this.$store.state.currentDeck['portrait']
   },
+  destroyed: function () {
+    this.$store.commit(CLEAR_DESIGN_PREVIEW_URL);
+  },
   data: function () {
     return {
       cardSelected: 0,
       frontSelected: true,
-      cardPreviewUrl: "",
       cardGuidesUrl: "",
       showGuides: false,
-      guidesRotated: false
+      guidesRotated: false,
+      loadingPreview: false,
     }
   },
   computed: {
@@ -64,7 +69,7 @@ export default {
       }
     },
 
-    currentLayers(){
+    currentLayers() {
       if (this.frontSelected) {
         return this.layersFront
       } else {
@@ -80,6 +85,17 @@ export default {
       }
 
       return DECK_SIZES[this.$store.state.currentDeck.size] + " | " + portrait;
+    },
+
+    cardPreviewUrl() {
+      return this.$store.state.designPreviewUrl;
+    }
+  },
+  watch: {
+    cardPreviewUrl(newUrl, oldUrl) {
+      if (newUrl) {
+        this.loadingPreview = true;
+      }
     }
   },
   methods: {
@@ -87,7 +103,6 @@ export default {
       this.currentLayers.splice(num_layer,1);
       this.$forceUpdate();
     },
-
 
     onCollapseLayerClicked(num_layer) {
       this.currentLayers[num_layer]['collapsed'] = !this.currentLayers[num_layer]['collapsed'];
@@ -155,19 +170,22 @@ export default {
       this.$forceUpdate();
     },
 
-    showPreview() {
-      this.cardPreviewUrl = "/api/decks/"+this.$store.state.currentDeck['id']+"/forge_card?front="+this.frontSelected+"&a="+new Date().getTime();
+    refreshPreview() {
+      this.$store.commit(GENERATE_DESIGN_PREVIEW_URL, {front: this.frontSelected});
+    },
+
+    onPreviewLoaded() {
+      this.loadingPreview = false;
     },
 
     onSelectFace(face) {
       this.frontSelected = face;
       this.$forceUpdate();
-      this.showPreview();
+      this.refreshPreview();
     },
 
     saveLayers(event) {
       this.$store.dispatch('updateLayers', {deckId: this.$store.state.currentDeck['id'], front: this.frontSelected, layers:JSON.stringify(this.currentLayers)});
-      this.showPreview();
     },
 
     onPrintInfoClicked() {
