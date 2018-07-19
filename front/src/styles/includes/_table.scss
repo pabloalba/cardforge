@@ -3,7 +3,6 @@
     grid-gap: 10px;
 
     .table-row {
-        animation: pulseRow 1.5s linear;
         background-color: $white;
         border: 2px solid transparent;
         display: grid;
@@ -16,6 +15,9 @@
             span {
                 font-weight: bold;
             }
+        }
+        &.pulseRow {
+          animation: pulseRow 1.5s linear;
         }
     }
 
