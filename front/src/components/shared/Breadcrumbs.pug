@@ -24,7 +24,7 @@ div.breadcrumb
       template(v-else-if="currentDeck !== null")
 
         li
-          include ../../images/cards.svg
+          include ../../images/decks.svg
           router-link(:to="{name: 'Game', params: {id: currentGame.id}}")
             span {{ currentGame.name }}
 
@@ -36,7 +36,7 @@ div.breadcrumb
     a(v-if="currentGame === undefined", @click.prevent="openGameCreateLighbox").btn-primary CREATE GAME
     a(v-else-if="currentDeck === undefined", @click.prevent="openDeckCreateLighbox").btn-primary CREATE DECK
     <template v-else>
-      a(href="#").btn-secundary
+      a(href="#").icon-link
         include ../../images/add-card.svg
         span ADD CARD
       a(href="#").btn-primary CARD DESIGN
