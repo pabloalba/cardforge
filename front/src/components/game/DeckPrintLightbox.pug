@@ -9,40 +9,40 @@ div.modal-lightbox(v-if="lightboxOpen")
         span.section Printing type
         div.row-input
           div.input-radio
-            input(type="radio", id="tabletop", name="tabletop")
-            label(for="tabletop")
+            input(type="radio", id="printing-type-1", v-model="printingType", value="tabletop")
+            label(for="printing-type-1")
               span Tabletop
           div.input-radio
-            input(type="radio", id="printing", name="printing")
-            label(for="printing")
+            input(type="radio", id="printing-type-2", v-model="printingType", value="printing")
+            label(for="printing-type-2")
               span Printing
           div.input-radio
-            input(type="radio", id="print-play", name="print-play")
-            label(for="print-play")
+            input(type="radio", id="printing-type-3", v-model="printingType", value="print-play")
+            label(for="printing-type-3")
               span Print & Play
         span.section Page size
-        div.row-input
+        div.row-input(v-bind:class="{disabled: disableOptions}")
           div.input-radio
-            input(type="radio", id="a3", name="a3")
-            label(for="a3")
+            input(type="radio", id="page-size-1", v-model="pageSize", value="a3")
+            label(for="page-size-1")
               span A3
           div.input-radio
-            input(type="radio", id="a4", name="a4")
-            label(for="a4")
+            input(type="radio", id="page-size-2", v-model="pageSize", value="a4")
+            label(for="page-size-2")
               span A4
           div.input-radio
-            input(type="radio", id="cards", name="cards")
-            label(for="cards")
+            input(type="radio", id="page-size-3", v-model="pageSize", value="cards")
+            label(for="page-size-3")
               span Cards
         span.section File type
-        div.row-input
+        div.row-input(v-bind:class="{disabled: disableOptions}")
           div.input-radio
-            input(type="radio", id="png", name="png")
-            label(for="png")
+            input(type="radio", id="file-type-1", v-model="fileType", value="png")
+            label(for="file-type-1")
               span PNG
           div.input-radio
-            input(type="radio", id="pdf", name="pdf")
-            label(for="pdf")
+            input(type="radio", id="file-type-2", v-model="fileType", value="pdf")
+            label(for="file-type-2")
               span PDF
           div.input-radio
       div.modal-buttons
