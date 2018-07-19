@@ -105,7 +105,7 @@ def forge_card(size_name, layers, card, deck):
     draw = ImageDraw.Draw(im)
     for layer in reversed(layers):
 
-        if not layer["visible"]:
+        if not layer.get("visible", True):
             continue
 
         # mm to pixels
