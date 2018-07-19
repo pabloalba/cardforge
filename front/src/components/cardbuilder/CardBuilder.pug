@@ -136,6 +136,5 @@ block content
                     div.input-text
                       label Position Y (mm)
                       input(type="number", v-model="layer['y']")
-          div(v-if="currentLayers.length === 0")
-              include ../../images/decks.svg
-              span Still no layers here...
+          div.builder-placeholder(v-if="currentLayers.length === 0")
+              include ../../images/builder-placeholder.svg
