@@ -28,6 +28,15 @@ export default {
     },
     forgeCards(event) {
       this.$emit('forgeCardsEvent')
+    },
+    addCard(event) {
+      this.$emit('addCardEvent')
+    },
+    saveCards(event) {
+      this.$emit('saveCardsEvent')
+    },
+    cardDesign(event) {
+      this.$emit('cardDesignEvent')
     }
   }
 }

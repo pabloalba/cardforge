@@ -4,7 +4,7 @@ block head_end
 
 block content
   main-header
-  breadcrumbs
+  breadcrumbs(v-on:addCardEvent="addCard", v-on:saveCardsEvent="saveCards",v-on:cardDesignEvent="cardDesign")
   popup-message
 
   div.content

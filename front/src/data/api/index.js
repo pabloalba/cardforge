@@ -69,6 +69,13 @@ export default {
     return response.body;
   },
 
+  async updateCards(deckId, cards){
+    const data = {"cards": cards};
+    const url = `${config.API_URL}/decks/${deckId}/cards`;
+    const response = await http.post(url, data);
+    return response.body;
+  },
+
   async updateDeck(id, name) {
     const data = {name};
     const url = `${config.API_URL}/decks/${id}`;

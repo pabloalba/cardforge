@@ -57,7 +57,8 @@ def forge_deck(request, pk):
     export_target = request.GET.get('export_target', 'standard')
     export_type = request.GET.get('export_type', 'a4')
 
-    file_path = forge_deck_method(deck, export_type=export_type, export_format=export_format, export_target=export_target)
+    file_path = forge_deck_method(deck, export_type=export_type, export_format=export_format,
+                                  export_target=export_target)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             if export_format == 'pdf':
@@ -76,6 +77,14 @@ def update_layers(request, pk):
         deck.front_layers = data['layers']
     else:
         deck.back_layers = data['layers']
+    deck.save()
+    return JsonResponse({})
+
+
+def update_cards(request, pk):
+    deck = get_object_or_404(Deck, pk=pk)
+    data = json.loads(request.body)
+    deck.cards = data['cards']
     deck.save()
     return JsonResponse({})
 

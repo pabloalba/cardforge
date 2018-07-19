@@ -44,10 +44,13 @@ div.breadcrumb
           | FORGE CARDS
       </template>
       <template v-else>
-        a(href="#").icon-link
+        a(@click="saveCards").icon-link
+          include ../../images/add-card.svg
+          span SAVE CARDS
+        a(@click="addCard").icon-link
           include ../../images/add-card.svg
           span ADD CARD
-        router-link(:to="{name: 'card-builder', params: {id: currentDeck.id}}").btn-primary
+        a(@click="cardDesign").btn-primary
           | CARD DESIGN
       </template>
 
