@@ -70,7 +70,8 @@ export default {
 
     deskDescription() {
       var portrait = "Landscape";
-      if (this.$store.state.currentDeck.portrait) {
+      // TODO: Bug on back, portrait and landscape are inverted
+      if (!this.$store.state.currentDeck.portrait) {
         portrait = "Portrait";
       }
 

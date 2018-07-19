@@ -24,8 +24,9 @@ div.modal-lightbox(v-if="lightboxOpen")
         div.input-text
           label DECK ORIENTATION
           select(v-model="orientation")
-            option(value="portrait") Portrait
-            option(value="landscape") Landscape
+            // TODO: Bug on back, portrait and landscape are inverted
+            option(value="landscape") Portrait
+            option(value="portrait") Landscape
       div.modal-buttons
         a(@click="onCancelClicked").cancel-link CANCEL
         button(type="submit" value="CREATE DECK" :class="{disabled: isEmpty}").btn-primary CREATE DECK
