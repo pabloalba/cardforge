@@ -19,14 +19,14 @@ block content
           p.card-info Poker deck (63 x 88 mm) | Portrait
 
           div.card-preview
-            //img(src="../../images/guides/po.png").card-guides
+            img(:src="cardGuidesUrl", v-if="showGuides", v-bind:class="{ rotated: guidesRotated }").card-guides
             img(:src="cardPreviewUrl")
 
           div.preview-links
             a(@click.prevent="onPrintInfoClicked", alt="print info").icon-link
               include ../../images/info-circle.svg
               span PRINT INFO
-            a(href="#", alt="show guides").icon-link
+            a(href="#", alt="show guides", v-on:click="showGuides=!showGuides").icon-link
               include ../../images/eye.svg
               span SHOW GUIDES
 

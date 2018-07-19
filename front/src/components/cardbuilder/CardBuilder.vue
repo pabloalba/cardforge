@@ -27,12 +27,17 @@ export default {
     this.$store.commit(SET_SHOW_LAYERS, true);
     this.frontSelected = true;
     this.showPreview();
+    this.cardGuidesUrl = require("../../images/guides/"+this.$store.state.currentDeck.size.toLowerCase()+".png");
+    this.guidesRotated = this.$store.state.currentDeck['portrait']
   },
   data: function () {
     return {
       cardSelected: 0,
       frontSelected: true,
-      cardPreviewUrl: ""
+      cardPreviewUrl: "",
+      cardGuidesUrl: "",
+      showGuides: false,
+      guidesRotated: false
     }
   },
   computed: {
