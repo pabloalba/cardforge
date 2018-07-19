@@ -28,7 +28,11 @@ export default {
     this.$store.commit(SET_SHOW_LAYERS, true);
     this.frontSelected = true;
     this.showPreview();
-    this.cardGuidesUrl = require("../../images/guides/"+this.$store.state.currentDeck.size.toLowerCase()+".png");
+    if (this.$store.state.currentDeck.portrait) {
+      this.cardGuidesUrl = require("../../images/guides/"+this.$store.state.currentDeck.size.toLowerCase()+"b.png");
+    } else {
+      this.cardGuidesUrl = require("../../images/guides/"+this.$store.state.currentDeck.size.toLowerCase()+".png");
+    }
     this.guidesRotated = this.$store.state.currentDeck['portrait']
   },
   data: function () {

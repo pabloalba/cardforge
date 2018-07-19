@@ -19,7 +19,7 @@ block content
           p.card-info {{ deskDescription }}
 
           div.card-preview
-            img(:src="cardGuidesUrl", v-if="showGuides", v-bind:class="{ rotated: guidesRotated }").card-guides
+            img(:src="cardGuidesUrl", v-if="showGuides").card-guides
             img(:src="cardPreviewUrl")
 
           div.preview-links
