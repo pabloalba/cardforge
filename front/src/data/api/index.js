@@ -50,5 +50,14 @@ export default {
     const url = `${config.API_URL}/games/${gameId}/decks`;
     const response = await http.post(url, body);
     return await response.json();
+  },
+
+  async updateDeck(id, name) {
+    const body = {
+      name: name
+    };
+    const url = `${config.API_URL}/decks/${id}`;
+    const response = await http.patch(url, body);
+    return await response.json();
   }
 }

@@ -68,5 +68,10 @@ export default {
   put(url, body, options) {
     options = Object.assign({url: url, method: "PUT", body: body}, options);
     return this.request(options);
+  },
+
+  patch(url, body, options) {
+    options = Object.assign({url: url, method: "PATCH", body: body}, options);
+    return this.request(options);
   }
 }
