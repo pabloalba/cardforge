@@ -2,9 +2,49 @@ div.modal-lightbox(v-if="lightboxOpen")
   form(@submit.prevent="onSubmit")
     div.modal
       div.art
-        include ../../images/decks.svg
-      h3 Print deck
-      p Lorem ipsum dolor sit amet...
+        include ../../images/icon-dwarf.svg
+      h3 Print this deck
+      p The time has come. Choose how your deck will look like:
+      div.print-list
+        span.section Printing type
+        div.row-input
+          div.input-radio
+            input(type="radio", id="tabletop", name="tabletop")
+            label(for="tabletop")
+              span Tabletop
+          div.input-radio
+            input(type="radio", id="printing", name="printing")
+            label(for="printing")
+              span Printing
+          div.input-radio
+            input(type="radio", id="print-play", name="print-play")
+            label(for="print-play")
+              span Print & Play
+        span.section Page size
+        div.row-input
+          div.input-radio
+            input(type="radio", id="a3", name="a3")
+            label(for="a3")
+              span A3
+          div.input-radio
+            input(type="radio", id="a4", name="a4")
+            label(for="a4")
+              span A4
+          div.input-radio
+            input(type="radio", id="cards", name="cards")
+            label(for="cards")
+              span Cards
+        span.section File type
+        div.row-input
+          div.input-radio
+            input(type="radio", id="png", name="png")
+            label(for="png")
+              span PNG
+          div.input-radio
+            input(type="radio", id="pdf", name="pdf")
+            label(for="pdf")
+              span PDF
+          div.input-radio
       div.modal-buttons
         a(@click="onCancelClicked").cancel-link CANCEL
         button(type="submit" value="PRINT DECK" :class="{disabled: isEmpty}").btn-primary PRINT DECK

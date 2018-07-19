@@ -96,3 +96,13 @@
         }
     }
 }
+
+.print-list {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    span.section {
+        color: $gray-medium;
+        margin-top: 1.5rem;
+    }
+}
