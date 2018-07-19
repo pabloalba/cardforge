@@ -13,6 +13,9 @@ export default {
   methods: {
     openDeckUpdateLightbox(deck) {
       this.$store.commit(OPEN_LIGHTBOX, {name: "update-deck", props: deck});
+    },
+    openPrintLightbox(deck) {
+      this.$store.commit(OPEN_LIGHTBOX, {name: "print-deck", props: deck});
     }
   }
 }

@@ -1,0 +1,21 @@
+div.modal-lightbox(v-if="lightboxOpen")
+  form(@submit.prevent="onSubmit")
+    div.modal
+      div.art
+        include ../../images/decks.svg
+      h3 Print deck
+      p Lorem ipsum dolor sit amet...
+      div.modal-buttons
+        a(@click="onCancelClicked").cancel-link CANCEL
+        button(type="submit" value="PRINT DECK" :class="{disabled: isEmpty}").btn-primary PRINT DECK
+      //- corners
+      div.corner.top-left
+        include ../../images/corner.svg
+      div.corner.top-right
+        include ../../images/corner.svg
+      div.corner.bottom-left
+        include ../../images/corner.svg
+      div.corner.bottom-right
+        include ../../images/corner.svg
+      div.corner.bottom
+        include ../../images/marker.svg
