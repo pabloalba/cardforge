@@ -26,30 +26,6 @@ export default {
     }
 
     return fetch(url, options);
-    // .then(async (response) => {
-    //       const status = response.status;
-    //       const headers = {};
-
-    //       for (let key of response.headers.keys()) {
-    //         headers[key.toLowerCase()] = response.headers.get(key);
-    //       }
-
-    //       const result = {
-    //         status: status,
-    //         headers: headers,
-    //       };
-
-    //       const contentType = headers["content-type"] || "";
-    //       if (contentType.startsWith("application/json")) {
-    //         result.body = await response.json();
-    //       } else if (contentType.startsWith("text/")) {
-    //         result.body = await response.text();
-    //       } else {
-    //         result.body = await response.blob();
-    //       }
-
-    //       return result;
-    //     });
   },
 
   get(url, options) {
