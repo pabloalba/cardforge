@@ -11,11 +11,11 @@ div
       span {{ game.n_decks }}
       span {{ game.created|format("YYYY-DD-MM") }}
       div.table-actions
-        a(@click.prevent="openGameUpdateLightbox(game)")
+        a(@click.prevent="editGame(game)")
           include ../../images/edit.svg
         a(href="#")
           include ../../images/copy.svg
-        a(href="#")
+        a(@click.prevent="deleteGame(game)")
           include ../../images/trash.svg
 
   div.table-empty(v-if="games && games.length === 0")

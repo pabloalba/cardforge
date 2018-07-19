@@ -16,8 +16,15 @@ export default {
   },
 
   methods: {
-    openGameUpdateLightbox(game) {
+    editGame(game) {
       this.$store.commit(OPEN_LIGHTBOX, {name: "update-game", props: game});
+    },
+
+    deleteGame(game) {
+      const result = confirm("Sure?");
+      if (result) {
+        this.$store.dispatch("deleteGame", game.id);
+      }
     }
   }
 

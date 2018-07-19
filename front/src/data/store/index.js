@@ -17,6 +17,8 @@ export const CLOSE_POPUP_MESSAGE = "CLOSE_POPUP_MESSAGE";
 
 export const GAME_CREATED = "GAME_CREATED";
 export const GAME_UPDATED = "GAME_UPDATED";
+export const GAME_DELETED = "GAME_DELETED";
+
 export const DECK_CREATED = "DECK_CREATED";
 export const DECK_UPDATED = "DECK_UPDATED";
 
@@ -82,14 +84,13 @@ export default new Vuex.Store({
     [CLOSE_POPUP_MESSAGE] (state) {
       state.popupMessage = null;
     },
+    [SET_SHOW_LAYERS] (state, show) {
+      state.showLayers = show;
+    },
 
     [GAME_CREATED] (state, game) {
       state.games.push(game);
       state.gamesById[game.id] = game;
-    },
-
-    [SET_SHOW_LAYERS] (state, show) {
-      state.showLayers = show;
     },
 
     [GAME_UPDATED] (state, game) {
@@ -102,6 +103,14 @@ export default new Vuex.Store({
       });
 
       state.gamesById[game.id] = game;
+    },
+
+    [GAME_DELETED] (state, id) {
+      state.games = state.games.filter((item) => {
+        return item.id !== id;
+      });
+
+      delete state.gamesById[id];
     },
 
     [DECK_CREATED] (state, deck) {
@@ -157,6 +166,12 @@ export default new Vuex.Store({
     async updateGame({commit}, {id, name}) {
       const game = await api.updateGame(id, name);
       commit(GAME_UPDATED, game);
+      commit(CLOSE_LIGHTBOX, null);
+    },
+
+    async deleteGame({commit}, id) {
+      await api.deleteGame(id);
+      commit(GAME_DELETED, id);
       commit(CLOSE_LIGHTBOX, null);
     },
 

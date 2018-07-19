@@ -39,6 +39,12 @@ export default {
     return await response.json();
   },
 
+  async deleteGame(id) {
+    const url = `${config.API_URL}/games/${id}`;
+    const response = await http.delete(url);
+    return null;
+  },
+
   async createDeck(gameId, name, size, orientation) {
     const body = {
       name: name,

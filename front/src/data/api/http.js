@@ -49,5 +49,10 @@ export default {
   patch(url, body, options) {
     options = Object.assign({url: url, method: "PATCH", body: body}, options);
     return this.request(options);
+  },
+
+  delete(url, options) {
+    options = Object.assign({url: url, method: "DELETE"}, options);
+    return this.request(options);
   }
 }
