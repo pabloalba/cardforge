@@ -12,6 +12,8 @@ export const SET_SHOW_LAYERS = 'GENERAL_SET_SHOW_LAYERS';
 
 export const OPEN_LIGHTBOX = "OPEN_LIGHTBOX";
 export const CLOSE_LIGHTBOX = "CLOSE_LIGHTBOX";
+export const OPEN_POPUP_MESSAGE = "OPEN_POPUP_MESSAGE";
+export const CLOSE_POPUP_MESSAGE = "CLOSE_POPUP_MESSAGE";
 
 export const GAME_CREATED = "GAME_CREATED";
 export const GAME_UPDATED = "GAME_UPDATED";
@@ -29,9 +31,10 @@ export default new Vuex.Store({
     decks: null,
     decksById: {},
     currentDeck: null,
+    showLayers: false,
     lightboxOpen: null,
     lightboxProps: null,
-    showLayers: false
+    popupMessage: null,
   },
 
   mutations: {
@@ -67,6 +70,17 @@ export default new Vuex.Store({
     [CLOSE_LIGHTBOX] (state) {
       state.lightboxOpen = null;
       state.lightboxProps = null;
+    },
+
+    [OPEN_POPUP_MESSAGE] (state, {header, subtext}) {
+      state.popupMessage = {
+        header: header,
+        subtext: subtext
+      };
+    },
+
+    [CLOSE_POPUP_MESSAGE] (state) {
+      state.popupMessage = null;
     },
 
     [GAME_CREATED] (state, game) {
@@ -156,6 +170,10 @@ export default new Vuex.Store({
       const deck = await api.updateDeck(id, name);
       commit(DECK_UPDATED, deck);
       commit(CLOSE_LIGHTBOX, null);
+      commit(OPEN_POPUP_MESSAGE, {
+        header: "Deck updated",
+        subtext: "You can edit or print the deck with the new name",
+      });
     },
 
     async updateLayers({commit}, {deckId, front, layers}) {

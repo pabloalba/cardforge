@@ -3,6 +3,7 @@
 <script>
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import PopupMessage from '@/components/shared/PopupMessage';
 import Cards from "./Cards";
 
 import {
@@ -15,6 +16,7 @@ export default {
   components: {
     MainHeader,
     Breadcrumbs,
+    PopupMessage,
     Cards
   },
   created: function () {

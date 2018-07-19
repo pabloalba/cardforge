@@ -3,6 +3,7 @@
 <script>
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import PopupMessage from '@/components/shared/PopupMessage';
 import Decks from "./Decks";
 import DeckCreateLightbox from "./DeckCreateLightbox";
 import DeckUpdateLightbox from "./DeckUpdateLightbox";
@@ -18,6 +19,7 @@ export default {
   components: {
     MainHeader,
     Breadcrumbs,
+    PopupMessage,
     Decks,
     DeckCreateLightbox,
     DeckUpdateLightbox,

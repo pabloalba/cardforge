@@ -3,6 +3,7 @@
 <script>
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import PopupMessage from '@/components/shared/PopupMessage';
 import Games from "./Games";
 
 import GameCreateLightbox from "./GameCreateLightbox";
@@ -18,6 +19,7 @@ export default {
     Games,
     MainHeader,
     Breadcrumbs,
+    PopupMessage,
     Games,
     GameCreateLightbox,
     GameUpdateLightbox

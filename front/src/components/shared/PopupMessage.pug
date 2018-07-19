@@ -1,0 +1,7 @@
+div.modal-message(v-if="messageOpen")
+  div.modal
+    div {{ messageHeader }}
+    div {{ messageSubtext }}
+
+    div.modal-buttons
+      a(@click.prevent="onCloseClicked").cancel-link X

@@ -3,6 +3,7 @@
 <script>
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
+import PopupMessage from '@/components/shared/PopupMessage';
 
 import {
   SET_SHOW_LAYERS
@@ -13,7 +14,8 @@ export default {
   props: ['id'],
   components: {
     MainHeader,
-    Breadcrumbs
+    Breadcrumbs,
+    PopupMessage,
   },
   created: function () {
     this.$store.commit(SET_SHOW_LAYERS, true);
