@@ -46,6 +46,20 @@ export default {
           return []
       }
     }
+  },
+  methods: {
+      onDuplicateCardClicked(num_card) {
+          if (this.cards){
+            var item = JSON.parse(JSON.stringify(this.cards[num_card]));
+            item['name'] += "_1";
+            this.cards.splice(num_card+1, 0, item);
+            this.$forceUpdate();
+          }
+      },
+      onDeleteCardClicked(num_card) {
+        this.cards.splice(num_card,1);
+        this.$forceUpdate();
+    },
   }
 }
 </script>

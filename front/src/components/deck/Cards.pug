@@ -14,9 +14,9 @@ div
       div.input-text(v-for="col in columns")
         input(v-model="card['_'+col['id']]")
       div.table-actions
-        a(href="#")
+        a(href="#", @click="onDuplicateCardClicked(num_card)")
           include ../../images/copy.svg
-        a(href="#").trash
+        a(href="#", @click="onDeleteCardClicked(num_card)").trash
           include ../../images/trash.svg
 
   div.table-empty(v-if="cards && cards.length === 0")
