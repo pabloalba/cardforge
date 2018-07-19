@@ -137,9 +137,10 @@ def forge_card(size_name, layers, card, deck):
                     ttf = open(file_path_ttf, 'wb')
                     ttf.write(response.content)
                     ttf.close()
-                font = ImageFont.truetype(file_path_ttf, font_size)
             else:
-                font = ImageFont.load_default()
+                file_path_ttf = "{}/templates/fonts/Alegreya-Bold.ttf".format(
+                    os.path.realpath(os.path.dirname(__file__)))
+            font = ImageFont.truetype(file_path_ttf, font_size)
 
             text = None
             if layer["template"]:
