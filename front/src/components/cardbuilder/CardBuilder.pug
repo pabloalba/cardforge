@@ -8,6 +8,7 @@ block content
   popup-message
 
   div.content
+      print-info-lightbox
       div.builder
 
         div.preview
@@ -25,7 +26,7 @@ block content
             img(:src="cardPreviewUrl")
 
           div.preview-links
-            a(href="#", alt="print info").icon-link
+            a(@click.prevent="onPrintInfoClicked", alt="print info").icon-link
               include ../../images/info-circle.svg
               span PRINT INFO
             a(href="#", alt="show guides").icon-link

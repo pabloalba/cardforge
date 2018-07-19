@@ -1,0 +1,19 @@
+div.modal-lightbox(v-if="lightboxOpen")
+  div.modal
+    div.art
+      include ../../images/decks.svg
+    h3 Ejemplo de diseño de carta
+    p Lorem ipsum dolor sit amet...
+    div.modal-buttons
+      a(@click.prevent="onCloseClicked").cancel-link OK, I GOT IT!
+    //- corners
+    div.corner.top-left
+      include ../../images/corner.svg
+    div.corner.top-right
+      include ../../images/corner.svg
+    div.corner.bottom-left
+      include ../../images/corner.svg
+    div.corner.bottom-right
+      include ../../images/corner.svg
+    div.corner.bottom
+      include ../../images/marker.svg

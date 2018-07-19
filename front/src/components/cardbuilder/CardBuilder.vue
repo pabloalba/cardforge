@@ -4,10 +4,13 @@
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import PopupMessage from '@/components/shared/PopupMessage';
+import PrintInfoLightbox from "./PrintInfoLightbox";
 
 import {
   SET_SHOW_LAYERS
 } from "../../data/store";
+
+import {OPEN_LIGHTBOX} from "../../data/store";
 
 export default {
   name: 'CardBuilder',
@@ -16,12 +19,12 @@ export default {
     MainHeader,
     Breadcrumbs,
     PopupMessage,
+    PrintInfoLightbox,
   },
   created: function () {
     this.$store.commit(SET_SHOW_LAYERS, true);
     this.frontSelected = true;
     this.showPreview();
-
   },
   data: function () {
     return {
@@ -138,6 +141,10 @@ export default {
     saveLayers(event) {
       this.$store.dispatch('updateLayers', {deckId: this.$store.state.currentDeck['id'], front: this.frontSelected, layers:JSON.stringify(this.currentLayers)});
       this.showPreview();
+    },
+
+    onPrintInfoClicked() {
+      this.$store.commit(OPEN_LIGHTBOX, {name: "print-info"});
     }
   }
 }
