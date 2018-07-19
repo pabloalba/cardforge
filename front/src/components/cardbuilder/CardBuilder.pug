@@ -48,7 +48,7 @@ block content
             //-a(href="#", alt="add line").btn-primary.btn-line
               include ../../images/line.svg
               span LINE
-          div.element-list
+          div.element-list(v-if="currentLayers")
             div(v-for="layer, num_layer in currentLayers")
               div.element.element-image(v-bind:class="{ collapsed: layer['collapsed'] }")
                 div.element-header
@@ -135,3 +135,6 @@ block content
                     div.input-text
                       label Position Y (mm)
                       input(type="number", v-model="layer['y']")
+          div(v-if="currentLayers.length === 0")
+              include ../../images/decks.svg
+              span Still no layers here...
