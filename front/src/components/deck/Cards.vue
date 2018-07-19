@@ -41,9 +41,6 @@ export default {
                     }
                 }
             }
-
-            console.log(keys);
-
             return keys;
         } else {
           return []

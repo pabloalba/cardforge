@@ -4,7 +4,7 @@ block head_end
 
 block content
   main-header
-  breadcrumbs
+  breadcrumbs(v-on:saveLayersEvent="saveLayers", v-on:forgeCardsEvent="forgeCards")
   popup-message
 
   div.content
@@ -17,8 +17,6 @@ block content
             include ../../images/switch.svg
             a(href="#", alt="card back", v-bind:class="{ current: frontSelected }", @click="onSelectFace(false)").btn-primary.btn-line BACK
           p.card-info Poker deck (63 x 88 mm) | Portrait
-
-          button(@click="saveLayers").icon-link Save
 
           div.card-preview
             //img(src="../../images/guides/po.png").card-guides

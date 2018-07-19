@@ -5,6 +5,8 @@ import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import PopupMessage from '@/components/shared/PopupMessage';
 import PrintInfoLightbox from "./PrintInfoLightbox";
+import router from "@/router"
+
 
 import {
   SET_SHOW_LAYERS
@@ -145,6 +147,11 @@ export default {
 
     onPrintInfoClicked() {
       this.$store.commit(OPEN_LIGHTBOX, {name: "print-info"});
+    },
+
+    forgeCards() {
+      this.saveLayers();
+      router.push({ name: "Deck", params: {id: this.$store.state.currentDeck['id']} });
     }
   }
 }

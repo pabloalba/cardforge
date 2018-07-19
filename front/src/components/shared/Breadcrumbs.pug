@@ -37,13 +37,10 @@ div.breadcrumb
     a(v-else-if="currentDeck === undefined", @click.prevent="openDeckCreateLighbox").btn-primary CREATE DECK
     <template v-else>
       <template v-if="showLayers">
-        //-router-link(:to="{name: 'Deck', params: {id: currentDeck.id}}").cancel-link
-          include ../../images/skull.svg
-          span DISCARD
         a(@click="saveLayers").icon-link
           include ../../images/add-card.svg
-          span SAVE CHANGES
-        router-link(:to="{name: 'Deck', params: {id: currentDeck.id}}").btn-primary
+          span SAVE DESIGN
+        a(@click="forgeCards").btn-primary
           | FORGE CARDS
       </template>
       <template v-else>

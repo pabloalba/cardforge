@@ -22,6 +22,12 @@ export default {
     },
     openDeckCreateLighbox(event) {
       this.$store.commit(OPEN_LIGHTBOX, {name: "create-deck"});
+    },
+    saveLayers(event) {
+      this.$emit('saveLayersEvent')
+    },
+    forgeCards(event) {
+      this.$emit('forgeCardsEvent')
     }
   }
 }
