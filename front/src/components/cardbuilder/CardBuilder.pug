@@ -59,8 +59,10 @@ block content
                     include ../../images/text.svg
                     input(type="text", placeholder="TEXT", v-model="layer['name']")
                   div.element-options
-                    a(href="#", alt="hide element")
+                    a(href="#", v-if="layer['visible']" @click="onSetVisibleLayer(num_layer, false)" alt="hide element")
                       include ../../images/eye.svg
+                    a(href="#", v-if="!layer['visible']" @click="onSetVisibleLayer(num_layer, true)" alt="show element")
+                      include ../../images/eye-off.svg
                     a(href="#", alt="duplicate element", @click="onDuplicateLayerClicked(num_layer)")
                       include ../../images/copy.svg
                     a(href="#", alt="bring up element", @click="onMoveUpLayerClicked(num_layer)")

@@ -79,6 +79,11 @@ export default {
       this.$forceUpdate();
     },
 
+    onSetVisibleLayer(num_layer, visible) {
+      this.currentLayers[num_layer]['visible'] = visible;
+      this.$forceUpdate();
+    },
+
     onMoveUpLayerClicked(num_layer) {
       if (num_layer <= 0){
         return
@@ -115,7 +120,7 @@ export default {
       }
       var name = "IMAGE "+ num;
       var id = "layer_" + new Date().getTime();
-      var item = JSON.parse('{"id":"' + id + '", "name":"' + name + '","type":"image","x":"0","y":0,"file":"", "collapsed": false, "template": true}');
+      var item = JSON.parse('{"id":"' + id + '", "name":"' + name + '","type":"image","visible": true,"x":"0","y":0,"file":"", "collapsed": false, "template": true}');
       this.currentLayers.splice(0, 0, item);
       this.$forceUpdate();
     },
@@ -130,7 +135,7 @@ export default {
       }
       var name = "TEXT "+ num;
       var id = "layer_" + new Date().getTime();
-      var item = JSON.parse('{"id":"' + id + '", "name":"' + name + '","type":"text","x":"0","y":0,"text":"", "color": "#FFFFFF","font": "", "font_size": 48, "collapsed": false, "template": true}');
+      var item = JSON.parse('{"id":"' + id + '", "name":"' + name + '","type":"text","visible": true,"x":"0","y":0,"text":"", "color": "#FFFFFF","font": "", "font_size": 48, "collapsed": false, "template": true}');
       this.currentLayers.splice(0, 0, item);
       this.$forceUpdate();
     },
