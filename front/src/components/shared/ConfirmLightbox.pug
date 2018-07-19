@@ -1,12 +1,12 @@
 div.modal-lightbox(v-if="lightboxOpen")
-  div.modal.print-info
+  div.modal
     div.art
-      include ../../images/cards.svg
-    h3 Are you sure?
-    p Lorem ipsum dolor sit amet...
+      include ../../images/skull.svg
+    h3 HEY! Are you sure?
+    p All the changes will be lost
     div.modal-buttons
-      a(@click.prevent="onCancelClicked").btn-primary CANCEL
-      a(@click.prevent="onOkClicked").btn-primary OK
+      a(@click.prevent="onCancelClicked").cancel-link NO! I LOVE IT
+      a(@click.prevent="onOkClicked").btn-primary YES, BURN IT DOWN
     //- corners
     div.corner.top-left
       include ../../images/corner.svg
