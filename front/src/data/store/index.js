@@ -23,6 +23,7 @@ export const GAME_DELETED = "GAME_DELETED";
 
 export const DECK_CREATED = "DECK_CREATED";
 export const DECK_UPDATED = "DECK_UPDATED";
+export const DECK_DELETED = "DECK_DELETED";
 
 export const DECK_SIZES = {
   "PO": "estandar poker (63 x 88 mm)",
@@ -149,6 +150,15 @@ export default new Vuex.Store({
 
       state.decksById[deck.id] = deck;
     },
+
+    [DECK_DELETED] (state, id) {
+      state.decks = state.decks.filter((item) => {
+        return item.id !== id;
+      });
+
+      delete state.decksById[id];
+    },
+
   },
 
   actions: {

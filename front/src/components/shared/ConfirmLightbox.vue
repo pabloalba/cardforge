@@ -1,6 +1,7 @@
 <template lang="pug" src="./ConfirmLightbox.pug"></template>
 
 <script>
+import {isFunction} from "lodash";
 import {CLOSE_LIGHTBOX} from "../../data/store";
 
 export default {
@@ -13,7 +14,11 @@ export default {
     onCancelClicked() {
       this.$store.commit(CLOSE_LIGHTBOX);
     },
-    onOkClicked() {
+
+    async onOkClicked() {
+      if (isFunction(this.$store.state.lightboxProps)) {
+        await this.$store.state.lightboxProps();
+      }
       this.$store.commit(CLOSE_LIGHTBOX);
     }
   }

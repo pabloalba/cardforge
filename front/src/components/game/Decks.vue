@@ -23,7 +23,11 @@ export default {
     },
 
     deleteDeck(deck) {
-      this.$store.commit(OPEN_LIGHTBOX, {name: "confirm", props: deck});
+      const callback = () => {
+        this.$store.dispatch("deleteDeck", deck.id);
+      };
+
+      this.$store.commit(OPEN_LIGHTBOX, {name: "confirm", props: callback});
     },
 
     deckSizeName(size){

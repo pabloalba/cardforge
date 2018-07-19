@@ -25,11 +25,12 @@ export default {
     },
 
     deleteGame(game) {
-      const result = confirm("Sure?");
-      if (result) {
+      const callback = () => {
         this.$store.dispatch("deleteGame", game.id);
-      }
-    }
+      };
+
+      this.$store.commit(OPEN_LIGHTBOX, {name: "confirm", props: callback});
+    },
   }
 
 }

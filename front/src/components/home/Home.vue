@@ -4,6 +4,7 @@
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import PopupMessage from '@/components/shared/PopupMessage';
+import ConfirmLightbox from '@/components/shared/ConfirmLightbox';
 import Games from "./Games";
 
 import GameCreateLightbox from "./GameCreateLightbox";
@@ -22,7 +23,8 @@ export default {
     PopupMessage,
     Games,
     GameCreateLightbox,
-    GameUpdateLightbox
+    GameUpdateLightbox,
+    ConfirmLightbox
   },
   created: function () {
     this.$store.commit(SET_GAMES, null);
