@@ -1,10 +1,11 @@
-.table-3, .table-4 {
+.table-3, .table-4, .table-dynamic {
     display: grid;
     grid-gap: 10px;
 
     .table-row {
         background-color: $white;
         display: grid;
+        grid-gap: 10px;
         padding: 1rem;
 
         &.table-header {
@@ -44,7 +45,12 @@
 .table-4 {
   .table-row {
     grid-template-columns: 30vw repeat(4, 1fr);
-    //repeat(auto-fit, minmax(20px, 1fr));
+  }
+}
+
+.table-dynamic {
+  .table-row {
+    grid-template-columns: 3rem repeat(auto-fit, minmax(20px, 1fr));
   }
 }
 
