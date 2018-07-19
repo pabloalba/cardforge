@@ -9,6 +9,10 @@ export default {
       return (this.$store.state.lightboxOpen === "print-deck");
     },
 
+    currentDeck() {
+      return this.$store.state.lightboxProps;
+    },
+
     isEmpty() {
       return (this.printingType.length === 0) ||
         (this.pageSize.length === 0 && this.printingType !== "tabletop") ||
@@ -37,7 +41,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log("PRINTTTTTTTTTTTT...");
+      this.$store.dispatch("forgeDeck", {
+        id: this.currentDeck.id,
+        printingType: this.printingType,
+        pageSize: this.pageSize,
+        fileType: this.fileType,
+      });
     },
     onCancelClicked(event) {
       this.$store.commit(CLOSE_LIGHTBOX);

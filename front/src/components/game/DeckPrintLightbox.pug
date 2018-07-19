@@ -13,7 +13,7 @@ div.modal-lightbox(v-if="lightboxOpen")
             label(for="printing-type-1")
               span Tabletop
           div.input-radio
-            input(type="radio", id="printing-type-2", v-model="printingType", value="printing")
+            input(type="radio", id="printing-type-2", v-model="printingType", value="standard")
             label(for="printing-type-2")
               span Printing
           div.input-radio
@@ -31,7 +31,7 @@ div.modal-lightbox(v-if="lightboxOpen")
             label(for="page-size-2")
               span A4
           div.input-radio
-            input(type="radio", id="page-size-3", v-model="pageSize", value="cards")
+            input(type="radio", id="page-size-3", v-model="pageSize", value="individual")
             label(for="page-size-3")
               span Cards
         span.section File type

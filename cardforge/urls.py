@@ -12,8 +12,6 @@ urlpatterns = [
     path("auth/login/success", designer_views.login_success, name="login-success"),
     path("auth/logout", designer_views.logout, name="logout"),
 
-    path('forge_deck', designer_views.forge_deck_view),
-
     path("", designer_views.home, name="home"),
     path("api", designer_views.api_root, name="api-root"),
     path("api/me", designer_views.MeDetail.as_view(), name="me"),
@@ -23,5 +21,6 @@ urlpatterns = [
     path("api/games/<int:pk>/decks", designer_views.GameDecks.as_view(), name="game-decks"),
     path("api/decks/<int:pk>", designer_views.DeckDetail.as_view(), name="deck-detail"),
     path("api/decks/<int:pk>/layers", designer_views.update_layers, name="deck-update-layers"),
-    path("api/decks/<int:pk>/forge_card", designer_views.forge_card),
+    path("api/decks/<int:pk>/forge_card", designer_views.forge_card, name="forge-card"),
+    path("api/decks/<int:pk>/forge_deck", designer_views.forge_deck, name="forge-deck"),
 ]

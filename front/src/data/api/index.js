@@ -58,11 +58,15 @@ export default {
     const response = await http.post(url, body);
     return await response.json();
   },
-  
+
   async updateDeck(id, name) {
     const body = {name};
     const url = `${config.API_URL}/decks/${id}`;
     const response = await http.patch(url, body);
     return await response.json();
+  },
+
+  forgeDeck(id, printingType, pageSize, fileType) {
+    window.open(`${config.API_URL}/decks/${id}/forge_deck?export_target=${printingType}&export_type=${pageSize}&export_format=${fileType}`);
   }
 }

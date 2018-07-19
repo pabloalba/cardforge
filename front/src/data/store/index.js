@@ -179,5 +179,10 @@ export default new Vuex.Store({
     async updateLayers({commit}, {deckId, front, layers}) {
       await api.updateLayers(deckId, front, layers);
     },
+
+    async forgeDeck({commit}, {id, printingType, pageSize, fileType}) {
+      api.forgeDeck(id, printingType, pageSize, fileType);
+      commit(CLOSE_LIGHTBOX);
+    }
   }
 });

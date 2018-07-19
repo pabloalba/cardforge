@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from .forge import forge_card_to_png, forge_deck
+from .forge import forge_card_to_png, forge_deck as forge_deck_method
 from .models import Deck, Game
 from .permissions import IsOwner
 from .serializers import DeckSerializer, DeckSimpleSerializer, GameSerializer, UserSerializer
@@ -38,24 +38,6 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-def forge_deck_view(request):
-    decks = Deck.objects.all()
-    export_format = request.GET.get('export_format', 'pdf')
-    export_target = request.GET.get('export_target', 'standard')
-    export_type = request.GET.get('export_type', 'a4')
-
-    file_path = forge_deck(decks[0], export_type=export_type, export_format=export_format, export_target=export_target)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            if export_format == 'pdf':
-                response = HttpResponse(fh.read(), content_type="application/pdf")
-            else:
-                response = HttpResponse(fh.read(), content_type="image/png")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
-    raise Http404
-
-
 def forge_card(request, pk):
     deck = get_object_or_404(Deck, pk=pk)
     num = int(request.GET.get('num', 0))
@@ -64,6 +46,24 @@ def forge_card(request, pk):
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="image/png")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+
+
+def forge_deck(request, pk):
+    deck = get_object_or_404(Deck, pk=pk)
+    export_format = request.GET.get('export_format', 'pdf')
+    export_target = request.GET.get('export_target', 'standard')
+    export_type = request.GET.get('export_type', 'a4')
+
+    file_path = forge_deck_method(deck, export_type=export_type, export_format=export_format, export_target=export_target)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            if export_format == 'pdf':
+                response = HttpResponse(fh.read(), content_type="application/pdf")
+            else:
+                response = HttpResponse(fh.read(), content_type="image/png")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
