@@ -20,6 +20,10 @@ export default {
       this.$store.commit(OPEN_LIGHTBOX, {name: "update-game", props: game});
     },
 
+    cloneGame(game) {
+      this.$store.dispatch("cloneGame", game.id);
+    },
+
     deleteGame(game) {
       const result = confirm("Sure?");
       if (result) {

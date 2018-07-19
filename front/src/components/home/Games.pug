@@ -13,7 +13,7 @@ div
       div.table-actions
         a(@click.prevent="editGame(game)")
           include ../../images/edit.svg
-        a(href="#")
+        a(@click.prevent="cloneGame(game)")
           include ../../images/copy.svg
         a(@click.prevent="deleteGame(game)")
           include ../../images/trash.svg

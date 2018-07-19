@@ -49,6 +49,12 @@ export default {
     return null;
   },
 
+  async cloneGame(id) {
+    const url = `${config.API_URL}/games/${id}/_clone`;
+    const response = await http.post(url, null);
+    return null;
+  },
+
   async createDeck(gameId, name, size, orientation) {
     const data = {
       name: name,

@@ -171,6 +171,11 @@ export default new Vuex.Store({
       commit(CLOSE_LIGHTBOX, null);
     },
 
+    async cloneGame({commit, dispatch}, id) {
+      const game = await api.cloneGame(id);
+      dispatch("retrieveGames");
+    },
+
     async deleteGame({commit}, id) {
       await api.deleteGame(id);
       commit(GAME_DELETED, id);
@@ -207,7 +212,9 @@ export default new Vuex.Store({
     },
 
     async handleError({commit}, error) {
-      router.push("login");
+      if (error.status === 400) {
+        router.push("login");
+      }
     },
   }
 });

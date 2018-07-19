@@ -17,6 +17,7 @@ urlpatterns = [
     path("api/me", designer_views.MeDetail.as_view(), name="me"),
     path("api/games", designer_views.GameList.as_view(), name="game-list"),
     path("api/games/<int:pk>", designer_views.GameDetail.as_view(), name="game-detail"),
+    path("api/games/<int:pk>/_clone", designer_views.clone_game, name="game-clone"),
     path("api/games/<int:pk>/owners", designer_views.GameOwners.as_view(), name="game-owners"),
     path("api/games/<int:pk>/decks", designer_views.GameDecks.as_view(), name="game-decks"),
     path("api/decks/<int:pk>", designer_views.DeckDetail.as_view(), name="deck-detail"),

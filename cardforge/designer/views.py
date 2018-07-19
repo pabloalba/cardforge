@@ -5,8 +5,12 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.db import transaction
+
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
+
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -36,6 +40,26 @@ def login_success(request):
 def home(request):
     context = {}
     return render(request, 'home.html', context)
+
+@require_http_methods("POST")
+@transaction.atomic
+def clone_game(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    decks = list(game.decks.all())
+    owners = list(game.owners.all())
+
+    game.id = None
+    game.name = "{0}_Copy".format(game.name)
+    game.save(force_insert=True)
+    game.owners.add(*owners)
+
+    for deck in decks:
+        deck.game = game
+        deck.id = None
+        deck.save(force_insert=True)
+
+    serializer = GameSerializer(game, many=False, context={"request": request})
+    return JsonResponse(serializer.data)
 
 
 def forge_card(request, pk):
