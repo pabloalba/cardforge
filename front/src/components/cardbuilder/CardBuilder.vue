@@ -12,10 +12,10 @@ import {
   SET_SHOW_LAYERS,
   DECK_SIZES,
   GENERATE_DESIGN_PREVIEW_URL,
-  CLEAR_DESIGN_PREVIEW_URL
+  CLEAR_DESIGN_PREVIEW_URL,
+  OPEN_POPUP_MESSAGE,
+  OPEN_LIGHTBOX
 } from "../../data/store";
-
-import {OPEN_LIGHTBOX} from "../../data/store";
 
 export default {
   name: 'CardBuilder',
@@ -195,6 +195,10 @@ export default {
     forgeCards() {
       this.saveLayers();
       router.push({ name: "deck", params: {id: this.$store.state.currentDeck['id']} });
+      this.$store.commit(OPEN_POPUP_MESSAGE, {
+        header: "YOU DID IT!",
+        subtext: "This new card design has been forged and added to your deck. Hurray!!!",
+      });
     }
   }
 }

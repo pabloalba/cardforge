@@ -6,7 +6,7 @@ import {CLOSE_POPUP_MESSAGE} from "../../data/store";
 export default {
   computed: {
     messageOpen() {
-      return !!this.$store.state.popupMessage;
+      return !!(this.$store.state.popupMessage);
     },
 
     messageHeader() {
