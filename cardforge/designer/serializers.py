@@ -48,7 +48,7 @@ class DeckSimpleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Deck
         fields = ('id', 'url', 'name', 'n_cards', 'created', 'size', 'front_cut_marks_color',
-                  'back_cut_marks_color', 'portrait')
+                  'back_cut_marks_color', 'portrait', 'game_id')
 
 
 class DeckSerializer(serializers.HyperlinkedModelSerializer):
@@ -58,6 +58,6 @@ class DeckSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Deck
-        fields = ('id', 'url', 'name', 'created', 'size', 'front_cut_marks_color',
+        fields = ('id', 'url', 'name', 'created', 'size', 'front_cut_marks_color', 'game_id',
                   'back_cut_marks_color', 'portrait', 'cards', 'front_layers', 'back_layers')
 

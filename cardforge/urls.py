@@ -20,7 +20,9 @@ urlpatterns = [
     path("api/games/<int:pk>/_clone", designer_views.clone_game, name="game-clone"),
     path("api/games/<int:pk>/owners", designer_views.GameOwners.as_view(), name="game-owners"),
     path("api/games/<int:pk>/decks", designer_views.GameDecks.as_view(), name="game-decks"),
+
     path("api/decks/<int:pk>", designer_views.DeckDetail.as_view(), name="deck-detail"),
+    path("api/decks/<int:pk>/_clone", designer_views.clone_deck, name="deck-clone"),
     path("api/decks/<int:pk>/layers", designer_views.update_layers, name="deck-update-layers"),
     path("api/decks/<int:pk>/cards", designer_views.update_cards, name="deck-update-cards"),
     path("api/decks/<int:pk>/forge_card", designer_views.forge_card, name="forge-card"),

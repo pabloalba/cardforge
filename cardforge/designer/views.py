@@ -61,6 +61,17 @@ def clone_game(request, pk):
     serializer = GameSerializer(game, many=False, context={"request": request})
     return JsonResponse(serializer.data)
 
+@require_http_methods("POST")
+@transaction.atomic
+def clone_deck(request, pk):
+    deck = get_object_or_404(Deck, pk=pk)
+    deck.id = None
+    deck.name = "{0}_Clone".format(deck.name)
+    deck.save(force_insert=True)
+
+    serializer = DeckSerializer(deck, many=False, context={"request": request})
+    return JsonResponse(serializer.data)
+
 
 def forge_card(request, pk):
     deck = get_object_or_404(Deck, pk=pk)

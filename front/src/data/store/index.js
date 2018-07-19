@@ -72,7 +72,12 @@ export default new Vuex.Store({
     },
 
     [SET_DECKS] (state, decks) {
-      state.decks = decks;
+      if (decks) {
+        state.decks = decks;
+        state.decksById = decks.reduce((acc, item) => {
+          return Object.assign(acc, {[item.id]: item});
+        }, {});
+      }
     },
 
     [SET_CURRENT_DECK] (state, deck) {
@@ -192,7 +197,6 @@ export default new Vuex.Store({
     async deleteGame({commit}, id) {
       await api.deleteGame(id);
       commit(GAME_DELETED, id);
-      commit(CLOSE_LIGHTBOX, null);
     },
 
     async createDeck({commit}, {gameId, name, size, orientation}) {
@@ -209,6 +213,16 @@ export default new Vuex.Store({
         header: "Deck updated",
         subtext: "You can edit or print the deck with the new name",
       });
+    },
+
+    async cloneDeck({commit, dispatch}, id) {
+      const deck = await api.cloneDeck(id);
+      dispatch("retrieveGameDecks", {id: deck.game_id});
+    },
+
+    async deleteDeck({commit}, id) {
+      await api.deleteDeck(id);
+      commit(DECK_DELETED, id);
     },
 
     async updateLayers({commit}, {deckId, front, layers}) {

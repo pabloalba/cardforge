@@ -13,13 +13,13 @@ div
       span {{ deckSizeName(deck.size) }}
       span 2/3/2018
       div.table-actions
-        a(@click.prevent="openDeckUpdateLightbox(deck)")
+        a(@click.prevent="updateDeck(deck)")
           include ../../images/edit.svg
-        a(href="#")
+        a(@click.prevent="cloneDeck(deck)")
           include ../../images/copy.svg
-        a(@click.prevent="openPrintLightbox(deck)")
+        a(@click.prevent="printDeck(deck)")
           include ../../images/print.svg
-        a(@click.prevent="onDeleteClicked(deck)").trash
+        a(@click.prevent="deleteDeck(deck)").trash
           include ../../images/trash.svg
 
   div.table-empty(v-if="decks && decks.length === 0")

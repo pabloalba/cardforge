@@ -52,7 +52,7 @@ export default {
   async cloneGame(id) {
     const url = `${config.API_URL}/games/${id}/_clone`;
     const response = await http.post(url, null);
-    return null;
+    return response.body;
   },
 
   async createDeck(gameId, name, size, orientation) {
@@ -68,6 +68,25 @@ export default {
     return response.body;
   },
 
+  async cloneDeck(id) {
+    const url = `${config.API_URL}/decks/${id}/_clone`;
+    const response = await http.post(url, null);
+    return response.body;
+  },
+
+  async updateDeck(id, name) {
+    const data = {name};
+    const url = `${config.API_URL}/decks/${id}`;
+    const response = await http.patch(url, data);
+    return response.body;
+  },
+
+  async deleteDeck(id) {
+    const url = `${config.API_URL}/decks/${id}`;
+    const response = await http.delete(url);
+    return null;
+  },
+
   async updateLayers(deckId, front, layers){
     const data = {"front":front, "layers": layers};
     const url = `${config.API_URL}/decks/${deckId}/layers`;
@@ -79,13 +98,6 @@ export default {
     const data = {"cards": cards};
     const url = `${config.API_URL}/decks/${deckId}/cards`;
     const response = await http.post(url, data);
-    return response.body;
-  },
-
-  async updateDeck(id, name) {
-    const data = {name};
-    const url = `${config.API_URL}/decks/${id}`;
-    const response = await http.patch(url, data);
     return response.body;
   },
 
