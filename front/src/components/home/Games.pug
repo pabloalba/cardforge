@@ -11,7 +11,7 @@ div
       span {{ game.n_decks }}
       span {{ game.created|format("YYYY-DD-MM") }}
       div.table-actions
-        a(href="#")
+        a(@click.prevent="openGameUpdateLightbox(game)")
           include ../../images/edit.svg
         a(href="#")
           include ../../images/copy.svg

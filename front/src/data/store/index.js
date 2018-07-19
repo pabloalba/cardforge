@@ -140,8 +140,8 @@ export default new Vuex.Store({
       commit(CLOSE_LIGHTBOX, null);
     },
 
-    async updateGame({commit}, game) {
-      game = await api.updateGame(game);
+    async updateGame({commit}, {id, name}) {
+      const game = await api.updateGame(id, name);
       commit(GAME_UPDATED, game);
       commit(CLOSE_LIGHTBOX, null);
     },

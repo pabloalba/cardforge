@@ -32,10 +32,10 @@ export default {
     return await response.json();
   },
 
-  async updateGame(game) {
-    const body = game;
-    const url = `${config.API_URL}/games/${game.id}`;
-    const response = await http.post(url, body);
+  async updateGame(id, name) {
+    const body = {id, name};
+    const url = `${config.API_URL}/games/${id}`;
+    const response = await http.patch(url, body);
     return await response.json();
   },
 
@@ -60,9 +60,7 @@ export default {
   },
   
   async updateDeck(id, name) {
-    const body = {
-      name: name
-    };
+    const body = {name};
     const url = `${config.API_URL}/decks/${id}`;
     const response = await http.patch(url, body);
     return await response.json();

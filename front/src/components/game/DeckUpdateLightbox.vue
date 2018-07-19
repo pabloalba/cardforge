@@ -9,8 +9,9 @@ export default {
       return (this.$store.state.lightboxOpen === 'update-deck');
     },
 
-    currentDeck() {
-      return this.$store.state.lightboxProps;
+    propsName() {
+      const props = this.$store.state.lightboxProps;
+      return props ? props.name : null;
     },
 
     isNameEmpty() {
@@ -24,16 +25,16 @@ export default {
     }
   },
   watch: {
-    currentDeck(newDeck, oldDeck) {
-      this.name = newDeck ? newDeck.name : null;
+    propsName(newName, oldName) {
+      this.name = newName;
     }
   },
   methods: {
-    onSubmit() {
-      this.$store.dispatch("updateDeck", {
-        id: this.currentDeck.id,
-        name: this.name,
-      });
+    onSubmit(event) {
+      event.preventDefault();
+      if (this.$data.name.length > 0) {
+        console.log("UPDATE DECK:", this.$data.name);
+      }
     },
     onCancelClicked() {
       this.$store.commit(CLOSE_LIGHTBOX);
