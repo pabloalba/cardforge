@@ -77,8 +77,8 @@ block content
                 div.element-content(v-if="layer['type']==='image'")
                   div.row-input
                     div.input-checkbox
-                      input(type="checkbox", id="c1", name="template-check", v-model="layer['template']")
-                      label(for="c1")
+                      input(type="checkbox", :id="'c2_' + layer['id']", name="template-check", v-model="layer['template']")
+                      label(:for="'c2_' + layer['id']")
                         span Template element
                   div.row-input(v-if="layer['template']")
                     div.input-text
@@ -104,8 +104,8 @@ block content
                 div.element-content(v-if="layer['type']==='text'")
                   div.row-input
                     div.input-checkbox
-                      input(type="checkbox", id="c2", name="template-check", v-model="layer['template']")
-                      label(for="c2")
+                      input(type="checkbox", :id="'c2_' + layer['id']", name="template-check", v-model="layer['template']")
+                      label(:for="'c2_' + layer['id']")
                         span Template element
                   div.row-input
                     div.input-text(v-if="layer['template']")
