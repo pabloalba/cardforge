@@ -27,6 +27,10 @@
     padding: 5rem 3rem 3rem 3rem;
     position: relative;
     text-align: center;
+    &.print-info {
+      max-width: 1200px;
+      min-width: 800px;
+    }
     h3 {
         border-bottom: 1px solid $gray;
         font-size: 1.5rem;
@@ -106,45 +110,55 @@
     }
 }
 
-.modal-message {
-  background-color: #81EAAB;
-  border: 1px solid #27AE60;
+.guides-info {
+  align-items: flex-start;
   display: flex;
-  left: calc(50% - 400px);
-  padding: 1rem;
-  position: fixed;
-  top: 2rem;
-  width: 800px;
-  z-index: 10;
-  span {
-    svg {
-      height: 120px;
-      width: 120px;
-    }
+  img {
+    object-fit: contain;
   }
-  .message-text {
+  .guides-info-list {
     display: flex;
     flex-direction: column;
-    position: relative;
     margin-left: 2rem;
-    width: 100%;
-    h3 {
-      color: $green-dark;
-      font-family: 'Oswald', sans-serif;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-    p {
-      font-family: 'Alegreya', serif;
-      color: $green-dark;
-      font-size: 1.1rem;
-    }
-    .cancel-link {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      svg {
-        fill: $green-dark;
+    .guides-info-item {
+      display: flex;
+      margin-bottom: 1rem;
+      .square {
+        background-color: $white;
+        border: 2px solid $gray;
+        border-radius: 3px;
+        height: 30px;
+        flex-shrink: 0;
+        width: 30px;
+        &.pink {
+          background-color: lighten($pink, 35%);
+          border-color: $pink;
+        }
+        &.blue {
+          background-color: lighten($blue, 35%);
+          border-color: $blue;
+        }
+        &.green {
+          background-color: lighten($green, 35%);
+          border-color: $green;
+          border-style: dashed;
+        }
+      }
+      .guides-info-text {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        margin-left: 1rem;
+        h3 {
+          border: none;
+          font-family: 'Oswald', sans-serif;
+          font-size: 1rem;
+          margin: 0;
+          padding: 0;
+        }
+        p {
+          text-align: left;
+        }
       }
     }
   }

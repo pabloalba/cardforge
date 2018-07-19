@@ -1,11 +1,33 @@
 div.modal-lightbox(v-if="lightboxOpen")
-  div.modal
+  div.modal.print-info
     div.art
-      include ../../images/decks.svg
+      include ../../images/cards.svg
     h3 Ejemplo de diseño de carta
-    p Lorem ipsum dolor sit amet...
+    div.guides-info
+      img(src="../../images/example.png", alt="Card Guidelines info", border="0")
+      div.guides-info-list
+        div.guides-info-item
+          div.square
+          div.guides-info-text
+            h3 BLEEDING AREA
+            p Bleeding area is the EXPENDABLE part of the image that "comes out" of the cut. It is necessary to avoid white borders. (In case the edge has a color the bleeding area should be the same color).
+        div.guides-info-item
+          div.square.pink
+          div.guides-info-text
+            h3 RECOMMENDED EDGE
+            p It is the part of the dispensable image that remains near the cut. It should not have useful information to avoid lose info in case of edge movement.
+        div.guides-info-item
+          div.square.blue
+          div.guides-info-text
+            h3 SAFETY MARGIN
+            p It is the area between the edge and the printing area. You can put useful information but it is advisable to leave a few mm with respect to the edge.
+        div.guides-info-item
+          div.square.green
+          div.guides-info-text
+            h3 PRINTING AREA
+            p Space that contains the useful information of the card (illustration, additional information, text, ...)
     div.modal-buttons
-      a(@click.prevent="onCloseClicked").cancel-link OK, I GOT IT!
+      a(@click.prevent="onCloseClicked").btn-primary OK, I GOT IT!
     //- corners
     div.corner.top-left
       include ../../images/corner.svg
