@@ -156,7 +156,7 @@ export default {
 
     forgeCards() {
       this.saveLayers();
-      router.push({ name: "Deck", params: {id: this.$store.state.currentDeck['id']} });
+      router.push({ name: "deck", params: {id: this.$store.state.currentDeck['id']} });
     }
   }
 }
