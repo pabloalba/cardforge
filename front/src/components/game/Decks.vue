@@ -1,7 +1,7 @@
 <template lang="pug" src="./Decks.pug"></template>
 
 <script>
-import {OPEN_LIGHTBOX} from "../../data/store";
+import {OPEN_LIGHTBOX, DECK_SIZES} from "../../data/store";
 
 export default {
   name: "decks",
@@ -19,6 +19,9 @@ export default {
     },
     onDeleteClicked(deck) {
       this.$store.commit(OPEN_LIGHTBOX, {name: "confirm", props: deck});
+    },
+    deckSizeName(size){
+      return DECK_SIZES[size];
     }
   }
 }

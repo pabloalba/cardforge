@@ -24,6 +24,19 @@ export const GAME_DELETED = "GAME_DELETED";
 export const DECK_CREATED = "DECK_CREATED";
 export const DECK_UPDATED = "DECK_UPDATED";
 
+export const DECK_SIZES = {
+  "PO": "estandar poker (63 x 88 mm)",
+  "B1": "bridge (56 x 88 mm)",
+  "B1": "bridge (57 x 89 mm)",
+  "M1": "mini (41 x 68 mm)",
+  "M2": "mini (45 x 68 mm)",
+  "M3": "mini (44 x 63 mm)",
+  "C1": "cuadrada (68 x 68 mm)",
+  "C2": "cuadrada (70 x 70 mm)",
+  "TA": "tarot (70 x 110 mm)",
+  "GR": "grande (70 x 120 mm)"
+}
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({

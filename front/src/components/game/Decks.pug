@@ -10,7 +10,7 @@ div
       router-link(:to="{name: 'deck', params: {id: deck.id}}")
         | {{ deck.name }}
       span {{ deck.n_cards }}
-      span {{ deck.size }}
+      span {{ deckSizeName(deck.size) }}
       span 2/3/2018
       div.table-actions
         a(@click.prevent="openDeckUpdateLightbox(deck)")

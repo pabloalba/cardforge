@@ -9,7 +9,8 @@ import router from "@/router"
 
 
 import {
-  SET_SHOW_LAYERS
+  SET_SHOW_LAYERS,
+  DECK_SIZES
 } from "../../data/store";
 
 import {OPEN_LIGHTBOX} from "../../data/store";
@@ -65,6 +66,15 @@ export default {
       } else {
         return this.layersBack
       }
+    },
+
+    deskDescription() {
+      var portrait = "Landscape";
+      if (this.$store.state.currentDeck.portrait) {
+        portrait = "Portrait";
+      }
+
+      return DECK_SIZES[this.$store.state.currentDeck.size] + " | " + portrait;
     }
   },
   methods: {

@@ -16,7 +16,7 @@ block content
             a(href="#", alt="card face", v-bind:class="{ current: !frontSelected }", @click="onSelectFace(true)").btn-primary.btn-line FACE
             include ../../images/switch.svg
             a(href="#", alt="card back", v-bind:class="{ current: frontSelected }", @click="onSelectFace(false)").btn-primary.btn-line BACK
-          p.card-info Poker deck (63 x 88 mm) | Portrait
+          p.card-info {{ deskDescription }}
 
           div.card-preview
             img(:src="cardGuidesUrl", v-if="showGuides", v-bind:class="{ rotated: guidesRotated }").card-guides
