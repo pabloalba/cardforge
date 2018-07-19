@@ -4,6 +4,7 @@
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import PopupMessage from '@/components/shared/PopupMessage';
+import ConfirmLightbox from '@/components/shared/ConfirmLightbox';
 import Decks from "./Decks";
 import DeckCreateLightbox from "./DeckCreateLightbox";
 import DeckUpdateLightbox from "./DeckUpdateLightbox";
@@ -20,6 +21,7 @@ export default {
     MainHeader,
     Breadcrumbs,
     PopupMessage,
+    ConfirmLightbox,
     Decks,
     DeckCreateLightbox,
     DeckUpdateLightbox,

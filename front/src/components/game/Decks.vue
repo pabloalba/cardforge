@@ -16,6 +16,9 @@ export default {
     },
     openPrintLightbox(deck) {
       this.$store.commit(OPEN_LIGHTBOX, {name: "print-deck", props: deck});
+    },
+    onDeleteClicked(deck) {
+      this.$store.commit(OPEN_LIGHTBOX, {name: "confirm", props: deck});
     }
   }
 }

@@ -19,7 +19,7 @@ div
           include ../../images/copy.svg
         a(@click.prevent="openPrintLightbox(deck)")
           include ../../images/print.svg
-        a(href="#")
+        a(@click.prevent="onDeleteClicked(deck)").trash
           include ../../images/trash.svg
 
   div.table-empty(v-if="decks && decks.length === 0")
