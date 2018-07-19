@@ -13,6 +13,7 @@ export const OPEN_LIGHTBOX = "OPEN_LIGHTBOX";
 export const CLOSE_LIGHTBOX = "CLOSE_LIGHTBOX";
 
 export const GAME_CREATED = "GAME_CREATED";
+export const GAME_UPDATED = "GAME_UPDATED";
 export const DECK_CREATED = "DECK_CREATED";
 
 Vue.use(Vuex);
