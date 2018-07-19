@@ -12,7 +12,7 @@ div.breadcrumb
 
       li
         include ../../images/games.svg
-        router-link(:to="{name: 'Home'}")
+        router-link(:to="{name: 'home'}")
           span YOUR GAMES
 
       template(v-if="currentDeck === undefined")
@@ -25,7 +25,7 @@ div.breadcrumb
 
         li
           include ../../images/decks.svg
-          router-link(:to="{name: 'Game', params: {id: currentGame.id}}")
+          router-link(:to="{name: 'game', params: {id: currentGame.id}}")
             span {{ currentGame.name }}
 
         li
@@ -47,7 +47,7 @@ div.breadcrumb
         a(href="#").icon-link
           include ../../images/add-card.svg
           span ADD CARD
-        router-link(:to="{name: 'CardBuilder', params: {id: currentDeck.id}}").btn-primary
+        router-link(:to="{name: 'card-builder', params: {id: currentDeck.id}}").btn-primary
           | CARD DESIGN
       </template>
 

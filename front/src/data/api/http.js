@@ -1,11 +1,69 @@
 import {isPlainObject} from "lodash";
 import Cookies from "js-cookie";
+import store from "../store";
 
 const defaultOptions = {
   credentials: 'include',
   mode: 'cors',
   redirect: 'follow',
   referer: 'no-referer',
+}
+
+export class HttpError extends Error {
+  constructor(response) {
+    if (isPlainObject(response.body) && response.body.detail) {
+      super(response.body.detail);
+    } else {
+      super("Http Error");
+    }
+
+    this.status = response.status;
+    this.response = response;
+  }
+}
+
+export class Response {
+  constructor(status, body, response) {
+    this.body = body;
+    this.status = status;
+    this.headers = parseHeaders(response);
+
+    this.__response = response;
+
+    Object.freeze(this.headers);
+  }
+}
+
+function conditionalBodyDecode(response) {
+  const contentType = response.headers["content-type"] || "";
+  if (contentType.startsWith("application/json")) {
+    response.body = JSON.parse(response.body);
+    response.isBodyJson = true;
+  }
+  return response;
+}
+
+function raiseOnHttpError(response) {
+  if (response.status >= 200 && response.status <= 299) {
+    return response;
+  } else {
+    throw new HttpError(response);
+  }
+}
+
+function handleError(error) {
+  if (error instanceof HttpError) {
+    store.dispatch("handleError", error);
+  }
+  return error;
+}
+
+function parseHeaders(response) {
+  const headers = {};
+  for (let key of response.headers.keys()) {
+    headers[key.toLowerCase()] = response.headers.get(key);
+  }
+  return headers;
 }
 
 export default {
@@ -25,15 +83,19 @@ export default {
       options.headers["content-type"] = "application/json";
     }
 
-    return fetch(url, options);
+    return fetch(url, options)
+      .then(async (response) => {
+        const body = await response.text();
+        const status = response.status;
+        return new Response(status, body, response);
+      })
+      .then(conditionalBodyDecode)
+      .then(raiseOnHttpError)
+      .catch(handleError);
   },
 
   get(url, options) {
     return this.request({method:"get", url:url, params: options});
-  },
-
-  getJSON(url, options) {
-    return this.get(url, options).then((rsp) => rsp.json());
   },
 
   post(url, body, options) {

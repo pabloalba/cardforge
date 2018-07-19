@@ -6,7 +6,7 @@ div
       span CREATED
 
     div.table-row(v-for="game in games")
-      router-link(:to="{name: 'Game', params: {id: game.id}}")
+      router-link(:to="{name: 'game', params: {id: game.id}}")
         | {{ game.name }}
       span {{ game.n_decks }}
       span {{ game.created|format("YYYY-DD-MM") }}

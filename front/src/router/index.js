@@ -12,28 +12,28 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "Home",
+      name: "home",
       component: Home
     },
     {
       path: "/login",
-      name: "Login",
+      name: "login",
       component: Login
     },
     {
       path: "/game/:id",
-      name: "Game",
+      name: "game",
       component: Game,
       props: true
     },
     {
       path: "/cardbuilder",
-      name: "CardBuilder",
+      name: "card-builder",
       component: CardBuilder
     },
     {
       path: "/deck/:id",
-      name: "Deck",
+      name: "deck",
       component: Deck,
       props: true
     }

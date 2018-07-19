@@ -3,25 +3,29 @@ import http from './http'
 
 // TODO: handle non 200 errors
 
+function pickBody(rsp) {
+  return rsp.body;
+}
+
 export default {
   retrieveMe() {
-    return http.getJSON(`${config.API_URL}/me`);
+    return http.get(`${config.API_URL}/me`).then(pickBody);
   },
 
   retrieveGames() {
-    return http.getJSON(`${config.API_URL}/games`);
+    return http.get(`${config.API_URL}/games`).then(pickBody);
   },
 
   retrieveGame(id) {
-    return http.getJSON(`${config.API_URL}/games/${id}`);
+    return http.get(`${config.API_URL}/games/${id}`).then(pickBody);
   },
 
   retrieveGameDecks(id) {
-    return http.getJSON(`${config.API_URL}/games/${id}/decks`);
+    return http.get(`${config.API_URL}/games/${id}/decks`).then(pickBody);
   },
 
   retrieveDeck(id) {
-    return http.getJSON(`${config.API_URL}/decks/${id}`);
+    return http.get(`${config.API_URL}/decks/${id}`).then(pickBody);
   },
 
   async createGame(name) {

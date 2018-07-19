@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import api from '../api';
+import router from "../../router";
+
 
 export const SET_ME = 'GENERAL_SET_ME';
 export const SET_GAMES = 'GENERAL_SET_GAMES';
@@ -198,6 +200,10 @@ export default new Vuex.Store({
     async forgeDeck({commit}, {id, printingType, pageSize, fileType}) {
       api.forgeDeck(id, printingType, pageSize, fileType);
       commit(CLOSE_LIGHTBOX);
-    }
+    },
+
+    async handleError({commit}, error) {
+      router.push("login");
+    },
   }
 });
