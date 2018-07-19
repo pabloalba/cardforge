@@ -212,7 +212,7 @@ export default new Vuex.Store({
     },
 
     async handleError({commit}, error) {
-      if (error.status === 400) {
+      if (error.status === 401) {
         router.push("login");
       }
     },
