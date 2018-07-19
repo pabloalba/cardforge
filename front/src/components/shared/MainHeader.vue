@@ -7,6 +7,12 @@ export default {
     me: function () {
       return this.$store.state.me;
     }
+  },
+
+  methods: {
+    logout(event) {
+      location.href = "/auth/logout";
+    }
   }
 }
 </script>
