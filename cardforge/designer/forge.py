@@ -109,15 +109,15 @@ def forge_card(size_name, layers, card, deck):
         y = _mm_to_px(layer["y"]) + BLEED
 
         if layer["type"] == "image":
-
-            # Read values from cards
             file = None
-            if card:
-                file = card.get("_{}".format(layer["name"]), "")
-            if not file:
+            if layer["template"]:
                 # Read values from layer
                 file = layer["file"]
-
+            else:
+                # Read values from cards
+                file = None
+                if card:
+                    file = card.get("_{}".format(layer["id"]), "")
             if file:
                 response = _download(file)
                 image = Image.open(BytesIO(response.content))
@@ -141,17 +141,18 @@ def forge_card(size_name, layers, card, deck):
             else:
                 font = ImageFont.load_default()
 
-            # Read values from cards
             text = None
-            if card:
-                text = card.get("_{}".format(layer["name"]), "")
-
-            if not text:
+            if layer["template"]:
                 # Read values from layer
                 text = layer["text"]
+            else:
+                # Read values from cards
+                if card:
+                    text = card.get("_{}".format(layer["id"]), "")
 
-            color = layer.get("color", "#000000")
-            draw.text((x, y), text, color, font=font)
+            if text:
+                color = layer.get("color", "#000000")
+                draw.text((x, y), text, color, font=font)
 
     return im
 

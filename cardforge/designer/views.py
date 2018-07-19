@@ -72,7 +72,7 @@ def forge_card(request, pk):
 def update_layers(request, pk):
     deck = get_object_or_404(Deck, pk=pk)
     data = json.loads(request.body)
-    if data.get('front', '') == 'true':
+    if data.get('front', False):
         deck.front_layers = data['layers']
     else:
         deck.back_layers = data['layers']

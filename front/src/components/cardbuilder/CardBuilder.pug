@@ -56,10 +56,10 @@ block content
                 div.element-header
                   div.element-name(v-if="layer['type']==='image'")
                     include ../../images/image.svg
-                    input(type="text", placeholder="IMAGE")
+                    input(type="text", placeholder="IMAGE", v-model="layer['name']")
                   div.element-name(v-if="layer['type']==='text'")
                     include ../../images/text.svg
-                    input(type="text", placeholder="TEXT")
+                    input(type="text", placeholder="TEXT", v-model="layer['name']")
                   div.element-options
                     a(href="#", alt="hide element")
                       include ../../images/eye.svg
@@ -71,7 +71,7 @@ block content
                       include ../../images/arrow-down.svg
                     a(href="#", alt="delete element", @click="onDeleteLayerClicked(num_layer)").delete
                       include ../../images/trash.svg
-                    a(href="#", alt="collapse element", v-on:click="layer['collapsed'] = !layer['collapsed']").collapse
+                    a(href="#", alt="collapse element", v-on:click="onCollapseLayerClicked(num_layer)").collapse
                       include ../../images/arrow.svg
                 div.element-content(v-if="layer['type']==='image'")
                   div.row-input
@@ -79,7 +79,7 @@ block content
                       input(type="checkbox", id="c1", name="template-check", v-model="layer['template']")
                       label(for="c1")
                         span Template element
-                  div.row-input
+                  div.row-input(v-if="layer['template']")
                     div.input-text
                       label Image file
                       input(type="text", placeholder="Paste an image URL", v-model="layer['file']")
@@ -107,7 +107,7 @@ block content
                       label(for="c2")
                         span Template element
                   div.row-input
-                    div.input-text
+                    div.input-text(v-if="layer['template']")
                       label Text
                       input(type="text", placeholder="Write a text", v-model="layer['text']")
                   div.row-input

@@ -19,6 +19,7 @@ export default {
   },
   created: function () {
     this.$store.commit(SET_SHOW_LAYERS, true);
+    this.frontSelected = true;
     this.showPreview();
 
   },
@@ -59,6 +60,13 @@ export default {
   methods: {
     onDeleteLayerClicked(num_layer) {
       this.currentLayers.splice(num_layer,1);
+      this.$forceUpdate();
+    },
+
+
+    onCollapseLayerClicked(num_layer) {
+      this.currentLayers[num_layer]['collapsed'] = !this.currentLayers[num_layer]['collapsed'];
+      this.$forceUpdate();
     },
 
     onMoveUpLayerClicked(num_layer) {
@@ -88,15 +96,37 @@ export default {
     },
 
     onAddImageLayer() {
-      var item = JSON.parse('{"name":"","type":"image","x":"0","y":0,"file":"", "collapsed": false}');
+      var i;
+      var num = 1;
+      for (i=0;i<this.currentLayers.length;i++){
+        if (this.currentLayers[i]['type'] === 'image'){
+          num += 1;
+        }
+      }
+      var name = "IMAGE "+ num;
+      var id = "layer_" + new Date().getTime();
+      var item = JSON.parse('{"id":"' + id + '", "name":"' + name + '","type":"image","x":"0","y":0,"file":"", "collapsed": false, "template": true}');
       this.currentLayers.splice(0, 0, item);
       this.$forceUpdate();
     },
 
     onAddTextLayer() {
-      var item = JSON.parse('{"name":"","type":"text","x":"0","y":0,"text":"", "color": "#FFFFFF","font": "", "font_size": 48, "collapsed": false}');
+      var i;
+      var num = 1;
+      for (i=0;i<this.currentLayers.length;i++){
+        if (this.currentLayers[i]['type'] === 'text'){
+          num += 1;
+        }
+      }
+      var name = "TEXT "+ num;
+      var id = "layer_" + new Date().getTime();
+      var item = JSON.parse('{"id":"' + id + '", "name":"' + name + '","type":"text","x":"0","y":0,"text":"", "color": "#FFFFFF","font": "", "font_size": 48, "collapsed": false, "template": true}');
       this.currentLayers.splice(0, 0, item);
       this.$forceUpdate();
+    },
+
+    showPreview() {
+      this.cardPreviewUrl = "/api/decks/"+this.$store.state.currentDeck['id']+"/forge_card?front="+this.frontSelected+"&a="+new Date().getTime();
     },
 
     onSelectFace(face) {
@@ -108,10 +138,6 @@ export default {
     saveLayers(event) {
       this.$store.dispatch('updateLayers', {deckId: this.$store.state.currentDeck['id'], front: this.frontSelected, layers:JSON.stringify(this.currentLayers)});
       this.showPreview();
-    },
-
-    showPreview() {
-      this.cardPreviewUrl = "/api/decks/"+this.$store.state.currentDeck['id']+"/forge_card?front="+this.frontSelected+"&a="+new Date().getTime();
     }
   }
 }
