@@ -38,16 +38,11 @@
     background-color: $white;
     border: 1px solid $gray;
     margin: auto;
-    padding: 1.5rem;
     width: 50%;
     position: relative;
-    img {
-        position: absolute;
-        left:0;
-        top:0;
-    }
     img.card-guides {
         opacity: .5;
+        position: absolute;
         text-align: center;
         z-index: 9;
     }

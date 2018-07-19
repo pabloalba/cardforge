@@ -15,7 +15,7 @@ div
           include ../../images/edit.svg
         a(@click.prevent="cloneGame(game)")
           include ../../images/copy.svg
-        a(@click.prevent="deleteGame(game)")
+        a(@click.prevent="deleteGame(game)").trash
           include ../../images/trash.svg
 
   div.table-empty(v-if="games && games.length === 0")
