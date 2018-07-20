@@ -34,14 +34,26 @@
 
     .userzone {
         align-items: center;
+        cursor: pointer;
         display: flex;
         margin-left: auto;
+        position: relative;
         span {
             color: $green;
             font-weight: bold;
         }
         svg {
             margin-left: 1rem;
+        }
+        &:hover {
+          &::before {
+            content: "Wanna leave?";
+            font-family: 'Oswald', sans-serif;
+            bottom: 1.9rem;
+            color: $red;
+            left: -54%;
+            position: absolute;
+          }
         }
     }
 }

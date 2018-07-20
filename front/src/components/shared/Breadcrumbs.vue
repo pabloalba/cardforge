@@ -37,6 +37,9 @@ export default {
     },
     cardDesign(event) {
       this.$emit('cardDesignEvent')
+    },
+    printDeck() {
+      this.$store.commit(OPEN_LIGHTBOX, {name: "print-deck", props: this.currentDeck});
     }
   }
 }
