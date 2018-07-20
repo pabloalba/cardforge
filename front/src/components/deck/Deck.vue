@@ -20,20 +20,22 @@ export default {
     PopupMessage,
     Cards
   },
+
   created: function () {
     this.$store.commit(SET_SHOW_LAYERS, false);
     this.$store.dispatch('retrieveDeck', {id: this.id});
   },
+
   methods: {
     addCard() {
       if (this.$store.state.currentDeck) {
-          var name = "CARD "+(this.$store.state.currentDeck.cards.length + 1);
-          this.$store.state.currentDeck.cards.push(JSON.parse('{"name": "'+name+'"}'));
+        var name = "CARD "+(this.$store.state.currentDeck.cards.length + 1);
+        this.$store.state.currentDeck.cards.push(JSON.parse('{"name": "'+name+'"}'));
       }
     },
     saveCards() {
       if (this.$store.state.currentDeck) {
-          this.$store.dispatch('updateCards', {deckId: this.$store.state.currentDeck['id'], cards:JSON.stringify(this.$store.state.currentDeck.cards)});
+        this.$store.dispatch('updateCards', {deckId: this.$store.state.currentDeck['id'], cards:JSON.stringify(this.$store.state.currentDeck.cards)});
       }
     },
     cardDesign() {
@@ -41,7 +43,7 @@ export default {
         this.saveCards();
         router.push({ name: "card-builder", params: {id: this.$store.state.currentDeck['id']} });
       }
-
+      
     },
   }
 }

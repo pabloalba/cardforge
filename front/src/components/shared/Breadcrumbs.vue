@@ -4,39 +4,39 @@
 import {OPEN_LIGHTBOX} from "../../data/store";
 
 export default {
-  name: 'breadcrumbs',
+  name: "breadcrumbs",
   computed: {
-    currentGame: function () {
+    currentGame() {
       return this.$store.state.currentGame;
     },
-    currentDeck: function () {
+    currentDeck() {
       return this.$store.state.currentDeck;
     },
-    showLayers: function () {
+    showLayers() {
       return this.$store.state.showLayers;
     }
   },
   methods: {
-    openGameCreateLighbox(event) {
+    createGame(event) {
       this.$store.commit(OPEN_LIGHTBOX, {name: "create-game"});
     },
-    openDeckCreateLighbox(event) {
+    createDeck(event) {
       this.$store.commit(OPEN_LIGHTBOX, {name: "create-deck"});
     },
     saveLayers(event) {
-      this.$emit('saveLayersEvent')
+      this.$emit("saveLayersEvent");
     },
     forgeCards(event) {
-      this.$emit('forgeCardsEvent')
+      this.$emit("forgeCardsEvent");
     },
     addCard(event) {
-      this.$emit('addCardEvent')
+      this.$emit("addCardEvent");
     },
     saveCards(event) {
-      this.$emit('saveCardsEvent')
+      this.$emit("saveCardsEvent");
     },
     cardDesign(event) {
-      this.$emit('cardDesignEvent')
+      this.$emit("cardDesignEvent");
     },
     printDeck() {
       this.$store.commit(OPEN_LIGHTBOX, {name: "print-deck", props: this.currentDeck});

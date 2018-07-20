@@ -196,8 +196,11 @@ export default new Vuex.Store({
       commit(SET_DECKS, decks);
     },
 
-    async retrieveDeck({commit}, {id}) {
+    async retrieveDeck({commit, dispatch, state}, {id}) {
       const deck = await api.retrieveDeck(id);
+      if (!state.currentGame) {
+        await dispatch("retrieveGame", {id:deck.game_id});
+      }
       commit(SET_CURRENT_DECK, deck);
     },
 
