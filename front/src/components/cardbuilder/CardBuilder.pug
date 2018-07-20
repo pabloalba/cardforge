@@ -136,5 +136,9 @@ block content
                     div.input-text
                       label Position Y (mm)
                       input(type="number", v-model="layer['y']")
+                    div.input-checkbox
+                      input(type="checkbox", :id="'c3_' + layer['id']", name="center-check", v-model="layer['align_center']")
+                      label(:for="'c3_' + layer['id']")
+                        span Align center
           div.builder-placeholder(v-if="currentLayers.length === 0")
               include ../../images/builder-placeholder.svg

@@ -157,7 +157,13 @@ def forge_card(size_name, layers, card, deck):
 
             if text:
                 color = layer.get("color", "#000000")
-                draw.text((x, y), text, color, font=font)
+                if layer.get("align_center"):
+                    size = draw.textsize(text, font=font)
+                    text_x = x - size[0] / 2
+                else:
+                    text_x = x
+
+                draw.text((text_x, y), text, color, font=font)
 
     return im
 
