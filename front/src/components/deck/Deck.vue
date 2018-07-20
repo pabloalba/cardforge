@@ -4,6 +4,8 @@
 import MainHeader from '@/components/shared/MainHeader';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
 import PopupMessage from '@/components/shared/PopupMessage';
+import DeckPrintLightbox from "../game/DeckPrintLightbox";
+
 import Cards from "./Cards";
 import router from "@/router"
 
@@ -15,6 +17,7 @@ export default {
   name: 'deck',
   props: ['id'],
   components: {
+    DeckPrintLightbox,
     MainHeader,
     Breadcrumbs,
     PopupMessage,
