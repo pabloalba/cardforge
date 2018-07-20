@@ -48,6 +48,7 @@ export default {
       showGuides: false,
       guidesRotated: false,
       loadingPreview: false,
+      selectedCardNum: 0
     }
   },
   computed: {
@@ -63,6 +64,15 @@ export default {
     layersBack() {
       if (this.$store.state.currentDeck) {
           return this.$store.state.currentDeck.back_layers
+      }
+      else {
+          return []
+      }
+    },
+
+    cards() {
+      if (this.$store.state.currentDeck) {
+          return this.$store.state.currentDeck.cards
       }
       else {
           return []
@@ -171,7 +181,7 @@ export default {
     },
 
     refreshPreview() {
-      this.$store.commit(GENERATE_DESIGN_PREVIEW_URL, {front: this.frontSelected});
+      this.$store.commit(GENERATE_DESIGN_PREVIEW_URL, {front: this.frontSelected, num_card:this.selectedCardNum});
     },
 
     onPreviewLoaded() {

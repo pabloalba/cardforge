@@ -83,9 +83,9 @@ export default new Vuex.Store({
       }
     },
 
-    [GENERATE_DESIGN_PREVIEW_URL] (state, {front}) {
+    [GENERATE_DESIGN_PREVIEW_URL] (state, {front, num_card}) {
       if (state.currentDeck) {
-        state.designPreviewUrl = api.generateDesignPreviewUrl(state.currentDeck.id, front);
+        state.designPreviewUrl = api.generateDesignPreviewUrl(state.currentDeck.id, front, num_card);
       } else {
         state.designPreviewUrl = null;
       }
