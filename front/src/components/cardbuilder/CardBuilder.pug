@@ -17,10 +17,6 @@ block content
             include ../../images/switch.svg
             a(href="#", alt="card back", v-bind:class="{ current: frontSelected }", @click="onSelectFace(false)").btn-primary.btn-line BACK
           p.card-info {{ deskDescription }}
-          div
-            select(v-if="cards && cards.length>0" v-model="selectedCardNum" v-on:change="refreshPreview")
-              option(v-for="card, num_card in cards" v-bind:value="num_card")
-                | {{card['name']}}
           div.card-preview
             div(v-if="loadingPreview") Loading...
             img(:src="cardGuidesUrl", v-if="showGuides").card-guides
@@ -33,6 +29,10 @@ block content
             a(href="#", alt="show guides", v-on:click="showGuides=!showGuides").icon-link
               include ../../images/eye.svg
               span SHOW GUIDES
+            div.input-text
+              select(v-if="cards && cards.length>0" v-model="selectedCardNum" v-on:change="refreshPreview")
+                option(v-for="card, num_card in cards" v-bind:value="num_card")
+                  | {{card['name']}}
 
         div.tools
           div.add-to-card

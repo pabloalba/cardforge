@@ -21,6 +21,7 @@
 .card-info {
     margin: 1.5rem 0;
     text-align: center;
+    width: 100%;
 }
 
 .flip {
@@ -68,6 +69,13 @@
     margin-top: 1rem;
     .icon-link {
         margin: 1rem;
+        flex-shrink: 0;
+    }
+    .input-text {
+      width: 200px;
+      select {
+        height: 35px;
+      }
     }
 }
 
