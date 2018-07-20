@@ -22,10 +22,7 @@ export default {
                 for(i=0;i<this.$store.state.currentDeck.front_layers.length;i++) {
                     var layer = this.$store.state.currentDeck.front_layers[i];
                     if (!layer['template']) {
-                        keys.push({
-                            "name": layer['name'],
-                            "id": layer['id']
-                        })
+                        keys.push(layer)
                     }
                 }
             }

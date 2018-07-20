@@ -12,7 +12,8 @@ div
       div.input-text
         input(v-model="card['name']")
       div.input-text(v-for="col in columns")
-        input(v-model="card['_'+col['id']]")
+        input(v-if="col['type']=='image'", v-model="card['_'+col['id']]")
+        textarea(v-if="col['type']=='text'", v-model="card['_'+col['id']]")
       div.table-actions
         a(href="#", @click="onDuplicateCardClicked(num_card)")
           include ../../images/copy.svg
