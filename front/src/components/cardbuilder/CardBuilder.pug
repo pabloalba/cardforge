@@ -18,7 +18,7 @@ block content
             a(href="#", alt="card back", v-bind:class="{ current: frontSelected }", @click="onSelectFace(false)").btn-primary.btn-line BACK
           p.card-info {{ deskDescription }}
           div
-            select(v-if="cards" v-model="selectedCardNum" v-on:change="refreshPreview")
+            select(v-if="cards && cards.length>0" v-model="selectedCardNum" v-on:change="refreshPreview")
               option(v-for="card, num_card in cards" v-bind:value="num_card")
                 | {{card['name']}}
           div.card-preview
