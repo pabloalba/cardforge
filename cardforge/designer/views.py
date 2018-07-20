@@ -4,13 +4,11 @@ import os
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Count
 from django.db import transaction
-
+from django.db.models import Count
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
-
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -41,6 +39,7 @@ def home(request):
     context = {}
     return render(request, 'home.html', context)
 
+
 @require_http_methods("POST")
 @transaction.atomic
 def clone_game(request, pk):
@@ -61,6 +60,7 @@ def clone_game(request, pk):
     serializer = GameSerializer(game, many=False, context={"request": request})
     return JsonResponse(serializer.data)
 
+
 @require_http_methods("POST")
 @transaction.atomic
 def clone_deck(request, pk):
@@ -75,7 +75,10 @@ def clone_deck(request, pk):
 
 def forge_card(request, pk):
     deck = get_object_or_404(Deck, pk=pk)
-    num = int(request.GET.get('num', 0))
+    try:
+        num = int(request.GET.get('num', 0))
+    except:
+        num = 0
     front = request.GET.get('front', '').lower() == 'true'
     file_path = forge_card_to_png(deck, num, front)
     if os.path.exists(file_path):
