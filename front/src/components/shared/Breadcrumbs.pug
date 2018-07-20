@@ -44,6 +44,9 @@ div.breadcrumb
           | FORGE CARDS
       </template>
       <template v-else>
+        a(@click.prevent="printDeck()").icon-link
+          include ../../images/print.svg
+          span PRINT DECK
         a(@click="saveCards").icon-link
           include ../../images/ok.svg
           span SAVE CARDS
