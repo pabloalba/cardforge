@@ -193,7 +193,8 @@ h3 {
     text-align: left;
   }
   input,
-  select {
+  select,
+  textarea {
     background: $white;
     border: 1px solid $green-dark;
     box-shadow: inset 0px 2px 2px rgba(21, 51, 60, 0.5);

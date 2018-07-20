@@ -157,7 +157,10 @@
 }
 
 .element-content {
-    padding: 1rem;
+  padding: 1rem;
+  textarea {
+    height: 5rem;
+  }
 }
 
 .builder-placeholder {
